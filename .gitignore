@@ -1,0 +1,7 @@
+/target/
+/build/
+/artifacts/
+/.venv/
+__pycache__/
+*.pyc
+/agent-prompts/
