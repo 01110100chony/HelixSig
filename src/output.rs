@@ -261,6 +261,14 @@ mod tests {
         }
     }
     #[test]
+    fn output_open_failure_preserves_existing_file() {
+        let directory = tempfile::tempdir().unwrap();
+        let incomplete = directory.path().join("events.parquet.incomplete");
+        fs::write(&incomplete, b"existing data").unwrap();
+        assert!(OutputWriter::open(directory.path()).is_err());
+        assert_eq!(fs::read(incomplete).unwrap(), b"existing data");
+    }
+    #[test]
     fn real_parquet_writer_propagates_group_and_footer_errors() {
         for footer in [false, true] {
             let fail = Arc::new(AtomicBool::new(false));

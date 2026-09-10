@@ -91,3 +91,42 @@ fn convert(
             .min(u64::MAX as u128) as u64,
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::time::Duration;
+
+    #[test]
+    fn latency_uses_admission_clock_and_batch_results_share_completion() {
+        for mode in [FfiMode::Event, FfiMode::Batch] {
+            let mut buffer = ProcessingBuffer::new(6, 2);
+            let before = Instant::now();
+            let events = [20, 10].map(|age_ms| Event {
+                event_id: age_ms,
+                channel_id: (age_ms % 4) as u32,
+                sequence: age_ms / 4,
+                samples: vec![1.0, 1.0, 4.0, 3.0, 2.0, 0.0],
+                admission_attempt: before - Duration::from_millis(age_ms),
+            });
+            let results = buffer.process(&events, 2, mode);
+            let after = Instant::now();
+            let available: Vec<_> = events
+                .iter()
+                .zip(results)
+                .map(|(event, result)| {
+                    let result = result.as_ref().unwrap();
+                    let available =
+                        event.admission_attempt + Duration::from_nanos(result.latency_ns);
+                    assert!(available >= before && available <= after);
+                    available
+                })
+                .collect();
+            if mode == FfiMode::Batch {
+                assert_eq!(available[0], available[1]);
+            } else {
+                assert!(available[0] <= available[1]);
+            }
+        }
+    }
+}

@@ -228,14 +228,41 @@ def validate(binary, corpus, work):
     assert summary["output"]["state"] == "not_created"
     cases += 1
 
-    def limited_file_size():
-        signal.signal(signal.SIGXFSZ, signal.SIG_IGN)
-        resource.setrlimit(resource.RLIMIT_FSIZE, (16 * 1024, 16 * 1024))
+    def limited_file_size(size):
+        def apply():
+            signal.signal(signal.SIGXFSZ, signal.SIG_IGN)
+            resource.setrlimit(resource.RLIMIT_FSIZE, (size, size))
+        return apply
+
+    output = work / "marker-failure"
+    summary = invoke(binary, corpus, output, ["--events", "1"], expected=1,
+                     preexec_fn=limited_file_size(128))
+    assert summary["status"] == "failed" and summary["produced"] == 0
+    assert "output startup" in summary["reason"]
+    assert output.is_dir() and (output / "running.json").is_file()
+    assert summary["output"]["state"] == "not_created"
+    assert not (output / "summary.json").exists()
+    cases += 1
+
+    # One-row Parquet fits; JSON publication fails. Valid data remains written,
+    # and stdout reports failure with a partial filename and reconciled counters.
+    output = work / "summary-failure"
+    summary = invoke(binary, corpus, output, ["--events", "1"], expected=1,
+                     preexec_fn=limited_file_size(1700))
+    assert "summary finalization" in summary["reason"]
+    assert summary["produced"] == summary["accepted"] == summary["processed"] == summary["written"] == 1
+    assert summary["unwritten"] == 0 and summary["output"]["state"] == "partial"
+    assert not (output / "summary.json").exists()
+    assert (output / "summary.json.incomplete").is_file()
+    assert pq.read_table(summary["output"]["file"]).to_pylist()[0]["event_id"] == 0
+    cases += 1
 
     summary = invoke(binary, corpus, work / "write-failure",
-                     ["--events", "5000", "--batch-size", "7"], expected=1, preexec_fn=limited_file_size)
+                     ["--events", "5000", "--batch-size", "7"], expected=1,
+                     preexec_fn=limited_file_size(16 * 1024))
     assert summary["status"] == "failed" and summary["output"]["state"] == "incomplete"
     assert summary["written"] == 0 and summary["unwritten"] == summary["processed"]
+    # ceil(4096/7)*7: this pinned PLAIN writer flushes only at a full row group.
     assert summary["processed"] == summary["accepted"] == summary["produced"] == 4102
     assert Path(summary["output"]["file"]).is_file()
     assert not (work / "write-failure" / "events.parquet").exists()
