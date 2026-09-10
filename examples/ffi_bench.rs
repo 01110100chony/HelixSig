@@ -46,6 +46,9 @@ fn measure(args: Args) -> Result<serde_json::Value, String> {
     let corpus = Corpus::load(&mut config)?;
     let width = corpus.manifest.samples as usize;
     let rows = corpus.manifest.rows as usize;
+    if rows != 256 {
+        return Err("the benchmark requires the preregistered 256-row corpus".into());
+    }
     // Identical source rows and preallocated buffers for both FFI granularities.
     let source: Vec<Vec<f64>> = (0..rows).map(|i| corpus.row(i as u64).to_vec()).collect();
     let prepared: Vec<f64> = source.iter().flatten().copied().collect();
@@ -54,6 +57,8 @@ fn measure(args: Args) -> Result<serde_json::Value, String> {
     let mut count = 0;
     let mut checksum = 0.0;
     let mut batches = vec![0u64; 65];
+    // Bounded by the CLI event limit; capture is timed, verification is not.
+    let mut observed = vec![ffi::NativeResult::default(); args.events as usize];
     let start = Instant::now();
     while count < args.events {
         let row = count as usize % rows;
@@ -97,17 +102,37 @@ fn measure(args: Args) -> Result<serde_json::Value, String> {
                 + result.integral
                 + f64::from(result.peak_index);
         }
+        observed[count as usize..count as usize + batch].copy_from_slice(&results[..batch]);
         count += batch as u64;
         batches[batch] += 1;
     }
     let duration = start.elapsed().as_nanos();
+    for (index, result) in observed.iter().enumerate() {
+        if result != &observed[index % rows] {
+            return Err("repeated corpus row produced inconsistent results".into());
+        }
+    }
+    let verification: Vec<_> = observed
+        .iter()
+        .take(rows)
+        .map(|r| {
+            (
+                r.status,
+                r.baseline,
+                r.peak_amplitude,
+                r.peak_index,
+                r.integral,
+            )
+        })
+        .collect();
     Ok(
         serde_json::json!({"schema_version": 1, "engine": "rust_ffi",
         "events": count, "duration_ns": duration as u64, "checksum": checksum,
         "samples": width, "batch_size": args.batch_size,
         "ffi": args.ffi, "preparation": match args.preparation {
             Preparation::Prepared => "prepared", Preparation::Pack => "pack" },
-        "corpus_sha256": corpus.manifest.sha256, "actual_batch_sizes": batches}),
+        "corpus_sha256": corpus.manifest.sha256, "actual_batch_sizes": batches,
+        "repeat_consistent": true, "verification": verification}),
     )
 }
 

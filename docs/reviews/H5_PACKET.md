@@ -9,8 +9,9 @@ remain authoritative; no runtime, numerical, FFI or output contract changes.
 - Add a Rust FFI microbenchmark executable and a standalone native C++ reference.
   Replay the same generated 256-row corpus for N={64,256,4096}, B={1,4,16,64},
   event/batch calls and prepared/pack+call timing. Allocation, corpus loading and
-  output are outside timing; copying for pack+call and observable result checksum
-  consumption are inside. Use 100000 events, one warmup and five measurements.
+  output are outside timing; copying for pack+call, observable result checksum
+  consumption and bounded result capture are inside. Validate captured results
+  after timing. Use 100000 events, one warmup and five measurements.
 - Add a Linux campaign runner that builds Release with the same C++ compiler,
   no LTO or fast-math, and preserves exact commands, build logs, binary hashes,
   commit/clean tree, corpus hashes, effective resources, versions, load/swap,

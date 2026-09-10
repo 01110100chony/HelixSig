@@ -14,7 +14,7 @@ import time
 from pathlib import Path
 
 from experiment_analysis import analyze
-from experiment_support import accounting, expected_checksum, micro_design, pipeline_design, validate_rows
+from experiment_support import accounting, expected_checksum, micro_design, pipeline_design, validate_rows, validate_micro
 from generate_data import generate
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +33,13 @@ def query(command):
 def sha256(path):
     with Path(path).open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def authenticate_payload(path, expected):
+    actual = sha256(path)
+    if actual != expected:
+        raise RuntimeError("corpus SHA-256 differs from the generated manifest")
+    return actual
 
 
 def resources():
@@ -200,7 +207,10 @@ def campaign(out, smoke=False, seed=20260910):
                                "32", str(config["batch_size"]), str(events), config["ffi"], config["preparation"]]
                 record = dict(job, validated=False, resources_before=before)
                 try:
+                    record["input_sha256"] = authenticate_payload(corpus / "signals.f64le",
+                        metadata["corpora"][str(config["samples"])]["sha256"])
                     record.update(execute(command, prefix, timeout=180, measured=True))
+                    authenticate_payload(corpus / "signals.f64le", record["input_sha256"])
                     record["resources_after"] = resources()
                     assert stable_resources(before, record["resources_after"]), "effective resources changed"
                     assert not record["timed_out"] and record["peak_rss_kib"] is not None
@@ -223,6 +233,7 @@ def campaign(out, smoke=False, seed=20260910):
                         if config["engine"] == "rust_ffi":
                             assert summary["corpus_sha256"] == metadata["corpora"][str(config["samples"])]["sha256"]
                         assert math.isclose(summary["checksum"], checksums[config["samples"]], rel_tol=1e-10, abs_tol=1e-10)
+                        validate_micro(summary, corpus)
                     record["validated"] = True
                 except BaseException as error:
                     record["error"] = repr(error)

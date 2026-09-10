@@ -93,3 +93,17 @@ def expected_checksum(corpus, events):
     for index in range(events):
         checksum += values[index % len(values)]
     return checksum
+
+
+def validate_micro(summary, corpus):
+    manifest, data = load_corpus(corpus)
+    assert summary["repeat_consistent"] is True
+    verification = summary["verification"]
+    assert len(verification) == min(summary["events"], manifest["rows"])
+    for actual, samples in zip(verification, data):
+        expected = features(samples, manifest["baseline_samples"])
+        assert len(actual) == 5 and actual[0] == expected["status"] == 0
+        assert actual[3] == expected["peak_index"]
+        for index, key in ((1, "baseline"), (2, "peak_amplitude"), (4, "integral")):
+            assert math.isfinite(actual[index])
+            assert abs(actual[index] - expected[key]) <= 1e-10 + 1e-10 * abs(expected[key]), key

@@ -5,12 +5,45 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from experiment import BUDGET, check_budget, execute, schedule, stable_resources
+from experiment import BUDGET, ROOT, authenticate_payload, check_budget, execute, schedule, sha256, stable_resources
 from experiment_analysis import analyze
-from experiment_support import accounting, micro_design, pipeline_design
+from experiment_support import accounting, micro_design, pipeline_design, validate_micro
+from oracle import features
+from validate import load_corpus
 
 
 class Experiments(unittest.TestCase):
+    def test_micro_validation_rejects_checksum_preserving_errors_and_reordering(self):
+        corpus = ROOT / "fixtures/small"
+        manifest, data = load_corpus(corpus)
+        tuples = []
+        for row in data:
+            value = features(row, manifest["baseline_samples"])
+            tuples.append([value[k] for k in ("status", "baseline", "peak_amplitude", "peak_index", "integral")])
+        summary = dict(events=len(data), repeat_consistent=True, verification=tuples)
+        validate_micro(summary, corpus)
+        corrupt = copy.deepcopy(summary)
+        corrupt["verification"][0][1] += 1
+        corrupt["verification"][0][2] -= 1
+        with self.assertRaises(AssertionError):
+            validate_micro(corrupt, corpus)
+        reordered = copy.deepcopy(summary)
+        reordered["verification"].reverse()
+        with self.assertRaises(AssertionError):
+            validate_micro(reordered, corpus)
+        with self.assertRaises(AssertionError):
+            validate_micro(dict(summary, repeat_consistent=False), corpus)
+
+    def test_payload_reordering_is_rejected_even_with_same_values(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = Path(tmp) / "payload"
+            payload.write_bytes(b"aaaabbbb")
+            expected = sha256(payload)
+            authenticate_payload(payload, expected)
+            payload.write_bytes(b"bbbbaaaa")
+            with self.assertRaises(RuntimeError):
+                authenticate_payload(payload, expected)
+
     def test_single_axis_union_and_randomized_repetitions(self):
         configs = pipeline_design()
         self.assertEqual(len(configs), 28)

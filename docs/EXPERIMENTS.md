@@ -45,7 +45,12 @@ added after H4 passes and a clean candidate has been measured.
 driver with optimization level 3, LTO disabled and no fast-math. It saves verbose
 Cargo logs, CMake compile commands, tool versions, exact command lines and binary
 hashes. Corpus loading, allocation and printing are outside microbenchmark
-timing; result checksum consumption and batch counters are inside both drivers.
+timing; result checksum consumption, batch counters and a copy of every result
+into a preallocated verification buffer are inside both drivers. This common
+instrumentation is part of the reported per-event cost. After timing, the drivers
+check all repeated-row results for exact consistency and emit every distinct
+row's full result tuple. Python checks each tuple against the independent oracle
+with the frozen tolerance; the checksum alone is not numerical acceptance.
 `prepared` borrows a contiguous preloaded corpus segment; `pack` copies owned
 rows into a reusable flat buffer before the same event/batch calls. All 256
 corpus rows are replayed cyclically, including a final partial batch. The native
@@ -59,12 +64,16 @@ microbenchmark configurations and four central pipeline configurations, one warm
 and one measured round. Its results are labelled `smoke_only` and cannot support
 performance claims. Python validates output after each timed child terminates.
 
-The runner checks the clean commit, Linux filesystem placement, available CPUs,
+The runner authenticates each payload SHA-256 before and after every child,
+including the native reference, and retains the input hash in its run record.
+It checks the clean commit, Linux filesystem placement, available CPUs,
 stable CPU affinity/memory/swap limits, binary hashes and artifact budget. It
 records Linux load, CPU counters and swap activity before/after each run, plus
 process lists at campaign boundaries. Actual resources supersede the planned
 configuration in the report; the runner does not alter WSL settings. Windows
-host activity is not fully observable from this Linux metadata.
+host activity is not fully observable from this Linux metadata. Resource-limit
+stability does not mean constant runtime load. No post hoc load threshold filters
+or selectively replaces measured repetitions; observed load/swap remain visible.
 
 GNU time records each child's peak Linux process RSS; wall duration separately
 includes process startup. Pipeline throughput uses the runtime's documented
