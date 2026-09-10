@@ -42,6 +42,11 @@ def authenticate_payload(path, expected):
     return actual
 
 
+def authenticate_corpus(corpus, expected_payload, expected_manifest):
+    return dict(input_sha256=authenticate_payload(corpus / "signals.f64le", expected_payload),
+                input_manifest_sha256=authenticate_payload(corpus / "manifest.json", expected_manifest))
+
+
 def resources():
     mem = dict(line.split(":", 1) for line in Path("/proc/meminfo").read_text().splitlines())
     vm = dict(line.split() for line in Path("/proc/vmstat").read_text().splitlines())
@@ -178,10 +183,12 @@ def campaign(out, smoke=False, seed=20260910):
                         native=out / "build-native/kernel_bench")
         metadata["binaries"] = {name: dict(path=str(path), sha256=sha256(path)) for name, path in binaries.items()}
         metadata["corpora"] = {}
+        metadata["manifest_sha256"] = {}
         checksums = {}
         for width in (64, 256, 4096):
             corpus = out / "corpora" / str(width)
             metadata["corpora"][str(width)] = generate(corpus, samples=width)
+            metadata["manifest_sha256"][str(width)] = sha256(corpus / "manifest.json")
             checksums[width] = expected_checksum(corpus, events)
         write_json(out / "campaign.json", metadata)
         with (out / "runs.jsonl").open("x") as records:
@@ -207,10 +214,11 @@ def campaign(out, smoke=False, seed=20260910):
                                "32", str(config["batch_size"]), str(events), config["ffi"], config["preparation"]]
                 record = dict(job, validated=False, resources_before=before)
                 try:
-                    record["input_sha256"] = authenticate_payload(corpus / "signals.f64le",
-                        metadata["corpora"][str(config["samples"])]["sha256"])
+                    record.update(authenticate_corpus(corpus,
+                        metadata["corpora"][str(config["samples"])]["sha256"],
+                        metadata["manifest_sha256"][str(config["samples"])]))
                     record.update(execute(command, prefix, timeout=180, measured=True))
-                    authenticate_payload(corpus / "signals.f64le", record["input_sha256"])
+                    authenticate_corpus(corpus, record["input_sha256"], record["input_manifest_sha256"])
                     record["resources_after"] = resources()
                     assert stable_resources(before, record["resources_after"]), "effective resources changed"
                     assert not record["timed_out"] and record["peak_rss_kib"] is not None

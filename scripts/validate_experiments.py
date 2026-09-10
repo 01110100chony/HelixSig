@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from experiment import BUDGET, ROOT, authenticate_payload, check_budget, execute, schedule, sha256, stable_resources
+from experiment import BUDGET, ROOT, authenticate_corpus, authenticate_payload, check_budget, execute, schedule, sha256, stable_resources
 from experiment_analysis import analyze
 from experiment_support import accounting, micro_design, pipeline_design, validate_micro
 from oracle import features
@@ -13,6 +13,19 @@ from validate import load_corpus
 
 
 class Experiments(unittest.TestCase):
+    def test_manifest_only_change_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            corpus = Path(tmp)
+            payload = corpus / "signals.f64le"
+            manifest = corpus / "manifest.json"
+            payload.write_bytes(b"unchanged samples")
+            manifest.write_text('{"baseline_samples":32}')
+            hashes = sha256(payload), sha256(manifest)
+            authenticate_corpus(corpus, *hashes)
+            manifest.write_text('{"baseline_samples":33}')
+            with self.assertRaises(RuntimeError):
+                authenticate_corpus(corpus, *hashes)
+
     def test_micro_validation_rejects_checksum_preserving_errors_and_reordering(self):
         corpus = ROOT / "fixtures/small"
         manifest, data = load_corpus(corpus)

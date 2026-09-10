@@ -64,8 +64,11 @@ microbenchmark configurations and four central pipeline configurations, one warm
 and one measured round. Its results are labelled `smoke_only` and cannot support
 performance claims. Python validates output after each timed child terminates.
 
-The runner authenticates each payload SHA-256 before and after every child,
-including the native reference, and retains the input hash in its run record.
+The runner authenticates payload and manifest SHA-256 before and after every child,
+including the native reference, and retains both hashes in its run record.
+It owns the generated corpus directory for the campaign. Concurrent hostile
+replacement of local files is outside this experiment's trusted-input scope;
+pre/post hashing does not claim filesystem snapshot isolation.
 It checks the clean commit, Linux filesystem placement, available CPUs,
 stable CPU affinity/memory/swap limits, binary hashes and artifact budget. It
 records Linux load, CPU counters and swap activity before/after each run, plus
