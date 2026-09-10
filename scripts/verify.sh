@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 gate="${1:-H0}"
-case "$gate" in H0|H1|H2|H3) ;; *) echo "Gate $gate is not implemented" >&2; exit 1;; esac
+case "$gate" in H0|H1|H2|H3|H4) ;; *) echo "Gate $gate is not implemented" >&2; exit 1;; esac
 python_bin="${HELIX_PYTHON:-python3}"
 cmake -S cpp -B build/native -DCMAKE_BUILD_TYPE=Release
 cmake --build build/native -j 2
@@ -19,13 +19,16 @@ find cpp -type f \( -name '*.cpp' -o -name '*.hpp' \) -print0 | xargs -0 clang-f
 if [[ "$gate" != "H0" ]]; then
   cargo fmt --check
   cargo clippy --all-targets --locked -j 2 -- -D warnings
-  cargo test --locked -j 2
+  timeout 120s cargo test --locked -j 2
 fi
-if [[ "$gate" == "H2" || "$gate" == "H3" ]]; then
+if [[ "$gate" == "H2" || "$gate" == "H3" || "$gate" == "H4" ]]; then
   cargo build --locked -j 2
   "$python_bin" scripts/validate_pipeline.py --binary target/debug/helix --corpus "$corpus"
 fi
-if [[ "$gate" == "H3" ]]; then
+if [[ "$gate" == "H3" || "$gate" == "H4" ]]; then
   "$python_bin" scripts/validate_concurrent.py --binary target/debug/helix --corpus "$corpus"
+fi
+if [[ "$gate" == "H4" ]]; then
+  "$python_bin" scripts/validate_failures.py --binary target/debug/helix --corpus "$corpus"
 fi
 echo "$gate automated checks PASS; independent review still required"

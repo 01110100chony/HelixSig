@@ -30,3 +30,17 @@ revisão humana, WSL2 como Linux nativo ou replay como aquisição em tempo real
    estimativa de buffers. Nenhum desses resultados comprova desempenho de H5.
 
 Este roteiro não registra aprovação de aprendizado; a demonstração é do usuário.
+
+## Roteiro de demonstração H3/H4 (pendente)
+
+1. Desenhar quem possui cada sender/receiver e explicar por que o coletor recebe
+   até o fechamento do canal antes de fazer join dos workers.
+2. Explicar por que Q=1 não determina batches de tamanho fixo: cada worker espera
+   um evento e tenta obter os demais sem esperar completar B.
+3. Reproduzir os testes de fila cheia e de produtor com admissão pendente;
+   distinguir dropped, not_admitted e aborted usando os conjuntos de IDs.
+4. Mostrar uma execução interrompida com SIGINT e seu Parquet parcial válido.
+   Comparar com a saída incompleta de uma falha de escrita, onde written=0.
+5. Explicar o teste de panic depois de um resultado enviado: esse ID já pertence
+   ao coletor e não pode ser contado novamente como aborted. Os testes usam
+   pontos de sincronização que não existem no executável de produção.

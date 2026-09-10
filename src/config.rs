@@ -86,9 +86,6 @@ pub struct RunConfig {
 
 impl RunConfig {
     pub fn validate(&self) -> Result<(), String> {
-        if self.execution == Execution::Concurrent && self.policy == Policy::DropNew {
-            return Err("concurrent drop-new is unavailable until H4".into());
-        }
         if !(1..=1_000_000).contains(&self.events) {
             return Err("events must be in 1..=1000000".into());
         }

@@ -2,6 +2,7 @@
 pub mod bridge;
 mod concurrent;
 pub mod config;
+mod control;
 pub mod event;
 pub mod metrics;
 pub mod output;

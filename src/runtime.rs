@@ -1,4 +1,5 @@
 use crate::config::{Execution, RunConfig};
+use crate::control::Control;
 use crate::event::{Event, ProcessedEvent};
 use crate::metrics::{Metrics, MetricsSummary};
 use crate::output::{write_json_new, OutputState, OutputSummary, OutputWriter, ResultSink};
@@ -33,6 +34,8 @@ impl Counters {
 #[serde(rename_all = "snake_case")]
 pub enum RunStatus {
     Completed,
+    CompletedWithDrops,
+    Interrupted,
     Failed,
     InvalidConfiguration,
 }
@@ -58,7 +61,7 @@ pub struct RunSummary {
 }
 
 impl RunSummary {
-    fn new(config: RunConfig) -> Self {
+    pub(crate) fn new(config: RunConfig) -> Self {
         Self {
             schema_version: 1,
             config,
@@ -77,8 +80,9 @@ impl RunSummary {
         }
     }
     pub(crate) fn fail(&mut self, reason: String) {
+        let first_failure = self.status != RunStatus::Failed;
         self.status = RunStatus::Failed;
-        if self.reason.is_none() {
+        if first_failure || self.reason.is_none() {
             self.reason = Some(reason.clone());
         }
         if self.diagnostics.len() < 16 {
@@ -88,6 +92,8 @@ impl RunSummary {
     pub fn exit_code(&self) -> i32 {
         match self.status {
             RunStatus::Completed => 0,
+            RunStatus::CompletedWithDrops => 2,
+            RunStatus::Interrupted => 130,
             RunStatus::Failed => 1,
             RunStatus::InvalidConfiguration => 64,
         }
@@ -95,6 +101,19 @@ impl RunSummary {
 }
 
 pub fn run(config: RunConfig) -> RunSummary {
+    let control = Control::default();
+    let _registration = match control.register_sigint() {
+        Ok(registration) => registration,
+        Err(error) => {
+            let mut summary = RunSummary::new(config);
+            summary.fail(format!("SIGINT handler setup: {error}"));
+            return summary;
+        }
+    };
+    run_controlled(config, &control)
+}
+
+fn run_controlled(config: RunConfig, control: &Control) -> RunSummary {
     let mut summary = RunSummary::new(config);
     let corpus = match summary
         .config
@@ -125,8 +144,10 @@ pub fn run(config: RunConfig) -> RunSummary {
         .and_then(|()| OutputWriter::open(&summary.config.out))
     {
         Ok(mut writer) => match summary.config.execution {
-            Execution::Sequential => execute(&corpus, &mut writer, &mut summary),
-            Execution::Concurrent => crate::concurrent::execute(&corpus, &mut writer, &mut summary),
+            Execution::Sequential => execute(&corpus, &mut writer, &mut summary, control),
+            Execution::Concurrent => {
+                crate::concurrent::execute(&corpus, &mut writer, &mut summary, control)
+            }
         },
         Err(reason) => {
             summary.fail(format!("output startup: {reason}"));
@@ -152,38 +173,58 @@ fn finalize_summary(summary: &mut RunSummary) {
         fs::rename(&temporary, summary.config.out.join("summary.json")).map_err(|e| e.to_string())
     }) {
         summary.fail(format!("summary finalization: {reason}"));
-        if summary.output.state == OutputState::Finalized {
-            let partial = summary.config.out.join("events.partial.parquet");
-            match fs::rename(
-                summary.output.file.as_ref().expect("finalized output"),
-                &partial,
-            ) {
-                Ok(()) => {
-                    summary.output.state = OutputState::Partial;
-                    summary.output.file = Some(partial);
-                }
-                Err(error) => summary.fail(format!("partial output rename: {error}")),
+        mark_output_partial(summary);
+    }
+}
+
+fn mark_output_partial(summary: &mut RunSummary) {
+    if summary.output.state == OutputState::Finalized {
+        let partial = summary.config.out.join("events.partial.parquet");
+        match fs::rename(
+            summary.output.file.as_ref().expect("finalized output"),
+            &partial,
+        ) {
+            Ok(()) => {
+                summary.output.state = OutputState::Partial;
+                summary.output.file = Some(partial);
             }
+            Err(error) => summary.fail(format!("partial output rename: {error}")),
         }
     }
 }
 
-fn execute(corpus: &Corpus, writer: &mut impl ResultSink, summary: &mut RunSummary) {
+fn execute(
+    corpus: &Corpus,
+    writer: &mut impl ResultSink,
+    summary: &mut RunSummary,
+    control: &Control,
+) {
     let start = Instant::now();
     let mut processing =
         ProcessingBuffer::new(corpus.manifest.samples as usize, summary.config.batch_size);
     let mut events = Vec::with_capacity(summary.config.batch_size);
     let mut metrics = Metrics::default();
     let mut writer_failed = false;
-    while summary.counters.produced < summary.config.events && !writer_failed {
+    while summary.counters.produced < summary.config.events
+        && !writer_failed
+        && !control.requested()
+    {
         events.clear();
         while events.len() < summary.config.batch_size
             && summary.counters.produced < summary.config.events
         {
             let id = summary.counters.produced;
-            events.push(Event::new(id, corpus.row(id)));
+            let event = Event::new(id, corpus.row(id));
             summary.counters.produced += 1;
+            if control.requested() {
+                summary.counters.not_admitted += 1;
+                break;
+            }
+            events.push(event);
             summary.counters.accepted += 1;
+        }
+        if events.is_empty() {
+            break;
         }
         metrics.record_batch(events.len());
         for result in processing.process(
@@ -197,7 +238,7 @@ fn execute(corpus: &Corpus, writer: &mut impl ResultSink, summary: &mut RunSumma
             collect_result(result, writer, summary, &mut writer_failed);
         }
     }
-    finish_execution(writer, summary, &metrics, writer_failed, start);
+    finish_execution(writer, summary, &metrics, writer_failed, start, control);
 }
 
 pub(crate) fn collect_result(
@@ -231,9 +272,22 @@ pub(crate) fn finish_execution(
     metrics: &Metrics,
     writer_failed: bool,
     start: Instant,
+    control: &Control,
 ) {
+    if summary.status == RunStatus::Completed {
+        if control.interrupted() {
+            summary.status = RunStatus::Interrupted;
+            summary.reason = Some("SIGINT requested; accepted work drained".into());
+        } else if summary.counters.dropped > 0 {
+            summary.status = RunStatus::CompletedWithDrops;
+            summary.reason = Some("drop-new rejected events from the full input queue".into());
+        }
+    }
     if !writer_failed {
-        match writer.finish(summary.status != RunStatus::Completed) {
+        match writer.finish(matches!(
+            summary.status,
+            RunStatus::Failed | RunStatus::Interrupted
+        )) {
             Ok(written) => {
                 // Transition only the rows acknowledged by successful finalization.
                 summary.counters.written += written;
@@ -242,6 +296,19 @@ pub(crate) fn finish_execution(
             Err(reason) => summary.fail(format!("writer finalization: {reason}")),
         }
     }
+    summary.output = writer.summary();
+    // SIGINT can arrive while the footer is closing. Keep already finalized
+    // valid rows, but label the interrupted run with its actual partial path.
+    if control.interrupted()
+        && matches!(
+            summary.status,
+            RunStatus::Completed | RunStatus::CompletedWithDrops
+        )
+    {
+        summary.status = RunStatus::Interrupted;
+        summary.reason = Some("SIGINT requested during output finalization".into());
+        mark_output_partial(summary);
+    }
     summary.duration_ns = start.elapsed().as_nanos().min(u64::MAX as u128) as u64;
     if summary.duration_ns > 0 {
         let seconds = summary.duration_ns as f64 / 1e9;
@@ -249,7 +316,6 @@ pub(crate) fn finish_execution(
         summary.throughput_written_per_second = Some(summary.counters.written as f64 / seconds);
     }
     summary.metrics = metrics.summary();
-    summary.output = writer.summary();
     assert!(
         summary.counters.reconciles(),
         "accounting transition defect"
@@ -316,7 +382,7 @@ mod tests {
             finalize_failed: false,
             delay: Duration::ZERO,
         };
-        execute(&corpus, &mut sink, &mut summary);
+        execute(&corpus, &mut sink, &mut summary, &Control::default());
         assert_eq!(summary.status, RunStatus::Failed);
         assert_eq!(summary.counters.produced, 16);
         assert_eq!(summary.counters.accepted, 16);
@@ -335,7 +401,7 @@ mod tests {
             finalize_failed: true,
             delay: Duration::ZERO,
         };
-        execute(&corpus, &mut sink, &mut summary);
+        execute(&corpus, &mut sink, &mut summary, &Control::default());
         assert_eq!(summary.status, RunStatus::Failed);
         assert_eq!(summary.counters.unwritten, 33);
         assert_eq!(summary.counters.written, 0);
@@ -347,7 +413,7 @@ mod tests {
         let (corpus, mut summary) = prepared();
         summary.config.out = directory.path().to_owned();
         let mut writer = OutputWriter::open(directory.path()).unwrap();
-        execute(&corpus, &mut writer, &mut summary);
+        execute(&corpus, &mut writer, &mut summary, &Control::default());
         fs::create_dir(directory.path().join("summary.json.incomplete")).unwrap();
         finalize_summary(&mut summary);
         assert_eq!(summary.status, RunStatus::Failed);
@@ -370,9 +436,45 @@ mod tests {
                 finalize_failed: false,
                 delay: Duration::from_millis(30),
             };
-            execute(&corpus, &mut sink, &mut summary);
+            execute(&corpus, &mut sink, &mut summary, &Control::default());
             assert!(summary.duration_ns >= 30_000_000);
             assert!(summary.metrics.latency_p99_ns.unwrap() < summary.duration_ns - 20_000_000);
         }
+    }
+
+    #[test]
+    fn interrupt_during_footer_finalization_keeps_valid_partial_output() {
+        struct InterruptOnClose<'a> {
+            writer: OutputWriter,
+            control: &'a Control,
+        }
+        impl ResultSink for InterruptOnClose<'_> {
+            fn push(&mut self, event: &ProcessedEvent) -> Result<(), String> {
+                self.writer.push(event)
+            }
+            fn finish(&mut self, partial: bool) -> Result<u64, String> {
+                let result = self.writer.finish(partial);
+                self.control.interrupt();
+                result
+            }
+            fn summary(&self) -> OutputSummary {
+                self.writer.summary()
+            }
+        }
+        let (corpus, mut summary) = prepared();
+        let directory = tempfile::tempdir().unwrap();
+        summary.config.out = directory.path().to_owned();
+        let control = Control::default();
+        let mut writer = InterruptOnClose {
+            writer: OutputWriter::open(directory.path()).unwrap(),
+            control: &control,
+        };
+        execute(&corpus, &mut writer, &mut summary, &control);
+        assert_eq!(summary.exit_code(), 130);
+        assert_eq!(summary.output.state, OutputState::Partial);
+        assert_eq!(summary.counters.written, 33);
+        assert!(directory.path().join("events.partial.parquet").is_file());
+        assert!(!directory.path().join("events.parquet").exists());
+        assert!(summary.counters.reconciles());
     }
 }
