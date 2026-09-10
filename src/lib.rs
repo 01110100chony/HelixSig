@@ -1,2 +1,9 @@
 //! Linux-first signal-processing experiment. The native kernel remains independent.
 pub mod bridge;
+pub mod config;
+pub mod event;
+pub mod metrics;
+pub mod output;
+pub mod processing;
+pub mod runtime;
+pub mod source;

@@ -7,8 +7,8 @@ Target: before October 12, with application margin. Learning is separately pendi
 |---|---|---|---|
 | G0 | Linux/toolchain/mixed-build feasibility | PASS | Environment + native/Rust/CXX smoke |
 | H0 | Deterministic signals and C++ correctness | TECH_PASS | Candidate 3e6ca9f; H0-N1 fixed; 533 oracle cases and sanitizers; independent re-review |
-| H1 | Safe event/batch FFI | H1 — CANDIDATE | Equivalent results, tails, borrowing, concurrent calls |
-| H2 | Sequential complete pipeline | NOT_STARTED | Parquet Python readback, IDs, counters, finalization |
+| H1 | Safe event/batch FFI | TECH_PASS | Equivalent results, tails, borrowing, concurrent calls |
+| H2 | Sequential complete pipeline | CANDIDATE | Parquet Python readback, IDs, counters, finalization |
 | H3 | Bounded runtime | NOT_STARTED | Workers 1/2/4, Q=1, tails, identity, shutdown |
 | H4 | Overload and failures | NOT_STARTED | Saturation, slow consumer, writer error, panic, Ctrl+C |
 | H5 | Reproducible experiments | NOT_STARTED | Raw data, release build, repetitions, honest analysis |
