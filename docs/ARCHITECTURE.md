@@ -52,6 +52,13 @@ NumPy is independent of C++. Float acceptance is abs(a-r)<=1e-10+1e-10*abs(r).
 Indices and statuses must match exactly. Tolerance changes require justification
 and review, never merely a failing test.
 
+H0 numerical correction: baseline and integral use an allocation-free blocked
+pairwise reduction instead of a linear accumulator. This avoids the demonstrated
+finite-cancellation mismatch against the pinned NumPy oracle. Reduction grouping
+is explicit and tested around block boundaries; NumPy remains an independent
+executable reference, not native code called by the kernel. These results are
+float64 estimates, not exact arithmetic on arbitrarily ill-conditioned inputs.
+
 ## Native API and FFI (freeze H1)
 
 One public C++ header exposes Config, EventResult, statuses, process_event(span

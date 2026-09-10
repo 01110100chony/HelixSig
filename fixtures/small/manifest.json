@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "file": "signals.f64le",
+  "rows": 8,
+  "samples": 64,
+  "baseline_samples": 32,
+  "dtype": "float64-le",
+  "seed": 20260909,
+  "sha256": "63c4a8cc4dbb2a1c732d6058cfb8a6790dac9eb2b74902ba7bb2d269a07780da",
+  "generator": "PCG64",
+  "python_version": "3.12.3",
+  "numpy_version": "2.5.3",
+  "signal": {
+    "baseline_range": [
+      -10,
+      10
+    ],
+    "amplitude_range": [
+      10,
+      100
+    ],
+    "noise_sigma": 0.2,
+    "pulse_width": 2.0,
+    "pulse_zero_before": 32,
+    "analytical_rows": 2
+  }
+}

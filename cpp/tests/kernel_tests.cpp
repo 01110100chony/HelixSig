@@ -24,6 +24,13 @@ int main() {
     check(result.status == Status::ok, "valid signal");
     check(result.baseline == -2 && result.peak_amplitude == 7, "baseline and amplitude");
     check(result.peak_index == 3 && result.integral == 16, "first peak and signed integral");
+    const std::array<double, 9> cancellation{0, 1e16, 1, -1e16, -1, 1e15, -1e15, 0, 0};
+    check(helix::process_event(cancellation, {1}).integral == 0,
+          "finite cancellation must satisfy independent oracle tolerance");
+    const std::array<double, 9> baseline_cancellation{1e16, 1, -1e16, -1, 1e15, -1e15, 0, 0, 2};
+    const auto cancellation_result = helix::process_event(baseline_cancellation, {8});
+    check(cancellation_result.baseline == 0 && cancellation_result.integral == 2,
+          "baseline also uses stable reduction");
     const std::array<double, 4> below{3, 3, 1, 2};
     const auto negative = helix::process_event(below, {2});
     check(negative.peak_amplitude == -1 && negative.integral == -3, "no implicit clipping");
@@ -37,9 +44,9 @@ int main() {
     check(helix::process_event(signal, {0}).status == Status::invalid_config, "zero baseline");
     check(helix::process_event(signal, {6}).status == Status::invalid_config, "full baseline");
     auto invalid = signal;
-    for (const auto bad : {std::numeric_limits<double>::quiet_NaN(),
-                           std::numeric_limits<double>::infinity(),
-                           -std::numeric_limits<double>::infinity()}) {
+    for (const auto bad :
+         {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::infinity(),
+          -std::numeric_limits<double>::infinity()}) {
         invalid[4] = bad;
         check(helix::process_event(invalid, {2}).status == Status::nonfinite_input,
               "nonfinite input");

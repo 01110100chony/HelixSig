@@ -36,6 +36,6 @@ enum class BatchStatus { ok, invalid_shape, invalid_config };
 // Structural errors leave ALL output elements unchanged. Empty batches are valid
 // when width and configuration are valid. Individual numerical errors are statuses.
 [[nodiscard]] BatchStatus process_batch(std::span<const double> samples,
-                                       std::size_t samples_per_event, Config config,
-                                       std::span<EventResult> output) noexcept;
+                                        std::size_t samples_per_event, Config config,
+                                        std::span<EventResult> output) noexcept;
 } // namespace helix

@@ -26,10 +26,12 @@ int main(int argc, char **argv) {
         }
         std::vector<double> samples(width);
         const auto bytes = static_cast<std::streamsize>(width * sizeof(double));
-        std::cout << "row,status,baseline,peak_amplitude,peak_index,integral\n" << std::setprecision(17);
+        std::cout << "row,status,baseline,peak_amplitude,peak_index,integral\n"
+                  << std::setprecision(17);
         std::uint64_t row = 0;
         while (input.read(reinterpret_cast<char *>(samples.data()), bytes)) {
-            const auto result = helix::process_event(samples, {static_cast<std::uint32_t>(baseline)});
+            const auto result =
+                helix::process_event(samples, {static_cast<std::uint32_t>(baseline)});
             std::cout << row++ << ',' << static_cast<unsigned>(result.status) << ','
                       << result.baseline << ',' << result.peak_amplitude << ',' << result.peak_index
                       << ',' << result.integral << '\n';
