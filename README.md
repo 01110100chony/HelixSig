@@ -3,7 +3,7 @@
 A Linux-first laboratory for bounded concurrent signal processing in Rust with an
 independent C++20 numerical library and a Python/NumPy oracle.
 
-**Status: G0, H0 and H1 passed; H2 sequential pipeline is under gate validation.
+**Status: G0, H0, H1 and H2 passed the technical gates.
 H3-H6 are not implemented. No performance claim is approved.**
 
 The experiment studies worker count, queue capacity, processing batch size and
