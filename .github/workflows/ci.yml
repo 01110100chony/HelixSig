@@ -8,9 +8,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: sudo apt-get update && sudo apt-get install -y cmake clang clang-format libclang-rt-18-dev
+      - run: sudo apt-get update && sudo apt-get install -y cmake clang clang-format libclang-rt-18-dev time
       - run: pip install -r requirements.txt
-      - run: bash scripts/verify.sh H4
+      - run: bash scripts/verify.sh H5
       - uses: actions/upload-artifact@v4
         if: always()
         with:

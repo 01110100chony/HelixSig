@@ -1,6 +1,6 @@
 # Preregistered experiment protocol
 
-Status: protocol only. No measured results yet.
+Status: H5 tooling implemented; campaign validation and measurement pending.
 
 ## Questions
 
@@ -38,3 +38,55 @@ does not include output. Do not infer interactions not covered by this design.
 
 NOT_RUN. Raw files, numerical conclusions and performance claims must only be
 added after H4 passes and a clean candidate has been measured.
+
+## Executable protocol
+
+`scripts/experiment.py` builds matched GCC Release C++ kernels and the Rust
+driver with optimization level 3, LTO disabled and no fast-math. It saves verbose
+Cargo logs, CMake compile commands, tool versions, exact command lines and binary
+hashes. Corpus loading, allocation and printing are outside microbenchmark
+timing; result checksum consumption and batch counters are inside both drivers.
+`prepared` borrows a contiguous preloaded corpus segment; `pack` copies owned
+rows into a reusable flat buffer before the same event/batch calls. All 256
+corpus rows are replayed cyclically, including a final partial batch. The native
+reference includes both call granularities and preparation modes.
+
+The full schedule contains 96 microbenchmark configurations and 28 pipeline
+configurations, one warmup round followed by five measurement rounds. Each round
+shuffles all configurations with a recorded seed (default 20260910). Both families
+process 100000 events per run. The separate smoke mode uses 257 events, all 96
+microbenchmark configurations and four central pipeline configurations, one warmup
+and one measured round. Its results are labelled `smoke_only` and cannot support
+performance claims. Python validates output after each timed child terminates.
+
+The runner checks the clean commit, Linux filesystem placement, available CPUs,
+stable CPU affinity/memory/swap limits, binary hashes and artifact budget. It
+records Linux load, CPU counters and swap activity before/after each run, plus
+process lists at campaign boundaries. Actual resources supersede the planned
+configuration in the report; the runner does not alter WSL settings. Windows
+host activity is not fully observable from this Linux metadata.
+
+GNU time records each child's peak Linux process RSS; wall duration separately
+includes process startup. Pipeline throughput uses the runtime's documented
+duration including finalization. Microbenchmark cost uses internal elapsed
+nanoseconds divided by actual processed events. Raw per-run summaries retain
+actual batch sizes and histogram coverage. Parquet retains every successful
+event's latency. Empirical per-run percentiles are stored separately from the
+bounded HDR estimates, with null empty populations and a flag below 1000 samples.
+The analysis reports medians, quartiles and ranges of run-level costs/throughputs;
+it keeps latency percentiles per run instead of averaging them. Failures stop a
+campaign with the failed record preserved; analysis rejects incomplete schedules.
+
+Commands (new output directory, clean Linux checkout for a full campaign):
+
+```bash
+HELIX_PYTHON=.venv/bin/python scripts/verify.sh H5
+.venv/bin/python scripts/experiment.py --out artifacts/h5-campaign
+.venv/bin/python scripts/experiment_analysis.py artifacts/h5-campaign
+```
+
+Raw evidence lives under the chosen output directory. `campaign.json` records
+provenance and schedule, `runs.jsonl` records every warmup/measurement and exit
+code, and `analysis.json`/`analysis.md` contain derived results. Retain the entire
+directory for reproducibility. No networking, publication or global environment
+reconfiguration is part of this command.

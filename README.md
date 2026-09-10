@@ -4,7 +4,7 @@ A Linux-first laboratory for bounded concurrent signal processing in Rust with a
 independent C++20 numerical library and a Python/NumPy oracle.
 
 **Status: G0-H4 passed, including overload/failure validation and AI review.
-H5-H6 are not implemented. No performance claim is approved.**
+H5 experiment tooling is under validation; H6 is not implemented.**
 
 The experiment studies worker count, queue capacity, processing batch size and
 per-event versus batched FFI. It is finite synthetic replay, not a real-time DAQ
@@ -94,3 +94,20 @@ Parquet serialization (parquet without Arrow/compression features), and bounded
 latency measurement (hdrhistogram). H3 adds crossbeam-channel for bounded queues;
 H4 adds signal-hook for an atomic SIGINT notification without a signal thread;
 tempfile is test-only.
+
+## Reproducible experiments (H5)
+
+Run the correctness gate with `HELIX_PYTHON=.venv/bin/python scripts/verify.sh H5`.
+It includes a small Release smoke campaign; smoke is explicitly not performance
+evidence. For measurements, use a clean committed checkout on the Linux filesystem:
+
+```bash
+.venv/bin/python scripts/experiment.py --out artifacts/h5-campaign
+.venv/bin/python scripts/experiment_analysis.py artifacts/h5-campaign
+```
+
+The full campaign performs 744 runs: 96 microbenchmark and 28 pipeline
+configurations, each with one warmup and five measured repetitions. It builds
+both executables, validates numerical output, preserves raw Parquet/JSON and
+checks the 4 GiB artifact budget. No performance threshold is imposed.
+See [protocol and interpretation limits](docs/EXPERIMENTS.md).
