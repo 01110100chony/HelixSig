@@ -6,7 +6,7 @@
 | H0 | Deterministic signals and C++ correctness | TECH_PASS | Candidate 3e6ca9f; H0-N1 fixed; 533 oracle cases and sanitizers; independent re-review |
 | H1 | Safe event/batch FFI | TECH_PASS | Equivalent results, tails, borrowing, concurrent calls |
 | H2 | Sequential complete pipeline | TECH_PASS | Candidate cb35222; 4101-event readback per FFI mode, 43 pipeline cases, 16 Rust tests, independent AI review |
-| H3 | Bounded runtime | NOT_STARTED | Workers 1/2/4, Q=1, tails, identity, shutdown |
+| H3 | Bounded runtime | IN_PROGRESS | Workers 1/2/4, Q=1, tails, identity, shutdown |
 | H4 | Overload and failures | NOT_STARTED | Saturation, slow consumer, writer error, panic, Ctrl+C |
 | H5 | Reproducible experiments | NOT_STARTED | Raw data, release build, repetitions, honest analysis |
 | H6 | Release candidate and study | NOT_STARTED | Clean checkout, CI, docs, prior reviews, human approval |

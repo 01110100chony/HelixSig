@@ -3,8 +3,8 @@
 A Linux-first laboratory for bounded concurrent signal processing in Rust with an
 independent C++20 numerical library and a Python/NumPy oracle.
 
-**Status: G0, H0, H1 and H2 passed the technical gates.
-H3-H6 are not implemented. No performance claim is approved.**
+**Status: G0-H2 passed; H3 bounded runtime is under gate validation.
+H4-H6 are not implemented. No performance claim is approved.**
 
 The experiment studies worker count, queue capacity, processing batch size and
 per-event versus batched FFI. It is finite synthetic replay, not a real-time DAQ
@@ -37,10 +37,21 @@ generator). `--ffi event` uses the same sample preparation and calls C++ once pe
 event. Both modes return identical numerical features. `--baseline-samples K`
 overrides processing configuration after validation; it does not regenerate data.
 
-H2 creates no runtime threads or channels. Worker count, queue capacity and policy
-are validated and recorded for the later runtime; sequential execution has no
-queue drops. `--execution concurrent` is rejected until H3. Worker count must be
-between one and the available processor count, even in sequential mode.
+Sequential execution creates no runtime threads or channels and has no queue
+drops. H3 adds `--execution concurrent --policy block`: one producer, bounded
+input queue, W Rust workers and the main collector/writer. Concurrent drop-new
+is rejected until H4. Worker count must be between one and the available
+processor count, even in sequential mode.
+
+Workers wait for one event and then try to collect up to the configured batch
+size without waiting to fill it. Batch sizes and output order depend on scheduling;
+compare parallel results by event ID. The result queue holds 256 individual
+outcomes and applies backpressure. Workers drain accepted work after admission
+stops, and all threads join before output finalization. The final summary contains
+`worker_metrics` in worker-index order; merged percentiles come from merging the
+bounded histograms, never averaging per-worker percentiles. In sequential mode
+`worker_metrics` is empty. Validate with `scripts/verify.sh H3` and the same Python
+environment used by H2.
 
 Each run starts with `running.json`. A successfully closed and renamed output is
 `events.parquet`, or `events.partial.parquet` when numerical failures occurred.
@@ -63,8 +74,10 @@ processing batch counts are indexed by size in `metrics.actual_batch_sizes`.
 
 Payloads are limited to 64 MiB, manifests to 64 KiB and runs to 1000000 events.
 Memory preflight conservatively includes twice the corpus, bounded sample
-buffers, and 32 MiB for Parquet buffers/metadata, histograms and diagnostics. The
+buffers, 32 MiB for Parquet buffers/metadata and diagnostics, and 1 MiB per worker
+plus one merged histogram/report allowance. The
 256 MiB limit is an estimate of data buffers, not a process RSS ceiling. New Rust
 dependencies serve CLI parsing (clap), JSON (serde), integrity checking (sha2),
 Parquet serialization (parquet without Arrow/compression features), and bounded
-latency measurement (hdrhistogram); tempfile is test-only.
+latency measurement (hdrhistogram). H3 adds crossbeam-channel for bounded queues;
+tempfile is test-only.

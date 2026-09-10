@@ -13,6 +13,7 @@ serde_json = "1"
 sha2 = "0.10"
 parquet = { version = "56.2", default-features = false }
 hdrhistogram = { version = "7.5", default-features = false }
+crossbeam-channel = "0.5"
 
 [build-dependencies]
 cxx-build = "=1.0.200"

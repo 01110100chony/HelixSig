@@ -1,5 +1,5 @@
-use crate::config::RunConfig;
-use crate::event::Event;
+use crate::config::{Execution, RunConfig};
+use crate::event::{Event, ProcessedEvent};
 use crate::metrics::{Metrics, MetricsSummary};
 use crate::output::{write_json_new, OutputState, OutputSummary, OutputWriter, ResultSink};
 use crate::processing::ProcessingBuffer;
@@ -52,6 +52,8 @@ pub struct RunSummary {
     pub throughput_processed_per_second: Option<f64>,
     pub throughput_written_per_second: Option<f64>,
     pub metrics: MetricsSummary,
+    /// Worker-index order; empty in sequential execution.
+    pub worker_metrics: Vec<MetricsSummary>,
     pub output: OutputSummary,
 }
 
@@ -70,10 +72,11 @@ impl RunSummary {
             throughput_processed_per_second: None,
             throughput_written_per_second: None,
             metrics: Metrics::default().summary(),
+            worker_metrics: Vec::new(),
             output: OutputSummary::default(),
         }
     }
-    fn fail(&mut self, reason: String) {
+    pub(crate) fn fail(&mut self, reason: String) {
         self.status = RunStatus::Failed;
         if self.reason.is_none() {
             self.reason = Some(reason.clone());
@@ -121,7 +124,10 @@ pub fn run(config: RunConfig) -> RunSummary {
     match write_json_new(&summary.config.out.join("running.json"), &marker)
         .and_then(|()| OutputWriter::open(&summary.config.out))
     {
-        Ok(mut writer) => execute(&corpus, &mut writer, &mut summary),
+        Ok(mut writer) => match summary.config.execution {
+            Execution::Sequential => execute(&corpus, &mut writer, &mut summary),
+            Execution::Concurrent => crate::concurrent::execute(&corpus, &mut writer, &mut summary),
+        },
         Err(reason) => {
             summary.fail(format!("output startup: {reason}"));
             let incomplete = summary.config.out.join("events.parquet.incomplete");
@@ -185,27 +191,47 @@ fn execute(corpus: &Corpus, writer: &mut impl ResultSink, summary: &mut RunSumma
             summary.config.baseline_samples.expect("validated baseline"),
             summary.config.ffi,
         ) {
-            match result {
-                Ok(event) => {
-                    summary.counters.processed += 1;
-                    // A valid numerical result is unwritten until the entire
-                    // output has closed and renamed successfully.
-                    summary.counters.unwritten += 1;
-                    metrics.record_latency(event.latency_ns);
-                    if !writer_failed {
-                        if let Err(reason) = writer.push(event) {
-                            writer_failed = true;
-                            summary.fail(format!("writer: {reason}"));
-                        }
-                    }
-                }
-                Err(reason) => {
-                    summary.counters.failed += 1;
-                    summary.fail(reason.clone());
+            if let Ok(event) = result {
+                metrics.record_latency(event.latency_ns);
+            }
+            collect_result(result, writer, summary, &mut writer_failed);
+        }
+    }
+    finish_execution(writer, summary, &metrics, writer_failed, start);
+}
+
+pub(crate) fn collect_result(
+    result: &Result<ProcessedEvent, String>,
+    writer: &mut impl ResultSink,
+    summary: &mut RunSummary,
+    writer_failed: &mut bool,
+) {
+    match result {
+        Ok(event) => {
+            summary.counters.processed += 1;
+            // Valid results remain unwritten until the entire file is finalized.
+            summary.counters.unwritten += 1;
+            if !*writer_failed {
+                if let Err(reason) = writer.push(event) {
+                    *writer_failed = true;
+                    summary.fail(format!("writer: {reason}"));
                 }
             }
         }
+        Err(reason) => {
+            summary.counters.failed += 1;
+            summary.fail(reason.clone());
+        }
     }
+}
+
+pub(crate) fn finish_execution(
+    writer: &mut impl ResultSink,
+    summary: &mut RunSummary,
+    metrics: &Metrics,
+    writer_failed: bool,
+    start: Instant,
+) {
     if !writer_failed {
         match writer.finish(summary.status != RunStatus::Completed) {
             Ok(written) => {

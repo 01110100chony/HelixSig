@@ -13,6 +13,38 @@ pub enum Execution {
     Concurrent,
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn memory_preflight_includes_worker_histograms_and_checked_arithmetic() {
+        let mut config = RunConfig {
+            corpus: PathBuf::new(),
+            out: PathBuf::new(),
+            events: 1,
+            execution: Execution::Concurrent,
+            workers: 1,
+            queue_capacity: 1,
+            batch_size: 1,
+            ffi: FfiMode::Batch,
+            policy: Policy::Block,
+            baseline_samples: Some(1),
+        };
+        let single = config.memory_estimate(16, 2).unwrap();
+        config.workers = 2;
+        assert_eq!(
+            config.memory_estimate(16, 2).unwrap() - single,
+            1024 * 1024 + 32
+        );
+        config.workers = 512;
+        assert!(config.memory_estimate(16, 2).is_err());
+        config.workers = usize::MAX;
+        config.batch_size = 64;
+        assert!(config.memory_estimate(16, 2).is_err());
+    }
+}
+
 #[derive(Debug, Clone, Copy, Serialize, ValueEnum, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 pub enum FfiMode {
@@ -54,8 +86,8 @@ pub struct RunConfig {
 
 impl RunConfig {
     pub fn validate(&self) -> Result<(), String> {
-        if self.execution != Execution::Sequential {
-            return Err("concurrent execution is unavailable until H3".into());
+        if self.execution == Execution::Concurrent && self.policy == Policy::DropNew {
+            return Err("concurrent drop-new is unavailable until H4".into());
         }
         if !(1..=1_000_000).contains(&self.events) {
             return Err("events must be in 1..=1000000".into());
@@ -82,7 +114,8 @@ impl RunConfig {
 
     pub fn memory_estimate(&self, corpus_bytes: u64, width: u64) -> Result<u64, String> {
         // Conservative even in sequential mode: future queue/event/flat buffers,
-        // twice the corpus for loading, and 32 MiB for writer, metrics and metadata.
+        // twice the corpus for loading, 32 MiB for writer/metadata, and 1 MiB
+        // per worker plus one merged histogram (including report storage).
         let estimate = (|| {
             let slots = (self.workers as u64)
                 .checked_mul(self.batch_size as u64)?
@@ -92,7 +125,12 @@ impl RunConfig {
             corpus_bytes
                 .checked_mul(2)?
                 .checked_add(width.checked_mul(8)?.checked_mul(slots)?)?
-                .checked_add(32 * 1024 * 1024)
+                .checked_add(32 * 1024 * 1024)?
+                .checked_add(
+                    (self.workers as u64)
+                        .checked_add(1)?
+                        .checked_mul(1024 * 1024)?,
+                )
         })()
         .ok_or("memory estimate overflow")?;
         if estimate > MAX_DATA_BYTES {

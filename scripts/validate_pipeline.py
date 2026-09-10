@@ -111,7 +111,7 @@ def validate(binary, corpus, work):
     invalid_configs = [
         ("events", "0"), ("events", "1000001"), ("batch-size", "0"), ("batch-size", "65"),
         ("queue-capacity", "0"), ("queue-capacity", "4097"), ("workers", "0"),
-        ("workers", "999999999"), ("execution", "concurrent"), ("baseline-samples", "0"),
+        ("workers", "999999999"), ("baseline-samples", "0"),
         ("baseline-samples", "4096"), ("baseline-samples", "256"),
     ]
     for index, (key, value) in enumerate(invalid_configs):

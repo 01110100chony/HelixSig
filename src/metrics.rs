@@ -35,6 +35,15 @@ impl Default for Metrics {
 }
 
 impl Metrics {
+    pub fn merge(&mut self, other: &Self) {
+        self.latency
+            .add(&other.latency)
+            .expect("identical bounded histograms");
+        self.overflow += other.overflow;
+        for (total, count) in self.batches.iter_mut().zip(other.batches) {
+            *total += count;
+        }
+    }
     pub fn record_latency(&mut self, ns: u64) {
         if ns > LATENCY_MAX_NS {
             self.overflow += 1;
@@ -65,6 +74,24 @@ impl Metrics {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn merging_preserves_counts_overflow_and_actual_batches() {
+        let mut first = Metrics::default();
+        first.record_latency(100);
+        first.record_batch(1);
+        let mut second = Metrics::default();
+        second.record_latency(200);
+        second.record_latency(LATENCY_MAX_NS + 1);
+        second.record_batch(2);
+        first.merge(&second);
+        let summary = first.summary();
+        assert_eq!(summary.latency_observations, 3);
+        assert_eq!(summary.latency_recorded, 2);
+        assert_eq!(summary.latency_overflow, 1);
+        assert_eq!(summary.actual_batch_sizes[1], 1);
+        assert_eq!(summary.actual_batch_sizes[2], 1);
+        assert_eq!(summary.latency_p99_ns, Some(200));
+    }
     #[test]
     fn empty_and_overflow_have_explicit_coverage() {
         let mut metrics = Metrics::default();
