@@ -3,7 +3,8 @@
 A Linux-first laboratory for bounded concurrent signal processing in Rust with an
 independent C++20 numerical library and a Python/NumPy oracle.
 
-**Status: bootstrap in progress. No milestone or performance claim is approved yet.**
+**Status: G0 and H0 passed; H1 FFI implementation is in progress.
+H2-H6 are not implemented. No performance claim is approved.**
 
 The experiment studies worker count, queue capacity, processing batch size and
 per-event versus batched FFI. It is finite synthetic replay, not a real-time DAQ
