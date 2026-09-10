@@ -8,7 +8,7 @@
 | H2 | Sequential complete pipeline | TECH_PASS | Candidate cb35222; 4101-event readback per FFI mode, 43 pipeline cases, 16 Rust tests, independent AI review |
 | H3 | Bounded runtime | TECH_PASS | Candidate 1f5aa05; 18 Rust tests, 42 H2 cases, 24 concurrent/reference runs, external AI review |
 | H4 | Overload and failures | TECH_PASS | Candidate 4211e93; full H4 gate and external AI concurrency review |
-| H5 | Reproducible experiments | NOT_STARTED | Raw data, release build, repetitions, honest analysis |
+| H5 | Reproducible experiments | IN_PROGRESS | Raw data, release build, repetitions, honest analysis |
 | H6 | Release candidate and study | NOT_STARTED | Clean checkout, CI, docs, prior reviews, human approval |
 
 Each gate has its detailed packet and independent review in reviews/Hn.md.
