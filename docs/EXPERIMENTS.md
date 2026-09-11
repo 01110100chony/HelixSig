@@ -49,8 +49,9 @@ For the central N=256, Q=256, B=16, batch-FFI, block-policy case, median written
 throughput with W=1,2,4 was respectively 368418, 507085 and 509060 events/s.
 The W=2 and W=4 medians were close relative to their between-run spread; this
 single-axis observation does not establish a general scaling law. At the W=2
-center, drop-new had median loss fraction 0.89246 and median written throughput
-402177 events/s. That outcome must not be presented as lossless throughput.
+center, drop-new batch-FFI had median loss fraction 0.89246 and median written
+throughput 402177 events/s. That outcome must not be presented as lossless
+throughput.
 
 At N=256/B=16 with prepared buffers, Rust event/batch medians were 423.4/414.1
 ns per event, with overlapping interquartile intervals [421.6,435.5] and
