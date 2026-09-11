@@ -1,149 +1,523 @@
 # Helix
 
-A Linux-first laboratory for bounded concurrent signal processing in Rust with an
-independent C++20 numerical library and a Python/NumPy oracle.
+### Concurrent Scientific Signal Processing in Rust + C++20
 
-**Status: G0 PASS; H0-H6 TECH_PASS. Human learning, merge, tagging and public
-release approval remain pending.**
+Helix is a Linux-first experimental pipeline for studying **bounded concurrent
+signal processing, Rust/C++ interoperability, failure semantics and reproducible
+performance measurement**.
 
-H5 measured candidate: `1d8724c9521e7d88a43e6f751c4681e1fbbf75c6`.
-H5 closeout: `6ba29f9`. The closeout records the evidence; it is not a new
-measurement. See the [H6 work packet](docs/reviews/H6_PACKET.md),
-[technical study](docs/H6_STUDY.md), [review record](docs/reviews/H6.md) and
-[human-review packet](docs/reviews/H6_HUMAN_PACKET.md). The exact H6 candidate
-SHA and final clean-room attestation accompany the candidate outside its own
-immutable tree.
+It combines a Rust orchestration runtime, an independent allocation-free C++20
+numerical kernel, synchronous CXX FFI, bounded worker queues, Parquet output and
+an independent Python/NumPy validation oracle.
 
-The experiment studies worker count, queue capacity, processing batch size and
-per-event versus batched FFI. It is finite synthetic replay, not a real-time DAQ
-system or physical simulation. There is no required speedup.
+> Built as an academic systems/scientific-computing project, with emphasis on
+> correctness, reproducibility and understanding system behavior under concurrency
+> and overload — not merely maximizing benchmark numbers.
 
-See [architecture](docs/ARCHITECTURE.md), [development governance](docs/DEVELOPMENT.md),
-[milestones](docs/ROADMAP.md), [experiments](docs/EXPERIMENTS.md), and the
-[Portuguese study guide](docs/STUDY_GUIDE.pt-BR.md).
+**Rust · C++20 · CXX · Python/NumPy · Parquet · Linux · CMake · ASan/UBSan**
 
-Primary environment: Ubuntu 24.04 in WSL2. Source, builds and measured data belong
-on the Linux filesystem. Windows is an editing interface, not a supported target.
+---
+
+## At a glance
+
+**~509k events/s observed** · **744 validated experiment runs** ·  
+**620 measured repetitions** · **Rust + C++20 + Python validation stack**
+
+> The throughput figure is an observation from the reference H5 environment and
+> tested configuration. It is not a general performance guarantee.
+
+---
+
+## What makes Helix interesting?
+
+A waveform corpus flows through a bounded concurrent processing pipeline:
+
+```text
+Python corpus + NumPy oracle
+            │
+            ▼
+     Rust validation
+            │
+            ▼
+        Producer
+            │
+       bounded queue
+            │
+       ┌────┴────┐
+       ▼         ▼
+   Worker 0   Worker N
+       │         │
+       └────┬────┘
+            │
+          CXX FFI
+            │
+            ▼
+   C++20 numerical kernel
+            │
+            ▼
+     bounded results
+            │
+            ▼
+ Rust collector / writer
+            │
+        ┌───┴────┐
+        ▼        ▼
+     Parquet    JSON
+            │
+            ▼
+ Python validation / analysis
+```
+
+The project explores several systems problems that are easy to hide in simpler
+benchmarks:
+
+- bounded backpressure instead of unbounded queues;
+- explicit overload behavior (`block` vs `drop-new`);
+- Rust/C++ memory ownership across an FFI boundary;
+- graceful shutdown and failure propagation;
+- deterministic accounting of accepted, dropped, processed and written work;
+- independent numerical validation;
+- reproducible performance experiments.
+
+---
+
+## Engineering highlights
+
+### Rust/C++ ownership
+
+Rust owns waveform storage, queues, threads, clocks, metrics and output files.
+
+C++ receives borrowed slices synchronously through CXX, retains no Rust pointers,
+creates no runtime threads and performs no heap allocation inside the numerical
+kernel.
+
+Both per-event and batched FFI modes use the same sample preparation path,
+allowing their behavior to be compared without changing the numerical contract.
+
+### Bounded concurrency
+
+Concurrent execution uses:
+
+```text
+1 producer
+W Rust workers
+1 main collector/writer
+bounded input queue
+bounded result queue
+```
+
+Workers process opportunistic batches up to the configured batch size.
+
+The runtime explicitly distinguishes:
+
+```text
+produced = accepted + dropped + not_admitted
+accepted = processed + failed + aborted
+processed = written + unwritten
+```
+
+These identities are checked rather than repaired after execution.
+
+### Numerical validation
+
+The C++20 kernel computes:
+
+```text
+baseline
+peak amplitude
+peak position
+signed integral
+```
+
+A separate NumPy implementation acts as an executable oracle.
+
+Release verification exercises both optimized Release builds and standalone
+ASan/UBSan builds against the independent oracle.
+
+### Failure semantics
+
+Helix explicitly handles and tests:
+
+- queue overload;
+- SIGINT;
+- numerical failure;
+- writer failure;
+- contained worker panic;
+- partial output;
+- invalid input/configuration.
+
+Output files are finalized only after successful writer closure. Interrupted or
+failed executions cannot silently masquerade as successful runs.
+
+---
+
+## Experimental results
+
+The H5 experiment campaign executed **744 validated runs**, including
+**124 warmups** and **620 measured repetitions**, across microbenchmark and
+end-to-end pipeline configurations.
+
+In the reference environment, using the batch FFI and block policy at the tested
+center configuration, median written throughput was approximately:
+
+| Workers | Median written throughput |
+|---:|---:|
+| 1 | ~368k events/s |
+| 2 | ~507k events/s |
+| 4 | ~509k events/s |
+
+Scaling from one to two workers produced a substantial throughput increase,
+while four workers showed a plateau in these tested configurations.
+
+Helix deliberately does **not** claim that this plateau identifies a causal
+bottleneck. Storage, scheduling, copying and other effects were not independently
+isolated.
+
+The overload experiment is similarly explicit about losses: high
+accepted-result throughput is never presented as lossless throughput when
+`drop-new` rejects events.
+
+See [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) for the full methodology,
+measurements and interpretation limits.
+
+---
+
+## Quick start
+
+Ubuntu 24.04 / WSL2 is the primary supported environment.
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+
+.venv/bin/python scripts/generate_data.py \
+  --out artifacts/example-corpus
+
+cargo run --release --locked -- run \
+  --corpus artifacts/example-corpus \
+  --out artifacts/example-run \
+  --events 100000 \
+  --execution concurrent \
+  --workers 2 \
+  --batch-size 16 \
+  --ffi batch \
+  --policy block
+```
+
+The run produces structured JSON metadata and validated Parquet output.
+
+For help:
+
+```bash
+cargo run --locked -- run --help
+```
+
+---
 
 ## Release verification
 
-Follow the complete [Ubuntu 24.04 setup](docs/DEVELOPMENT.md#reproduce-a-release-candidate)
-in a clean Linux checkout. It pins Rust 1.98.1, Python dependencies and the
-supported compiler/formatter versions. With the project venv installed:
+The complete H6 verification gate is:
 
 ```bash
 HELIX_PYTHON=.venv/bin/python scripts/verify.sh H6
 ```
 
-The default `scripts/verify.sh` runs the same H6 suite. It includes native and
-Rust tests, oracle/readback checks, mandatory standalone ASan/UBSan, failure
-regressions and the H5 smoke campaign. A nonzero exit means the gate failed.
-Independent AI review and human approval are separate from executable checks.
+The H6 suite covers:
 
-## Sequential replay (H2)
+- Rust unit and integration tests;
+- native C++ tests;
+- independent NumPy oracle validation;
+- optimized Release builds;
+- standalone ASan/UBSan builds;
+- Rustfmt and Clippy;
+- concurrency and accounting checks;
+- failure and interrupt scenarios;
+- experiment-runner regression tests;
+- release smoke campaign.
 
-In Ubuntu/WSL2 after the documented setup:
+A nonzero exit means the gate failed.
 
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python scripts/generate_data.py --out artifacts/example-corpus
-cargo run --locked -- run --corpus artifacts/example-corpus --out artifacts/example-run \
-  --events 4101 --execution sequential --workers 1 --batch-size 16 --ffi batch
-HELIX_PYTHON=.venv/bin/python scripts/verify.sh H2
-```
+See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the exact Ubuntu setup and
+reproduction procedure.
 
-The corpus and run directories must be new. The CLI defaults to 100000 events,
-sequential execution, workers=2, queue capacity=256, batch size=16, batch FFI and
-block policy. Baseline width defaults to the corpus manifest (32 for the default
-generator). `--ffi event` uses the same sample preparation and calls C++ once per
-event. Both modes return identical numerical features. `--baseline-samples K`
-overrides processing configuration after validation; it does not regenerate data.
+---
 
-Sequential execution creates no runtime threads or channels and has no queue
-drops. H3 adds `--execution concurrent --policy block`: one producer, bounded
-input queue, W Rust workers and the main collector/writer. H4 adds concurrent
-`--policy drop-new`: one attempt, rejecting only when the input queue is full.
-For a concurrent example, after generating the corpus above:
+## Sequential and concurrent replay
 
-```bash
-cargo run --locked -- run --corpus artifacts/example-corpus --out artifacts/example-concurrent \
-  --events 4101 --execution concurrent --workers 2 --batch-size 16 --ffi batch --policy block
-cargo run --locked -- run --help
-```
+Sequential execution uses the same source, processing and output components
+without runtime threads or channels.
 
-Worker count must be between one and the available
-processor count, even in sequential mode.
+Concurrent mode adds:
+
+- one producer;
+- a bounded input queue;
+- `W` Rust workers;
+- a bounded result queue;
+- one main collector/writer.
 
 Workers wait for one event and then try to collect up to the configured batch
-size without waiting to fill it. Batch sizes and output order depend on scheduling;
-compare parallel results by event ID. The result queue holds 256 individual
-outcomes and applies backpressure. Workers drain accepted work after admission
-stops, and all threads join before output finalization. The final summary contains
-`worker_metrics` in worker-index order; merged percentiles come from merging the
-bounded histograms, never averaging per-worker percentiles. In sequential mode
-`worker_metrics` is empty. Validate with `scripts/verify.sh H3` and the same Python
-environment used by H2. H4 acceptance uses `scripts/verify.sh H4`.
+size without waiting for the batch to fill completely. Actual batch sizes and
+parallel output order therefore depend on scheduling.
 
-SIGINT stops admission in both modes and drains accepted work. Its handler uses
-an atomic flag and no helper runtime thread, and is unregistered after the run.
-Worker panic requests fatal stop: emitted outcomes still reach the collector,
-unreported owned events and remaining queue entries become aborted. Production
-has no fault-injection flags; deterministic tests synchronize through hooks that
-are absent from production builds. A writer or processing failure takes priority
-over an interrupt in the final outcome.
+Use event IDs when comparing parallel results.
 
-Each run starts with `running.json`. A successfully closed and renamed output is
-`events.parquet`, or `events.partial.parquet` when numerical failures occurred.
-Only valid results appear in Parquet. A writer error stops new admission, drains
-accepted work (the current batch in sequential mode; queued/in-flight work in
-concurrent mode), and leaves `events.parquet.incomplete` untrusted.
-Buffered rows never count as written. A historical `running.json` remains; the
-final `summary.json` supersedes it. `summary.json.incomplete` is not a final summary.
-Final JSON is also emitted to stdout, including failures before output creation.
-Malformed CLI syntax is reported to stderr. Exit codes are 0 (completed),
-1 (failed), 64 (invalid configuration/input), 2
-(completed_with_drops) and 130 (interrupted). Code 2 describes completed replay
-with explicit event losses; its valid file is events.parquet. Interrupted runs
-use events.partial.parquet, including an interrupt observed during footer close.
-
-The version-1 summary flattens all counters and records effective configuration,
-corpus hash, output state, failure reason, at most 16 diagnostics, estimated data
-buffers, duration and processed/written throughput. Latency measures admission
-attempt to native result availability, excluding writing. The bounded HDR
-histogram uses three significant digits and covers 0..60000000000 ns; overflows
-are counted separately, and percentiles describe only recorded observations
-(null when empty). Parquet preserves raw successful-event latencies. Actual
-processing batch counts are indexed by size in `metrics.actual_batch_sizes`.
-
-Payloads are limited to 64 MiB, manifests to 64 KiB and runs to 1000000 events.
-Memory preflight conservatively includes twice the corpus, bounded sample
-buffers, 32 MiB for Parquet buffers/metadata and diagnostics, and 1 MiB per worker
-plus one merged histogram/report allowance. The
-256 MiB limit is an estimate of data buffers, not a process RSS ceiling. New Rust
-dependencies serve CLI parsing (clap), JSON (serde), integrity checking (sha2),
-Parquet serialization (parquet without Arrow/compression features), and bounded
-latency measurement (hdrhistogram). H3 adds crossbeam-channel for bounded queues;
-H4 adds signal-hook for an atomic SIGINT notification without a signal thread;
-tempfile is test-only.
-
-## Reproducible experiments (H5)
-
-The H5 campaign is closed as TECH_PASS. H6 reuses its preserved evidence and
-does not require another measurement campaign. The following commands are the
-manual reproduction protocol, not normal PR/release verification.
-
-Run the correctness gate with `HELIX_PYTHON=.venv/bin/python scripts/verify.sh H5`.
-It includes a small Release smoke campaign; smoke is explicitly not performance
-evidence. For measurements, use a clean committed checkout on the Linux filesystem:
+Example:
 
 ```bash
-.venv/bin/python scripts/experiment.py --out artifacts/h5-campaign
-.venv/bin/python scripts/experiment_analysis.py artifacts/h5-campaign
+cargo run --locked -- run \
+  --corpus artifacts/example-corpus \
+  --out artifacts/example-concurrent \
+  --events 4101 \
+  --execution concurrent \
+  --workers 2 \
+  --batch-size 16 \
+  --ffi batch \
+  --policy block
 ```
 
-The full campaign performs 744 runs: 96 microbenchmark and 28 pipeline
-configurations, each with one warmup and five measured repetitions. It builds
-both executables, validates numerical output, preserves raw Parquet/JSON and
-checks the 4 GiB artifact budget. No performance threshold is imposed.
-See [protocol and interpretation limits](docs/EXPERIMENTS.md).
+---
+
+## Backpressure and overload
+
+Helix supports two input admission policies.
+
+### `block`
+
+The producer waits for queue capacity while periodically observing stop
+requests.
+
+This mode applies backpressure and does not intentionally drop events.
+
+### `drop-new`
+
+The producer attempts admission once.
+
+If the input queue is full, the event is rejected and counted as dropped.
+
+Only the input queue drops events. The result queue instead applies
+backpressure to workers.
+
+---
+
+## Shutdown and output integrity
+
+SIGINT stops new admission and drains already accepted work.
+
+Worker panic requests a fatal stop while preserving accounting for:
+
+- already delivered outcomes;
+- in-flight owned work;
+- queued accepted work.
+
+Writer failure stops new admission while the collector continues draining worker
+results so blocked worker sends cannot deadlock shutdown.
+
+Each run starts with:
+
+```text
+running.json
+```
+
+Successful output becomes:
+
+```text
+events.parquet
+summary.json
+```
+
+Interrupted or valid partial runs may produce:
+
+```text
+events.partial.parquet
+```
+
+Writer failure may leave:
+
+```text
+events.parquet.incomplete
+```
+
+Incomplete artifacts are not considered valid finalized output.
+
+---
+
+## Exit codes
+
+| Code | Meaning |
+|---:|---|
+| `0` | completed |
+| `1` | failed |
+| `2` | completed with explicit drops |
+| `64` | invalid configuration/input |
+| `130` | interrupted |
+
+Code `2` describes a completed replay with explicit event loss and must not be
+interpreted as lossless success.
+
+---
+
+## Measurements and metrics
+
+The versioned summary records:
+
+- effective runtime configuration;
+- corpus hash;
+- final output state;
+- failure reason;
+- bounded diagnostic examples;
+- data-buffer estimate;
+- duration;
+- processed throughput;
+- written throughput;
+- worker metrics;
+- actual batch-size distribution;
+- latency histograms.
+
+Latency measures the interval from admission attempt to native result
+availability.
+
+It includes queueing and processing preparation, but excludes output writing.
+
+Raw successful-event latency is also preserved in Parquet.
+
+---
+
+## Reproducible experiments
+
+H5 is the measured performance milestone.
+
+The full campaign performs:
+
+- **744 validated runs**;
+- **96 microbenchmark configurations**;
+- **28 pipeline configurations**;
+- one warmup and five measured repetitions per configuration.
+
+The standard performance workflow is:
+
+```bash
+.venv/bin/python scripts/experiment.py \
+  --out artifacts/h5-campaign
+
+.venv/bin/python scripts/experiment_analysis.py \
+  artifacts/h5-campaign
+```
+
+The normal H6 release gate does **not** rerun the full H5 measurement campaign.
+
+Its smoke campaign is correctness/release evidence, not new performance evidence.
+
+---
+
+## Project scope
+
+Helix is an **academic experimental system**, not a production DAQ system,
+physical detector simulation or hard-real-time platform.
+
+It intentionally focuses on:
+
+- concurrent event processing;
+- bounded queues and backpressure;
+- Rust/C++ interoperability;
+- numerical correctness;
+- output integrity;
+- failure semantics;
+- reproducible measurement.
+
+The current scope excludes:
+
+- acquisition hardware;
+- networking;
+- ROOT integration;
+- GPU processing;
+- distributed execution;
+- hard-real-time guarantees;
+- hostile same-user file replacement;
+- SIGKILL/OOM recovery;
+- native fatal-fault recovery;
+- stuck-I/O recovery;
+- crash recovery;
+- power-loss durability.
+
+The measured results characterize the tested environment and experimental design.
+They do not establish universal scaling laws or prove a causal bottleneck.
+
+---
+
+## Technical documentation
+
+| Document | Purpose |
+|---|---|
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Architecture and frozen contracts |
+| [`docs/H6_STUDY.md`](docs/H6_STUDY.md) | Detailed technical study |
+| [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) | Experiment protocol, results and limitations |
+| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Build and reproduction environment |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Project milestones |
+| [`docs/STUDY_GUIDE.pt-BR.md`](docs/STUDY_GUIDE.pt-BR.md) | Portuguese human-learning guide |
+| [`docs/reviews/H6.md`](docs/reviews/H6.md) | H6 review and adjudication |
+| [`docs/reviews/H6_PACKET.md`](docs/reviews/H6_PACKET.md) | H6 work packet |
+| [`docs/reviews/H6_HUMAN_PACKET.md`](docs/reviews/H6_HUMAN_PACKET.md) | Human-review packet |
+
+---
+
+## Verification status
+
+**G0 PASS · H0–H6 TECH_PASS**
+
+H6 release candidate:
+
+```text
+3d11ab82d2276897d70d1a0faa3413f3fb88f9fc
+```
+
+The technical verdict establishes the verified state of the candidate under the
+documented environment and scope.
+
+It does **not** independently imply:
+
+- production readiness;
+- hard-real-time behavior;
+- general performance guarantees;
+- human-learning completion;
+- release approval.
+
+---
+
+## Environment
+
+Primary development and verification environment:
+
+- Ubuntu 24.04 LTS under WSL2;
+- Rust 1.98.1;
+- C++20;
+- GCC / Clang;
+- CMake;
+- Python 3.12;
+- NumPy;
+- PyArrow.
+
+Source, builds and measured artifacts are intended to live on the Linux
+filesystem. Windows is used as an editing/interface environment rather than as a
+native supported runtime target.
+
+---
+
+## Motivation
+
+Helix was built as an academic portfolio project in **systems engineering and
+scientific computing**.
+
+The goal is not to imitate a production detector pipeline, but to study and make
+visible the engineering problems that appear around scientific data processing:
+
+- ownership across language boundaries;
+- bounded memory;
+- concurrency;
+- overload;
+- numerical reproducibility;
+- failure handling;
+- output finalization;
+- experimental methodology.
+
+The repository emphasizes evidence and explicit limitations rather than hiding
+system behavior behind a single throughput number.
