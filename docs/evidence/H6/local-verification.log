@@ -1,0 +1,134 @@
+Fri Sep 11 06:24:49 UTC 2026
+efed5d040f04c886d436e2b7fcd424930f597d49
+Release tooling PASS: two successful groups and seven individual reviewer failures; no external CLI called
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (5.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-baseline-20260911/build/verify-IyjSwn/native
+[ 16%] Building CXX object CMakeFiles/helix_kernel.dir/src/kernel.cpp.o
+[ 33%] Linking CXX static library libhelix_kernel.a
+[ 33%] Built target helix_kernel
+[ 66%] Building CXX object CMakeFiles/kernel_driver.dir/tools/kernel_driver.cpp.o
+[ 66%] Building CXX object CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+[ 83%] Linking CXX executable kernel_tests
+[100%] Linking CXX executable kernel_driver
+[100%] Built target kernel_tests
+[100%] Built target kernel_driver
+Internal ctest changing into directory: /root/helix-h6-baseline-20260911/build/verify-IyjSwn/native
+Test project /root/helix-h6-baseline-20260911/build/verify-IyjSwn/native
+    Start 1: kernel_contract
+1/1 Test #1: kernel_contract ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+{"schema_version": 1, "file": "signals.f64le", "rows": 256, "samples": 256, "baseline_samples": 32, "dtype": "float64-le", "seed": 20260909, "sha256": "2b410ac8c6763b8b3bee2b1d67bacfc587c732e03d6a67412cbb5709534a8858", "generator": "PCG64", "python_version": "3.12.3", "numpy_version": "2.5.3", "signal": {"baseline_range": [-10, 10], "amplitude_range": [10, 100], "noise_sigma": 0.2, "pulse_width": 8.0, "pulse_zero_before": 32, "analytical_rows": 2}}
+{"status": "PASS", "independent_cases": 533, "atol": 1e-10, "rtol": 1e-10}
+-- The CXX compiler identification is Clang 18.1.3
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/clang++-18 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (20.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-baseline-20260911/build/verify-IyjSwn/sanitized
+[ 16%] Building CXX object CMakeFiles/helix_kernel.dir/src/kernel.cpp.o
+[ 33%] Linking CXX static library libhelix_kernel.a
+[ 33%] Built target helix_kernel
+[ 66%] Building CXX object CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+[ 66%] Building CXX object CMakeFiles/kernel_driver.dir/tools/kernel_driver.cpp.o
+[ 83%] Linking CXX executable kernel_driver
+[100%] Linking CXX executable kernel_tests
+[100%] Built target kernel_driver
+[100%] Built target kernel_tests
+Internal ctest changing into directory: /root/helix-h6-baseline-20260911/build/verify-IyjSwn/sanitized
+Test project /root/helix-h6-baseline-20260911/build/verify-IyjSwn/sanitized
+    Start 1: kernel_contract
+1/1 Test #1: kernel_contract ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+{"status": "PASS", "independent_cases": 533, "atol": 1e-10, "rtol": 1e-10}
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.12s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running unittests src/lib.rs (target/debug/deps/helix-dbf3e36307a75e7f)
+
+running 17 tests
+test config::tests::memory_preflight_includes_worker_histograms_and_checked_arithmetic ... ok
+test control::tests::dropping_registration_removes_its_callback ... ok
+test output::tests::output_open_failure_preserves_existing_file ... ok
+test metrics::tests::empty_and_overflow_have_explicit_coverage ... ok
+test processing::tests::latency_uses_admission_clock_and_batch_results_share_completion ... ok
+test metrics::tests::merging_preserves_counts_overflow_and_actual_batches ... ok
+test output::tests::rename_failure_preserves_incomplete_state ... ok
+test output::tests::real_parquet_writer_propagates_group_and_footer_errors ... ok
+test runtime::tests::interrupt_during_footer_finalization_keeps_valid_partial_output ... ok
+test runtime::tests::write_failure_drains_admitted_batch_without_fabricating_attempts ... ok
+test runtime::tests::summary_failure_keeps_valid_rows_and_marks_output_partial ... ok
+test runtime::tests::footer_failure_never_counts_buffered_rows_as_written ... ok
+test concurrent::tests::drop_new_full_queue_attempts_once_and_partitions_ids ... ok
+test concurrent::tests::slow_collector_pending_admission_interrupt_and_writer_error_drain ... ok
+test concurrent::tests::fatal_stop_reaches_other_workers_without_losing_ids ... ok
+test concurrent::tests::worker_panic_preserves_delivered_results_and_aborts_owned_and_queued_ids ... ok
+test runtime::tests::writer_delay_is_in_duration_but_not_successful_event_latency ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running unittests src/main.rs (target/debug/deps/helix-c814b32029a1d3dc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/numerical.rs (target/debug/deps/numerical-c480fd555639e2dd)
+
+running 7 tests
+test batch_nonfinite_result_is_isolated_and_matches_event ... ok
+test empty_partial_single_and_maximum_batches ... ok
+test invalid_events_are_isolated ... ok
+test structural_errors_preserve_every_output_field ... ok
+test fixture_matches_independent_numpy_reference_and_batch ... ok
+test concurrent_process_event_calls_are_deterministic_and_isolated ... ok
+test concurrent_calls_have_disjoint_lifetimes_and_no_shared_state ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests helix
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+{"status": "PASS", "pipeline_cases": 42, "readback_events_per_ffi_mode": 4101, "artifact_directory": "/root/helix-h6-baseline-20260911/artifacts/h2-qzwzlbfw", "atol": 1e-10, "rtol": 1e-10}
+{"status": "PASS", "concurrent_cases": 12, "case_count": 24, "artifact_directory": "/root/helix-h6-baseline-20260911/artifacts/h3-rhookawv", "worker_counts": [1, 2, 4], "atol": 1e-10, "rtol": 1e-10}
+{"status": "PASS", "failure_cases": 7, "artifact_directory": "/root/helix-h6-baseline-20260911/artifacts/h4-7o8oqy3y", "atol": 1e-10, "rtol": 1e-10}
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.241s
+
+OK
+run-0000/200 validated (warmup)
+run-0025/200 validated (warmup)
+run-0050/200 validated (warmup)
+run-0075/200 validated (warmup)
+run-0100/200 validated (measured)
+run-0125/200 validated (measured)
+run-0150/200 validated (measured)
+run-0175/200 validated (measured)
+{"status": "completed", "smoke": true, "runs": 200, "artifacts": "/root/helix-h6-baseline-20260911/artifacts/h5-smoke-MpSDWj/campaign"}
+H6 automated checks PASS; independent review and human approval remain separate
+BUILD_TESTING:BOOL=ON
+CMAKE_BUILD_TYPE:STRING=Debug
+HELIX_SANITIZERS:BOOL=ON
+BUILD_TESTING:BOOL=ON
+CMAKE_BUILD_TYPE:STRING=Release
+HELIX_SANITIZERS:BOOL=OFF
+Fri Sep 11 06:27:43 UTC 2026
