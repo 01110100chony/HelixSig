@@ -1,19 +1,38 @@
 name: Helix verification
 on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
 jobs:
   native-verification:
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: sudo apt-get update && sudo apt-get install -y cmake clang clang-format libclang-rt-18-dev time
-      - run: pip install -r requirements.txt
-      - run: bash scripts/verify.sh H5
+      - name: System dependencies (same list as docs/DEVELOPMENT.md)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake clang-18 clang-format-18 libclang-rt-18-dev python3-venv python3-pip git time util-linux procps curl ca-certificates
+      - name: Pinned Rust toolchain
+        run: |
+          toolchain="$(python3 -c 'import tomllib; print(tomllib.load(open("rust-toolchain.toml", "rb"))["toolchain"]["channel"])')"
+          rustup toolchain install "$toolchain" --profile minimal --component rustfmt --component clippy
+          rustup show active-toolchain
+      - name: Pinned Python environment
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -r requirements.txt
+      - name: Release verification (includes standalone sanitizers and smoke)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          HELIX_PYTHON=.venv/bin/python scripts/verify.sh H6 2>&1 | tee artifacts/verification.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: native-verification
+          name: h6-verification-${{ github.sha }}
           path: artifacts/
           retention-days: 30
