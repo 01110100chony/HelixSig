@@ -61,3 +61,27 @@ Este roteiro não registra aprovação de aprendizado; a demonstração é do us
    adicional, sem afirmar que ele já foi executado. Não calcular média de p99.
 
 Os dados e as revisões de IA não registram aprovação deste aprendizado.
+
+## Roteiro de demonstração H6 (pendente)
+
+1. Obter o SHA exato no pacote de revisão humana. Criar outro clone no filesystem
+   Linux, conferir `git rev-parse HEAD` e seguir a instalação em
+   `docs/DEVELOPMENT.md`. Explicar o papel de rust-toolchain.toml, Cargo.lock,
+   requirements.txt e fixtures/small; nenhum build anterior deve ser necessário.
+2. Executar `HELIX_PYTHON=.venv/bin/python scripts/verify.sh H6`. Mostrar no log
+   CTest, oráculo, ASan/UBSan, testes Rust, readback H2/H3/H4 e smoke H5. Explicar
+   por que smoke, revisão de IA e aprovação humana são evidências diferentes.
+3. Executar os exemplos sequencial e concorrente do README em diretórios novos.
+   Seguir um evento do corpus ao arquivo, desenhando quem possui cada buffer,
+   quais cópias ocorrem e quando o empréstimo síncrono ao C++ termina.
+4. Reconstruir as três identidades de contagem e distinguir saída completa com
+   perdas, saída parcial válida e arquivo incompleto sem validade. Explicar a
+   ordem coletar, juntar threads e finalizar, inclusive com erro de escrita.
+5. Usar docs/H6_STUDY.md para defender uma observação do H5 e uma hipótese não
+   comprovada. Distinguir candidato medido 1d8724c, fechamento 6ba29f9 e candidato
+   H6. Localizar o hash do arquivo bruto e explicar por que ele não vem no clone.
+6. Associar cada afirmação que pretende apresentar a código, teste ou evidência
+   concreta. Listar limitações reais e decidir pessoalmente se aprova o estudo,
+   a integração e uma futura tag. Não registrar uma aprovação que ainda não deu.
+
+Todos estes passos permanecem PENDENTES DE DEMONSTRAÇÃO PELO USUÁRIO.

@@ -9,7 +9,7 @@
 | H3 | Bounded runtime | TECH_PASS | Candidate 1f5aa05; 18 Rust tests, 42 H2 cases, 24 concurrent/reference runs, external AI review |
 | H4 | Overload and failures | TECH_PASS | Candidate 4211e93; full H4 gate and external AI concurrency review |
 | H5 | Reproducible experiments | TECH_PASS | Candidate 1d8724c; 744 runs (620 measured), 96 micro + 28 pipeline configs, 4 AI reviews, docs audit PASS |
-| H6 | Release candidate and study | NOT_STARTED | Clean checkout, CI, docs, prior reviews, human approval |
+| H6 | Release candidate and study | IN_PROGRESS | Clean checkout, CI, docs/study, AI reviews, final exact-commit gate; human approval separate |
 
 Each gate has its detailed packet and independent review in reviews/Hn.md.
 

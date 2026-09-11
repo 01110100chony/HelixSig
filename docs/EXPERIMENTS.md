@@ -2,6 +2,8 @@
 
 Status: full H5 campaign measured and validated on 2026-09-10 at clean candidate
 `1d8724c9521e7d88a43e6f751c4681e1fbbf75c6`.
+H5 technical closeout is `6ba29f9`; this documentation/evidence commit is distinct
+from the measured candidate. H6 preserves these measurements without a rerun.
 
 ## Questions
 
@@ -74,6 +76,13 @@ back and verified against the index. Rebuild-only intermediate objects remain in
 the original Linux directory; source and locked dependencies are identified by
 the candidate commit. Publication and the H6 clean-checkout release gate remain
 separate. Optional extra N=4096 pipeline runs and plot polish were not performed.
+
+The raw archive is intentionally ignored and is not included in a clean Git
+clone. The committed index/metadata support traceability; they do not substitute
+for raw data. Obtain the retained archive from the project owner for a full raw
+audit and compare SHA-256 with raw-index.json. No public download or publication
+is claimed. A future approved release should attach that archive and its index;
+do not remove preserved evidence or rewrite H5 history to reduce repository size.
 
 ## Executable protocol
 
