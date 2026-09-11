@@ -44,3 +44,20 @@ Este roteiro não registra aprovação de aprendizado; a demonstração é do us
 5. Explicar o teste de panic depois de um resultado enviado: esse ID já pertence
    ao coletor e não pode ser contado novamente como aborted. Os testes usam
    pontos de sincronização que não existem no executável de produção.
+
+## Roteiro de demonstração H5 (pendente)
+
+1. Localizar o commit, os hashes do corpus e o estado limpo em
+   `docs/evidence/H5/campaign.json`. Distinguir as 124 rodadas de aquecimento das
+   620 medições e explicar por que o smoke não comprova desempenho.
+2. Comparar W=1,2,4 no centro com política block e FFI batch. Usar medianas e
+   dispersão; explicar por que o resultado não demonstra escala linear.
+3. Explicar a perda mediana de 89,246% no centro com drop-new. Defender por que
+   throughput de resultados escritos não pode ocultar eventos descartados.
+4. Mostrar onde começa e termina o microbenchmark, quais cópias são medidas e
+   como todos os resultados são validados depois. Explicar por que subtrair o
+   tempo do executável nativo não fornece o custo exato da FFI.
+5. Defender uma conclusão limitada a esta campanha e propor um experimento
+   adicional, sem afirmar que ele já foi executado. Não calcular média de p99.
+
+Os dados e as revisões de IA não registram aprovação deste aprendizado.

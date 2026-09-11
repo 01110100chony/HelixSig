@@ -1,6 +1,7 @@
 # Preregistered experiment protocol
 
-Status: H5 tooling implemented; campaign validation and measurement pending.
+Status: full H5 campaign measured and validated on 2026-09-10 at clean candidate
+`1d8724c9521e7d88a43e6f751c4681e1fbbf75c6`.
 
 ## Questions
 
@@ -36,8 +37,42 @@ does not include output. Do not infer interactions not covered by this design.
 
 ## Results
 
-NOT_RUN. Raw files, numerical conclusions and performance claims must only be
-added after H4 passes and a clean candidate has been measured.
+The complete campaign ran on a Ryzen 5 3400G under Ubuntu 24.04 / WSL2,
+Linux 6.18.33.2, with 8 logical CPUs, approximately 7.7 GiB RAM and 2 GiB swap.
+Those effective limits remained stable; no swap-out activity was observed.
+These are the actual resources, not the earlier planned four-CPU allocation.
+All 744 runs validated: 124 warmups and 620 measurements. There were 660 exit-0
+runs and 84 exit-2 runs, with losses retained. No runs were selectively discarded.
+Campaign artifacts occupied 830648366 bytes (about 0.77 GiB), below 4 GiB.
+
+For the central N=256, Q=256, B=16, batch-FFI, block-policy case, median written
+throughput with W=1,2,4 was respectively 368418, 507085 and 509060 events/s.
+The W=2 and W=4 medians were close relative to their between-run spread; this
+single-axis observation does not establish a general scaling law. At the W=2
+center, drop-new had median loss fraction 0.89246 and median written throughput
+402177 events/s. That outcome must not be presented as lossless throughput.
+
+At N=256/B=16 with prepared buffers, Rust event/batch medians were 423.4/414.1
+ns per event, with overlapping interquartile intervals [421.6,435.5] and
+[409.9,448.2]. Native event/batch medians were 437.6/405.4 ns. The instrumentation
+and different executables prevent interpreting these differences as exact FFI
+overhead or a universal batching speedup. No optimization was made from these data.
+
+The [full analysis](evidence/H5/analysis.md) and [machine-readable results](evidence/H5/analysis.json)
+preserve every configuration and its dispersion. [Provenance](evidence/H5/campaign.json),
+[verification](evidence/H5/verification.log), [aggregate counts](evidence/H5/summary.json)
+and the [raw-file/archive SHA-256 index](evidence/H5/raw-index.json) are retained.
+Peak child-process RSS was 35120 KiB; no successful-event histogram overflow or
+latency population below 1000 occurred in this campaign. These observations do
+not bound future latency or RSS.
+
+Full original artifacts: `/root/helix-h5-a346652/artifacts/h5-campaign` in WSL.
+Portable raw data, logs and measured executables: `artifacts/h5-1d8724c-raw.tar.gz`
+in the Windows editing checkout (106993609 bytes). Every archived file was read
+back and verified against the index. Rebuild-only intermediate objects remain in
+the original Linux directory; source and locked dependencies are identified by
+the candidate commit. Publication and the H6 clean-checkout release gate remain
+separate. Optional extra N=4096 pipeline runs and plot polish were not performed.
 
 ## Executable protocol
 

@@ -11,6 +11,9 @@ Use them proactively for bounded, low-risk or independently reviewable tasks whe
 
 Do not give priority to use native Codex subagents by default because external Copilot/Antigravity workers are preferred for cost efficiency. Only use Codex subagents(on cheaper models, 5.6 with at most medium reasoning) when really needed and there would be trade-offs on choosing weaker external models.
 
+models for agy: claude-opus-4-6-thinking ( use it to delegate for more intense tasks that require higher reasoning)
+gemini-3.8-flash-high (for general cases. also, it has higher limits, so use it when opus-4-6 isnt available.)
+
 ### Available external workers
 
 #### Copilot project agents
@@ -39,15 +42,6 @@ Available agents:
 Spawn a Copilot worker with:
 
 `scripts/agents/copilot-agent.sh <agent-name> "<bounded task>"`
-
-The wrapper invokes Copilot with `--allow-all-tools`. Read-only is the default
-and is enforced by a non-negotiable guardrail prepended to the task prompt. For
-an explicitly authorized mutating task, set `COPILOT_READ_ONLY=0` and provide
-the semicolon-separated absolute allowlist in `COPILOT_WRITE_FILES`. The broad
-CLI permission flag is never itself authorization to write outside that list.
-When invoked from WSL with only the Windows Copilot/Node installation available,
-the wrapper automatically uses the adjacent `copilot.ps1` through PowerShell
-interop instead of the Unix npm shim that would require a Linux `node` binary.
 
 Examples:
 
@@ -79,12 +73,6 @@ Spawn with:
 
 `scripts/agents/agy-agent.sh <profile> "<bounded task>"`
 
-The wrapper resolves either `agy` or the Windows `agy.exe` exposed through WSL,
-then invokes it with `--dangerously-skip-permissions`. Read-only is the default
-and is enforced by the injected guardrail. An explicitly authorized mutating
-task requires `AGY_READ_ONLY=0` and a semicolon-separated absolute allowlist in
-`AGY_WRITE_FILES`.
-
 Examples:
 
 `scripts/agents/agy-agent.sh architecture-critic "Critique the proposed H3 concurrency architecture against the frozen contracts."`
@@ -93,8 +81,9 @@ Examples:
 
 `scripts/agents/agy-agent.sh independent-reviewer "Perform an independent closeout review of H4. Read only."`
 
-The default is `gemini-3.8-flash-high` with high effort. Override it only when
-needed by setting `AGY_MODEL` and/or `AGY_EFFORT`.
+If `AGY_MODEL` and `AGY_EFFORT` are unset, allow Antigravity to use its configured/default routing.
+
+Do not hardcode external model names in project instructions.
 
 ### Parallel review helpers
 
