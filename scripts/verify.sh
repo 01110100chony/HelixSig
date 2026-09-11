@@ -10,19 +10,23 @@ if [[ "$gate" == "H6" ]]; then
 fi
 case "$gate" in H0|H1|H2|H3|H4|H5) ;; *) echo "Gate $gate is not implemented" >&2; exit 1;; esac
 python_bin="${HELIX_PYTHON:-python3}"
-cmake -S cpp -B build/native -DCMAKE_CXX_COMPILER="${CXX:-g++}" -DCMAKE_BUILD_TYPE=Release \
+mkdir -p build
+# CMake can discard command-line options when an old cache changes compiler.
+# Separate fresh native trees make profile selection independent of prior runs.
+build_root="$(mktemp -d build/verify-XXXXXX)"
+cmake -S cpp -B "$build_root/native" -DCMAKE_CXX_COMPILER="${CXX:-g++}" -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=ON -DHELIX_SANITIZERS=OFF -DHELIX_BENCHMARKS=OFF
-cmake --build build/native -j 2
-ctest --test-dir build/native --output-on-failure --no-tests=error
+cmake --build "$build_root/native" -j 2
+ctest --test-dir "$build_root/native" --output-on-failure --no-tests=error
 mkdir -p artifacts
 corpus="$(mktemp -d artifacts/verify-XXXXXX)/corpus"
 "$python_bin" scripts/generate_data.py --out "$corpus"
-"$python_bin" scripts/validate.py --native build/native/kernel_driver --corpus "$corpus"
-cmake -S cpp -B build/sanitized -DCMAKE_CXX_COMPILER=clang++-18 -DCMAKE_BUILD_TYPE=Debug \
+"$python_bin" scripts/validate.py --native "$build_root/native/kernel_driver" --corpus "$corpus"
+cmake -S cpp -B "$build_root/sanitized" -DCMAKE_CXX_COMPILER=clang++-18 -DCMAKE_BUILD_TYPE=Debug \
   -DBUILD_TESTING=ON -DHELIX_SANITIZERS=ON -DHELIX_BENCHMARKS=OFF
-cmake --build build/sanitized -j 2
-ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ctest --test-dir build/sanitized --output-on-failure --no-tests=error
-ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 "$python_bin" scripts/validate.py --native build/sanitized/kernel_driver --corpus "$corpus"
+cmake --build "$build_root/sanitized" -j 2
+ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ctest --test-dir "$build_root/sanitized" --output-on-failure --no-tests=error
+ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 "$python_bin" scripts/validate.py --native "$build_root/sanitized/kernel_driver" --corpus "$corpus"
 find cpp -type f \( -name '*.cpp' -o -name '*.hpp' \) -print0 | xargs -0 clang-format-18 --dry-run --Werror
 if [[ "$gate" != "H0" ]]; then
   cargo fmt --check

@@ -110,8 +110,9 @@ No external AI CLI or credentials are needed by verify.sh or CI.
 
 The script stops nonzero at the first correctness failure. The `pipefail` above
 also preserves failure through tee. CMake test/sanitizer options are explicitly
-set on each invocation and an empty CTest selection fails. Routine reruns may
-reuse local build caches; release acceptance specifically requires a fresh
+set on each invocation and an empty CTest selection fails. Native builds use
+new directories under build/verify-* each time, avoiding CMake cache option loss
+when the compiler changes. Routine reruns may reuse the Cargo cache; release acceptance specifically requires a fresh
 clone and venv at the proposed SHA. Do not substitute a cached local gate for it.
 Use the pinned environment with no custom Cargo/CMake target/profile overrides.
 
