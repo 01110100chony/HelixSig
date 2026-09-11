@@ -1,0 +1,488 @@
+Fri Sep 11 06:32:44 UTC 2026
+Cloning into '/root/helix-h6-final-7915688502af'...
+HEAD is now at 7915688 h6: preserve local gate evidence for frozen AI review
+CLEAN START: no build, target, artifacts or venv; tracked/untracked tree clean
+Linux welcome-to-the-wired 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+PRETTY_NAME="Ubuntu 24.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+build-essential is already the newest version (12.10ubuntu1).
+cmake is already the newest version (3.28.3-1build7).
+clang-18 is already the newest version (1:18.1.3-1ubuntu1).
+clang-format-18 is already the newest version (1:18.1.3-1ubuntu1).
+libclang-rt-18-dev is already the newest version (1:18.1.3-1ubuntu1).
+python3-venv is already the newest version (3.12.3-0ubuntu2.1).
+python3-pip is already the newest version (24.0+dfsg-1ubuntu1.3).
+git is already the newest version (1:2.43.0-1ubuntu7.3).
+time is already the newest version (1.9-0.2build1).
+util-linux is already the newest version (2.39.3-9ubuntu6.6).
+procps is already the newest version (2:4.0.4-4ubuntu3.3).
+procps set to manually installed.
+curl is already the newest version (8.5.0-2ubuntu10.13).
+ca-certificates is already the newest version (20260601~24.04.1).
+The following packages were automatically installed and are no longer required:
+  libgit2-1.7 libhttp-parser2.9 libllvm17t64 libssh2-1t64 libstd-rust-1.75
+  libstd-rust-dev
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 125 not upgraded.
+info: syncing channel updates for '1.98.1-x86_64-unknown-linux-gnu'
+info: latest update on 2026-09-03, rust version 1.98.1 (48a229cea 2026-09-01)
+info: component 'clippy' for target 'x86_64-unknown-linux-gnu' is up to date
+info: component 'rustfmt' for target 'x86_64-unknown-linux-gnu' is up to date
+
+  1.98.1-x86_64-unknown-linux-gnu unchanged - rustc 1.98.1 (48a229cea 2026-09-01)
+
+info: checking for self-update
+info: downloading self-update
+1.98.1-x86_64-unknown-linux-gnu (overridden by '/root/helix-h6-final-7915688502af/rust-toolchain.toml')
+rustc 1.98.1 (48a229cea 2026-09-01)
+binary: rustc
+commit-hash: 48a229ceaefd4985c50990b14116b6d856af0985
+commit-date: 2026-09-01
+host: x86_64-unknown-linux-gnu
+release: 1.98.1
+LLVM version: 22.1.8
+cargo 1.98.1 (797e8a9bc 2026-08-05)
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Ubuntu clang version 18.1.3 (1ubuntu1)
+Target: x86_64-pc-linux-gnu
+Thread model: posix
+InstalledDir: /usr/bin
+Ubuntu clang-format version 18.1.3 (1ubuntu1)
+cmake version 3.28.3
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Python 3.12.3
+8
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdd        251G   12G  228G   5% /
+Collecting numpy==2.5.3 (from -r requirements.txt (line 1))
+  Downloading numpy-2.5.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+Collecting pyarrow==25.0.1 (from -r requirements.txt (line 2))
+  Downloading pyarrow-25.0.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+Downloading numpy-2.5.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 11.6 MB/s eta 0:00:00
+Downloading pyarrow-25.0.1-cp312-cp312-manylinux_2_28_x86_64.whl (50.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.1/50.1 MB 11.6 MB/s eta 0:00:00
+Installing collected packages: pyarrow, numpy
+Successfully installed numpy-2.5.3 pyarrow-25.0.1
+numpy==2.5.3
+pyarrow==25.0.1
+FRESH CARGO_HOME=/root/helix-h6-final-7915688502af/artifacts/cargo-home; pip cache disabled for this setup
+Release tooling PASS: two successful groups and seven individual reviewer failures; no external CLI called
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (4.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-final-7915688502af/build/verify-RVwKNa/native
+[ 16%] Building CXX object CMakeFiles/helix_kernel.dir/src/kernel.cpp.o
+[ 33%] Linking CXX static library libhelix_kernel.a
+[ 33%] Built target helix_kernel
+[ 66%] Building CXX object CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+[ 66%] Building CXX object CMakeFiles/kernel_driver.dir/tools/kernel_driver.cpp.o
+[ 83%] Linking CXX executable kernel_driver
+[100%] Linking CXX executable kernel_tests
+[100%] Built target kernel_driver
+[100%] Built target kernel_tests
+Internal ctest changing into directory: /root/helix-h6-final-7915688502af/build/verify-RVwKNa/native
+Test project /root/helix-h6-final-7915688502af/build/verify-RVwKNa/native
+    Start 1: kernel_contract
+1/1 Test #1: kernel_contract ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+{"schema_version": 1, "file": "signals.f64le", "rows": 256, "samples": 256, "baseline_samples": 32, "dtype": "float64-le", "seed": 20260909, "sha256": "2b410ac8c6763b8b3bee2b1d67bacfc587c732e03d6a67412cbb5709534a8858", "generator": "PCG64", "python_version": "3.12.3", "numpy_version": "2.5.3", "signal": {"baseline_range": [-10, 10], "amplitude_range": [10, 100], "noise_sigma": 0.2, "pulse_width": 8.0, "pulse_zero_before": 32, "analytical_rows": 2}}
+{"status": "PASS", "independent_cases": 533, "atol": 1e-10, "rtol": 1e-10}
+-- The CXX compiler identification is Clang 18.1.3
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/clang++-18 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (18.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-final-7915688502af/build/verify-RVwKNa/sanitized
+[ 16%] Building CXX object CMakeFiles/helix_kernel.dir/src/kernel.cpp.o
+[ 33%] Linking CXX static library libhelix_kernel.a
+[ 33%] Built target helix_kernel
+[ 50%] Building CXX object CMakeFiles/kernel_driver.dir/tools/kernel_driver.cpp.o
+[ 66%] Building CXX object CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+[ 83%] Linking CXX executable kernel_driver
+[100%] Linking CXX executable kernel_tests
+[100%] Built target kernel_driver
+[100%] Built target kernel_tests
+Internal ctest changing into directory: /root/helix-h6-final-7915688502af/build/verify-RVwKNa/sanitized
+Test project /root/helix-h6-final-7915688502af/build/verify-RVwKNa/sanitized
+    Start 1: kernel_contract
+1/1 Test #1: kernel_contract ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
+{"status": "PASS", "independent_cases": 533, "atol": 1e-10, "rtol": 1e-10}
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded anstream v1.0.0
+  Downloaded block-buffer v0.10.4
+  Downloaded anstyle-query v1.1.5
+  Downloaded clap_lex v1.1.0
+  Downloaded generic-array v0.14.7
+  Downloaded crunchy v0.2.4
+  Downloaded cfg-if v1.0.4
+  Downloaded crypto-common v0.1.7
+  Downloaded is_terminal_polyfill v1.70.2
+  Downloaded link-cplusplus v1.0.12
+  Downloaded integer-encoding v3.0.4
+  Downloaded strsim v0.11.1
+  Downloaded anstyle v1.0.14
+  Downloaded byteorder v1.5.0
+  Downloaded cmake v0.1.58
+  Downloaded errno v0.3.14
+  Downloaded version_check v0.9.5
+  Downloaded cpufeatures v0.2.17
+  Downloaded scratch v1.0.9
+  Downloaded const-random-macro v0.1.16
+  Downloaded num-iter v0.1.46
+  Downloaded utf8parse v0.2.2
+  Downloaded ordered-float v2.10.1
+  Downloaded seq-macro v0.3.6
+  Downloaded num v0.4.3
+  Downloaded const-random v0.1.18
+  Downloaded heck v0.5.0
+  Downloaded colorchoice v1.0.5
+  Downloaded equivalent v1.0.2
+  Downloaded autocfg v1.5.1
+  Downloaded foldhash v0.2.0
+  Downloaded ahash v0.8.12
+  Downloaded anstyle-parse v1.0.0
+  Downloaded shlex v2.0.1
+  Downloaded digest v0.10.7
+  Downloaded quote v1.0.47
+  Downloaded num-integer v0.1.47
+  Downloaded fastrand v2.5.0
+  Downloaded num-rational v0.4.2
+  Downloaded num-complex v0.4.6
+  Downloaded signal-hook-registry v1.4.8
+  Downloaded tiny-keccak v2.0.2
+  Downloaded sha2 v0.10.9
+  Downloaded paste v1.0.15
+  Downloaded zmij v1.0.23
+  Downloaded clap_derive v4.6.4
+  Downloaded find-msvc-tools v0.1.12
+  Downloaded getrandom v0.2.17
+  Downloaded cc v1.4.5
+  Downloaded thrift v0.17.0
+  Downloaded termcolor v1.4.1
+  Downloaded twox-hash v2.1.4
+  Downloaded once_cell v1.21.4
+  Downloaded iana-time-zone v0.1.65
+  Downloaded itoa v1.0.18
+  Downloaded crossbeam-utils v0.8.23
+  Downloaded clap v4.6.6
+  Downloaded codespan-reporting v0.13.1
+  Downloaded getrandom v0.3.4
+  Downloaded getrandom v0.4.3
+  Downloaded proc-macro2 v1.0.107
+  Downloaded signal-hook v0.3.18
+  Downloaded unicode-ident v1.0.24
+  Downloaded tempfile v3.27.0
+  Downloaded bytes v1.12.1
+  Downloaded bitflags v2.13.2
+  Downloaded num-traits v0.2.19
+  Downloaded half v2.7.1
+  Downloaded serde_derive v1.0.229
+  Downloaded serde_core v1.0.229
+  Downloaded serde v1.0.229
+  Downloaded crossbeam-channel v0.5.17
+  Downloaded memchr v2.8.3
+  Downloaded num-bigint v0.4.8
+  Downloaded indexmap v2.14.2
+  Downloaded typenum v1.20.1
+  Downloaded zerocopy-derive v0.8.57
+  Downloaded hashbrown v0.16.1
+  Downloaded hashbrown v0.17.1
+  Downloaded clap_builder v4.6.6
+  Downloaded libm v0.2.16
+  Downloaded serde_json v1.0.151
+  Downloaded chrono v0.4.45
+  Downloaded cxx v1.0.200
+  Downloaded unicode-width v0.2.2
+  Downloaded zerocopy v0.8.57
+  Downloaded syn v3.0.5
+  Downloaded hdrhistogram v7.6.0
+  Downloaded syn v2.0.119
+  Downloaded rustix v1.1.4
+  Downloaded parquet v56.2.1
+  Downloaded libc v0.2.189
+  Downloaded cxxbridge-flags v1.0.200
+  Downloaded cxxbridge-macro v1.0.200
+  Downloaded cxx-build v1.0.200
+  Downloaded linux-raw-sys v0.12.1
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.1
+   Compiling num-traits v0.2.19
+   Compiling shlex v2.0.1
+   Compiling version_check v0.9.5
+   Compiling find-msvc-tools v0.1.12
+   Compiling cc v1.4.5
+   Compiling libc v0.2.189
+   Compiling syn v3.0.5
+    Checking cfg-if v1.0.4
+   Compiling generic-array v0.14.7
+   Compiling equivalent v1.0.2
+   Compiling hashbrown v0.17.1
+   Compiling indexmap v2.14.2
+   Compiling link-cplusplus v1.0.12
+    Checking num-integer v0.1.47
+   Compiling syn v2.0.119
+   Compiling zerocopy v0.8.57
+   Compiling scratch v1.0.9
+    Checking typenum v1.20.1
+   Compiling unicode-width v0.2.2
+   Compiling termcolor v1.4.1
+   Compiling serde_core v1.0.229
+   Compiling zerocopy-derive v0.8.57
+   Compiling cxxbridge-flags v1.0.200
+    Checking utf8parse v0.2.2
+   Compiling getrandom v0.3.4
+    Checking anstyle-parse v1.0.0
+   Compiling cxx v1.0.200
+   Compiling codespan-reporting v0.13.1
+   Compiling ahash v0.8.12
+    Checking once_cell v1.21.4
+    Checking anstyle-query v1.1.5
+    Checking anstyle v1.0.14
+   Compiling paste v1.0.15
+    Checking is_terminal_polyfill v1.70.2
+   Compiling zmij v1.0.23
+    Checking byteorder v1.5.0
+    Checking colorchoice v1.0.5
+   Compiling crossbeam-utils v0.8.23
+    Checking anstream v1.0.0
+   Compiling cxx-build v1.0.200
+    Checking crypto-common v0.1.7
+    Checking block-buffer v0.10.4
+    Checking num-rational v0.4.2
+    Checking num-iter v0.1.46
+    Checking errno v0.3.14
+   Compiling cmake v0.1.58
+    Checking num-complex v0.4.6
+    Checking ordered-float v2.10.1
+    Checking clap_lex v1.1.0
+    Checking strsim v0.11.1
+   Compiling signal-hook v0.3.18
+   Compiling serde_json v1.0.151
+    Checking integer-encoding v3.0.4
+   Compiling serde v1.0.229
+   Compiling heck v0.5.0
+    Checking iana-time-zone v0.1.65
+    Checking chrono v0.4.45
+   Compiling clap_derive v4.6.4
+    Checking thrift v0.17.0
+    Checking clap_builder v4.6.6
+    Checking num v0.4.3
+   Compiling helix v0.1.0 (/root/helix-h6-final-7915688502af)
+    Checking signal-hook-registry v1.4.8
+    Checking digest v0.10.7
+    Checking half v2.7.1
+    Checking num-bigint v0.4.8
+   Compiling serde_derive v1.0.229
+   Compiling cxxbridge-macro v1.0.200
+   Compiling rustix v1.1.4
+    Checking itoa v1.0.18
+   Compiling getrandom v0.4.3
+    Checking cpufeatures v0.2.17
+    Checking twox-hash v2.1.4
+    Checking memchr v2.8.3
+    Checking hashbrown v0.16.1
+   Compiling seq-macro v0.3.6
+    Checking bytes v1.12.1
+    Checking foldhash v0.2.0
+    Checking parquet v56.2.1
+    Checking sha2 v0.10.9
+    Checking crossbeam-channel v0.5.17
+    Checking clap v4.6.6
+    Checking hdrhistogram v7.6.0
+    Checking linux-raw-sys v0.12.1
+    Checking bitflags v2.13.2
+    Checking fastrand v2.5.0
+    Checking tempfile v3.27.0
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 49.66s
+   Compiling libm v0.2.16
+   Compiling libc v0.2.189
+   Compiling num-traits v0.2.19
+   Compiling cfg-if v1.0.4
+   Compiling typenum v1.20.1
+   Compiling num-integer v0.1.47
+   Compiling generic-array v0.14.7
+   Compiling utf8parse v0.2.2
+   Compiling anstyle-parse v1.0.0
+   Compiling zerocopy v0.8.57
+   Compiling colorchoice v1.0.5
+   Compiling anstyle-query v1.1.5
+   Compiling anstyle v1.0.14
+   Compiling byteorder v1.5.0
+   Compiling once_cell v1.21.4
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling anstream v1.0.0
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling getrandom v0.3.4
+   Compiling serde_core v1.0.229
+   Compiling num-rational v0.4.2
+   Compiling num-iter v0.1.46
+   Compiling num-complex v0.4.6
+   Compiling ordered-float v2.10.1
+   Compiling errno v0.3.14
+   Compiling iana-time-zone v0.1.65
+   Compiling strsim v0.11.1
+   Compiling clap_lex v1.1.0
+   Compiling integer-encoding v3.0.4
+   Compiling clap_builder v4.6.6
+   Compiling thrift v0.17.0
+   Compiling chrono v0.4.45
+   Compiling helix v0.1.0 (/root/helix-h6-final-7915688502af)
+   Compiling signal-hook-registry v1.4.8
+   Compiling num v0.4.3
+   Compiling half v2.7.1
+   Compiling ahash v0.8.12
+   Compiling digest v0.10.7
+   Compiling crossbeam-utils v0.8.23
+   Compiling zmij v1.0.23
+   Compiling link-cplusplus v1.0.12
+   Compiling num-bigint v0.4.8
+   Compiling hashbrown v0.16.1
+   Compiling itoa v1.0.18
+   Compiling cpufeatures v0.2.17
+   Compiling bytes v1.12.1
+   Compiling foldhash v0.2.0
+   Compiling twox-hash v2.1.4
+   Compiling memchr v2.8.3
+   Compiling parquet v56.2.1
+   Compiling serde_json v1.0.151
+   Compiling cxx v1.0.200
+   Compiling sha2 v0.10.9
+   Compiling serde v1.0.229
+   Compiling crossbeam-channel v0.5.17
+   Compiling signal-hook v0.3.18
+   Compiling clap v4.6.6
+   Compiling hdrhistogram v7.6.0
+   Compiling bitflags v2.13.2
+   Compiling linux-raw-sys v0.12.1
+   Compiling rustix v1.1.4
+   Compiling getrandom v0.4.3
+   Compiling fastrand v2.5.0
+   Compiling tempfile v3.27.0
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 37s
+     Running unittests src/lib.rs (target/debug/deps/helix-dbf3e36307a75e7f)
+
+running 17 tests
+test config::tests::memory_preflight_includes_worker_histograms_and_checked_arithmetic ... ok
+test output::tests::output_open_failure_preserves_existing_file ... ok
+test control::tests::dropping_registration_removes_its_callback ... ok
+test metrics::tests::merging_preserves_counts_overflow_and_actual_batches ... ok
+test metrics::tests::empty_and_overflow_have_explicit_coverage ... ok
+test processing::tests::latency_uses_admission_clock_and_batch_results_share_completion ... ok
+test output::tests::real_parquet_writer_propagates_group_and_footer_errors ... ok
+test output::tests::rename_failure_preserves_incomplete_state ... ok
+test runtime::tests::footer_failure_never_counts_buffered_rows_as_written ... ok
+test runtime::tests::interrupt_during_footer_finalization_keeps_valid_partial_output ... ok
+test concurrent::tests::drop_new_full_queue_attempts_once_and_partitions_ids ... ok
+test runtime::tests::write_failure_drains_admitted_batch_without_fabricating_attempts ... ok
+test runtime::tests::summary_failure_keeps_valid_rows_and_marks_output_partial ... ok
+test concurrent::tests::fatal_stop_reaches_other_workers_without_losing_ids ... ok
+test concurrent::tests::slow_collector_pending_admission_interrupt_and_writer_error_drain ... ok
+test concurrent::tests::worker_panic_preserves_delivered_results_and_aborts_owned_and_queued_ids ... ok
+test runtime::tests::writer_delay_is_in_duration_but_not_successful_event_latency ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running unittests src/main.rs (target/debug/deps/helix-c814b32029a1d3dc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/numerical.rs (target/debug/deps/numerical-c480fd555639e2dd)
+
+running 7 tests
+test batch_nonfinite_result_is_isolated_and_matches_event ... ok
+test fixture_matches_independent_numpy_reference_and_batch ... ok
+test empty_partial_single_and_maximum_batches ... ok
+test structural_errors_preserve_every_output_field ... ok
+test concurrent_process_event_calls_are_deterministic_and_isolated ... ok
+test invalid_events_are_isolated ... ok
+test concurrent_calls_have_disjoint_lifetimes_and_no_shared_state ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests helix
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling once_cell v1.21.4
+   Compiling ahash v0.8.12
+   Compiling parquet v56.2.1
+   Compiling helix v0.1.0 (/root/helix-h6-final-7915688502af)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 10.21s
+{"status": "PASS", "pipeline_cases": 42, "readback_events_per_ffi_mode": 4101, "artifact_directory": "/root/helix-h6-final-7915688502af/artifacts/h2-ulvhss6s", "atol": 1e-10, "rtol": 1e-10}
+{"status": "PASS", "concurrent_cases": 12, "case_count": 24, "artifact_directory": "/root/helix-h6-final-7915688502af/artifacts/h3-f6e2j7va", "worker_counts": [1, 2, 4], "atol": 1e-10, "rtol": 1e-10}
+{"status": "PASS", "failure_cases": 7, "artifact_directory": "/root/helix-h6-final-7915688502af/artifacts/h4-ezij5oua", "atol": 1e-10, "rtol": 1e-10}
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.247s
+
+OK
+run-0000/200 validated (warmup)
+run-0025/200 validated (warmup)
+run-0050/200 validated (warmup)
+run-0075/200 validated (warmup)
+run-0100/200 validated (measured)
+run-0125/200 validated (measured)
+run-0150/200 validated (measured)
+run-0175/200 validated (measured)
+{"status": "completed", "smoke": true, "runs": 200, "artifacts": "/root/helix-h6-final-7915688502af/artifacts/h5-smoke-gnG0I3/campaign"}
+H6 automated checks PASS; independent review and human approval remain separate
+CXX_FLAGS = -g -std=c++20 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer
+CXX_FLAGS = -O3 -DNDEBUG -std=c++20 -Wall -Wextra -Wpedantic -Werror -ffp-contract=off
+{"schema_version": 1, "file": "signals.f64le", "rows": 256, "samples": 256, "baseline_samples": 32, "dtype": "float64-le", "seed": 20260909, "sha256": "2b410ac8c6763b8b3bee2b1d67bacfc587c732e03d6a67412cbb5709534a8858", "generator": "PCG64", "python_version": "3.12.3", "numpy_version": "2.5.3", "signal": {"baseline_range": [-10, 10], "amplitude_range": [10, 100], "noise_sigma": 0.2, "pulse_width": 8.0, "pulse_zero_before": 32, "analytical_rows": 2}}
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running `target/debug/helix run --corpus artifacts/example-corpus --out artifacts/example-run --events 4101 --execution sequential --workers 1 --batch-size 16 --ffi batch`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `target/debug/helix run --corpus artifacts/example-corpus --out artifacts/example-concurrent --events 4101 --execution concurrent --workers 2 --batch-size 16 --ffi batch --policy block`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `target/debug/helix run --help`
+Fri Sep 11 06:40:18 UTC 2026
+FINAL CLEANROOM PASS: 7915688502af9751119fb59f51459478a794cf69

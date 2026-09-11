@@ -3,13 +3,16 @@
 A Linux-first laboratory for bounded concurrent signal processing in Rust with an
 independent C++20 numerical library and a Python/NumPy oracle.
 
-**Status: G0 PASS; H0-H5 TECH_PASS. H6 release preparation is in progress;
-human learning and release approval remain pending.**
+**Status: G0 PASS; H0-H6 TECH_PASS. Human learning, merge, tagging and public
+release approval remain pending.**
 
 H5 measured candidate: `1d8724c9521e7d88a43e6f751c4681e1fbbf75c6`.
 H5 closeout: `6ba29f9`. The closeout records the evidence; it is not a new
 measurement. See the [H6 work packet](docs/reviews/H6_PACKET.md),
-[technical study](docs/H6_STUDY.md) and [review record](docs/reviews/H6.md).
+[technical study](docs/H6_STUDY.md), [review record](docs/reviews/H6.md) and
+[human-review packet](docs/reviews/H6_HUMAN_PACKET.md). The exact H6 candidate
+SHA and final clean-room attestation accompany the candidate outside its own
+immutable tree.
 
 The experiment studies worker count, queue capacity, processing batch size and
 per-event versus batched FFI. It is finite synthetic replay, not a real-time DAQ
