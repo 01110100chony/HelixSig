@@ -1,113 +1,115 @@
 # Helix
 
-A Linux-first laboratory for bounded concurrent signal processing in Rust with an
-independent C++20 numerical library and a Python/NumPy oracle.
+Bounded concurrent signal processing. Rust runtime, C++20 numerical kernel, Python oracle.
 
-**Status: G0-H4 passed, including overload/failure validation and AI review.
-H5 experiment tooling is under validation; H6 is not implemented.**
+![milestone: H5 ✓](https://img.shields.io/badge/milestone-H5_%E2%9C%93-blue)
+![platform: Linux / WSL2](https://img.shields.io/badge/platform-Linux_%2F_WSL2-lightgrey)
+![license: MIT](https://img.shields.io/badge/license-MIT-green)
 
-The experiment studies worker count, queue capacity, processing batch size and
-per-event versus batched FFI. It is finite synthetic replay, not a real-time DAQ
-system or physical simulation. There is no required speedup.
+## What and why
 
-See [architecture](docs/ARCHITECTURE.md), [development governance](docs/DEVELOPMENT.md),
-[milestones](docs/ROADMAP.md), [experiments](docs/EXPERIMENTS.md), and the
-[Portuguese study guide](docs/STUDY_GUIDE.pt-BR.md).
+Helix is an academic systems-engineering experiment. It replays synthetic
+waveform events through a mixed-language pipeline, Rust for the runtime and
+I/O, C++20 for the numerical kernel, Python/NumPy as an independent oracle
+and measures throughput, latency and event loss under bounded concurrency.
 
-Primary environment: Ubuntu 24.04 in WSL2. Source, builds and measured data belong
-on the Linux filesystem. Windows is an editing interface, not a supported target.
+The goal is to learn and apply skills that matter for scientific
+computing infrastructure: safe FFI ownership, bounded-queue backpressure,
+reproducible measurement, and honest reporting of what the data does and
+doesn't show.
 
-## Sequential replay (H2)
+## Architecture
 
-In Ubuntu/WSL2 with the G0 toolchain installed:
+```
+Python corpus + independent oracle
+               │
+Rust load/validate → producer → bounded queue → W Rust workers
+                                                      │
+                                              CXX bridge → C++20 kernel
+                                                      │
+Rust collector/writer ← bounded result queue ←────────┘
+        │
+  Parquet + JSON → Python validation & analysis
+```
+
+Sequential mode reuses the same components without channels or threads.
+C++ owns no threads, mutable globals, files or runtime timestamps.
+Full contracts and rationale in [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Skills demonstrated
+
+| Area | What Helix exercises | Where |
+|---|---|---|
+| **Rust / C++ interop** | Safe `cxx` bridge, Rust-owned buffers, no shared mutable state | [`bridge.rs`](src/bridge.rs), [`cpp/`](cpp/) |
+| **Bounded concurrency** | Producer–worker–collector with crossbeam channels, backpressure, graceful shutdown | [`concurrent.rs`](src/concurrent.rs), [`runtime.rs`](src/runtime.rs) |
+| **Numerical correctness** | Blocked pairwise reduction matching a pinned NumPy oracle within documented tolerance | [`cpp/src/`](cpp/src/), [`oracle.py`](scripts/oracle.py), [`numerical.rs`](tests/numerical.rs) |
+| **Overload handling** | Block and drop-new policies, SIGINT drain, worker panic classification | [`runtime.rs`](src/runtime.rs), [`validate_failures.py`](scripts/validate_failures.py) |
+| **Reproducible experiments** | 744-run preregistered campaign, provenance tracking, no selective discarding | [`experiment.py`](scripts/experiment.py), [EXPERIMENTS.md](docs/EXPERIMENTS.md) |
+| **Structured output** | Parquet event records, JSON summaries, bounded HDR latency histograms | [`output.rs`](src/output.rs), [`metrics.rs`](src/metrics.rs) |
+| **Build integration** | CMake C++20 kernel + Cargo `build.rs` + CXX codegen, single `cargo build` | [`build.rs`](build.rs), [`CMakeLists.txt`](cpp/CMakeLists.txt) |
+
+## Milestones
+
+| Gate | Focus | Status |
+|---|---|---|
+| G0 | Toolchain and mixed-language build | ✓ PASS |
+| H0 | Deterministic signals, C++ correctness, 533 oracle cases | ✓ PASS |
+| H1 | Safe FFI — event and batch modes, borrowing, concurrent calls | ✓ PASS |
+| H2 | Sequential pipeline — corpus through Parquet output, 42 integration cases | ✓ PASS |
+| H3 | Bounded concurrent runtime — workers, queues, shutdown | ✓ PASS |
+| H4 | Overload and failure paths — drops, panics, SIGINT, writer errors | ✓ PASS |
+| H5 | Reproducible experiments — 744 runs, 4 independent AI reviews | ✓ PASS |
+| H6 | Release candidate — clean checkout, CI, study guide | Planned |
+
+Each milestone has a detailed gate review in [`docs/reviews/`](docs/reviews/).
+
+## Quick start
+
+Ubuntu 24.04 / WSL2 with Rust stable, GCC/G++, CMake and Python 3:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python scripts/generate_data.py --out artifacts/example-corpus
-cargo run --locked -- run --corpus artifacts/example-corpus --out artifacts/example-run \
-  --events 4101 --execution sequential --workers 1 --batch-size 16 --ffi batch
+python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python scripts/generate_data.py --out artifacts/corpus
+cargo run --locked -- run --corpus artifacts/corpus --out artifacts/run --events 4101
 HELIX_PYTHON=.venv/bin/python scripts/verify.sh H2
 ```
 
-The corpus and run directories must be new. The CLI defaults to 100000 events,
-sequential execution, workers=2, queue capacity=256, batch size=16, batch FFI and
-block policy. Baseline width defaults to the corpus manifest (32 for the default
-generator). `--ffi event` uses the same sample preparation and calls C++ once per
-event. Both modes return identical numerical features. `--baseline-samples K`
-overrides processing configuration after validation; it does not regenerate data.
+For concurrent mode, experiment campaigns and full CLI reference, see
+[DEVELOPMENT.md](docs/DEVELOPMENT.md) and [EXPERIMENTS.md](docs/EXPERIMENTS.md).
 
-Sequential execution creates no runtime threads or channels and has no queue
-drops. H3 adds `--execution concurrent --policy block`: one producer, bounded
-input queue, W Rust workers and the main collector/writer. H4 adds concurrent
-`--policy drop-new`: one attempt, rejecting only when the input queue is full.
-Worker count must be between one and the available
-processor count, even in sequential mode.
+## Project structure
 
-Workers wait for one event and then try to collect up to the configured batch
-size without waiting to fill it. Batch sizes and output order depend on scheduling;
-compare parallel results by event ID. The result queue holds 256 individual
-outcomes and applies backpressure. Workers drain accepted work after admission
-stops, and all threads join before output finalization. The final summary contains
-`worker_metrics` in worker-index order; merged percentiles come from merging the
-bounded histograms, never averaging per-worker percentiles. In sequential mode
-`worker_metrics` is empty. Validate with `scripts/verify.sh H3` and the same Python
-environment used by H2. H4 acceptance uses `scripts/verify.sh H4`.
-
-SIGINT stops admission in both modes and drains accepted work. Its handler uses
-an atomic flag and no helper runtime thread, and is unregistered after the run.
-Worker panic requests fatal stop: emitted outcomes still reach the collector,
-unreported owned events and remaining queue entries become aborted. Production
-has no fault-injection flags; deterministic tests synchronize through hooks that
-are absent from production builds. A writer or processing failure takes priority
-over an interrupt in the final outcome.
-
-Each run starts with `running.json`. A successfully closed and renamed output is
-`events.parquet`, or `events.partial.parquet` when numerical failures occurred.
-Only valid results appear in Parquet. A writer error stops new admission, drains
-the already accepted batch, and leaves `events.parquet.incomplete` untrusted.
-Buffered rows never count as written. A historical `running.json` remains; the
-final `summary.json` supersedes it. `summary.json.incomplete` is not a final summary.
-Final JSON is also emitted to stdout, including failures before output creation.
-Malformed CLI syntax is reported to stderr. H2 exit codes are 0 (completed),
-1 (failed), and 64 (invalid configuration/input). H4 also uses 2
-(completed_with_drops) and 130 (interrupted). Code 2 describes completed replay
-with explicit event losses; its valid file is events.parquet. Interrupted runs
-use events.partial.parquet, including an interrupt observed during footer close.
-
-The version-1 summary flattens all counters and records effective configuration,
-corpus hash, output state, failure reason, at most 16 diagnostics, estimated data
-buffers, duration and processed/written throughput. Latency measures admission
-attempt to native result availability, excluding writing. The bounded HDR
-histogram uses three significant digits and covers 0..60000000000 ns; overflows
-are counted separately, and percentiles describe only recorded observations
-(null when empty). Parquet preserves raw successful-event latencies. Actual
-processing batch counts are indexed by size in `metrics.actual_batch_sizes`.
-
-Payloads are limited to 64 MiB, manifests to 64 KiB and runs to 1000000 events.
-Memory preflight conservatively includes twice the corpus, bounded sample
-buffers, 32 MiB for Parquet buffers/metadata and diagnostics, and 1 MiB per worker
-plus one merged histogram/report allowance. The
-256 MiB limit is an estimate of data buffers, not a process RSS ceiling. New Rust
-dependencies serve CLI parsing (clap), JSON (serde), integrity checking (sha2),
-Parquet serialization (parquet without Arrow/compression features), and bounded
-latency measurement (hdrhistogram). H3 adds crossbeam-channel for bounded queues;
-H4 adds signal-hook for an atomic SIGINT notification without a signal thread;
-tempfile is test-only.
-
-## Reproducible experiments (H5)
-
-Run the correctness gate with `HELIX_PYTHON=.venv/bin/python scripts/verify.sh H5`.
-It includes a small Release smoke campaign; smoke is explicitly not performance
-evidence. For measurements, use a clean committed checkout on the Linux filesystem:
-
-```bash
-.venv/bin/python scripts/experiment.py --out artifacts/h5-campaign
-.venv/bin/python scripts/experiment_analysis.py artifacts/h5-campaign
+```
+src/           Rust runtime — config, source, processing, bridge, concurrent, output
+cpp/           Independent C++20 signal-processing kernel + CXX adapter
+scripts/       Data generation, validation, experiment runner, analysis
+tests/         Rust integration tests
+docs/          Architecture, roadmap, experiments, gate reviews, study guide (pt-BR)
 ```
 
-The full campaign performs 744 runs: 96 microbenchmark and 28 pipeline
-configurations, each with one warmup and five measured repetitions. It builds
-both executables, validates numerical output, preserves raw Parquet/JSON and
-checks the 4 GiB artifact budget. No performance threshold is imposed.
-See [protocol and interpretation limits](docs/EXPERIMENTS.md).
+## Documentation
+
+| Document | Contents |
+|---|---|
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Frozen contracts, data flow, numerical spec, runtime semantics |
+| [DEVELOPMENT.md](docs/DEVELOPMENT.md) | AI-driven development governance, gate protocol, change rules |
+| [ROADMAP.md](docs/ROADMAP.md) | Milestone ledger with acceptance criteria |
+| [EXPERIMENTS.md](docs/EXPERIMENTS.md) | Preregistered protocol, results, interpretation limits |
+| [Study guide (pt-BR)](docs/STUDY_GUIDE.pt-BR.md) | Interview-preparation checkpoints — in Portuguese |
+
+## Scope and honesty
+
+This is academic work, not production software. Code review was performed by
+AI agents in separate contexts and is identified as such throughout. No
+hardware, network, GPU, web UI or crash-recovery features are included.
+
+Primary environment is Ubuntu 24.04 under WSL2. Source, builds and measured
+data belong on the Linux filesystem; Windows is an editing interface only.
+
+There is no promised speedup, no minimum throughput target, and the experiment
+results characterize one specific environment. Claims are limited to what the
+data supports.
+
+## License
+
+[MIT](LICENSE)

@@ -1,0 +1,21 @@
+Antes de iniciar H6, faça uma última confirmação objetiva do closeout H5.
+
+1. Confirme se TODOS os `assert` usados em correctness/integrity gates de H5
+   foram substituídos por checks explícitos que continuam ativos sob `python -O`.
+
+2. Execute/registre um teste equivalente a:
+   python -O <H5 validation/adversarial suite>
+   e confirme que accounting, hashes, campaign completeness e evidence integrity
+   continuam sendo validados.
+
+3. Confirme que:
+   - measured candidate = 1d8724c
+   - closeout commit = 6ba29f9
+   - 6ba29f9 não altera runtime/kernel/workload medido
+   - a campanha de 744 runs continua atribuída exclusivamente a 1d8724c
+
+4. Mostre `git diff 1d8724c..6ba29f9 --stat` e classifique quaisquer mudanças
+   em código executável.
+
+Se tudo isso estiver correto, mantenha H5 = TECH_PASS e não altere mais H5.
+Não inicie H6 até responder essa confirmação.
