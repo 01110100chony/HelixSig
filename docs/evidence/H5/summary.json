@@ -1,0 +1,20 @@
+{
+  "commit": "1d8724c9521e7d88a43e6f751c4681e1fbbf75c6",
+  "runs": 744,
+  "warmups": 124,
+  "measured": 620,
+  "exit_codes": {
+    "0": 660,
+    "2": 84
+  },
+  "pipeline_written": 9627692,
+  "pipeline_dropped": 7172308,
+  "peak_process_rss_kib": 35120,
+  "swap_out_pages_during_children": 0,
+  "campaign_swap_out_pages": 0,
+  "histogram_overflow": 0,
+  "small_latency_runs": 0,
+  "artifact_bytes": 830648366,
+  "archive_bytes": 106993609,
+  "archive_sha256": "6fb20bc27a2a6db76fb30afae75691e96dc7aa638b0a34192fd7e812ab55990e"
+}

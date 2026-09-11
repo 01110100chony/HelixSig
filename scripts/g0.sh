@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-export PATH="/root/.cargo/bin:$PATH"
 cd "$(dirname "$0")/.."
 mkdir -p artifacts/g0-smoke/src artifacts/g0-smoke/native
 cd artifacts/g0-smoke

@@ -1,0 +1,5025 @@
+{
+  "schema_version": 1,
+  "evidence": "measured",
+  "commit": "1d8724c9521e7d88a43e6f751c4681e1fbbf75c6",
+  "repetitions": 5,
+  "runs": 744,
+  "configurations": [
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8696.0,
+        "q1": 8744.0,
+        "median": 8816.0,
+        "q3": 8816.0,
+        "maximum": 8844.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 106.65136,
+        "q1": 107.40509,
+        "median": 107.41397,
+        "q3": 111.18866,
+        "maximum": 124.421
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9904.0,
+        "q1": 9904.0,
+        "median": 9964.0,
+        "q3": 9968.0,
+        "maximum": 9968.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 497.88767,
+        "q1": 511.91208,
+        "median": 526.5581,
+        "q3": 528.12057,
+        "maximum": 539.06658
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7400.0,
+        "q1": 7424.0,
+        "median": 7460.0,
+        "q3": 7688.0,
+        "maximum": 7732.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 309841.29619979905,
+        "q1": 323061.0561777149,
+        "median": 424597.94614265783,
+        "q3": 424789.7471077891,
+        "maximum": 487092.815564194
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 309841.29619979905,
+        "q1": 323061.0561777149,
+        "median": 424597.94614265783,
+        "q3": 424789.7471077891,
+        "maximum": 487092.815564194
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.89632,
+        "q1": 0.89952,
+        "median": 0.91284,
+        "q3": 0.92656,
+        "maximum": 0.93161
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0126",
+          "population": 6839,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 509834,
+          "p95_ns": 2009333,
+          "p99_ns": 2371682
+        },
+        {
+          "id": "run-0325",
+          "population": 10368,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 361737,
+          "p95_ns": 1250496,
+          "p99_ns": 1413715
+        },
+        {
+          "id": "run-0438",
+          "population": 8716,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 391124,
+          "p95_ns": 1658468,
+          "p99_ns": 1781120
+        },
+        {
+          "id": "run-0528",
+          "population": 7344,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 516863,
+          "p95_ns": 1958612,
+          "p99_ns": 3176495
+        },
+        {
+          "id": "run-0717",
+          "population": 10048,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 357016,
+          "p95_ns": 1586614,
+          "p99_ns": 2343382
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32944.0,
+        "q1": 32960.0,
+        "median": 33008.0,
+        "q3": 33024.0,
+        "maximum": 33072.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 6918.01259,
+        "q1": 7108.45358,
+        "median": 7228.08303,
+        "q3": 7452.38814,
+        "maximum": 7531.95173
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7544.0,
+        "q1": 7568.0,
+        "median": 7584.0,
+        "q3": 7640.0,
+        "maximum": 7700.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 739916.4573646486,
+        "q1": 803597.7392224083,
+        "median": 833175.5784806778,
+        "q3": 934449.2102184787,
+        "maximum": 950044.358996188
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 739916.4573646486,
+        "q1": 803597.7392224083,
+        "median": 833175.5784806778,
+        "q3": 934449.2102184787,
+        "maximum": 950044.358996188
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0128",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 134066,
+          "p95_ns": 849147,
+          "p99_ns": 1352573
+        },
+        {
+          "id": "run-0318",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 128273,
+          "p95_ns": 1090035,
+          "p99_ns": 2845613
+        },
+        {
+          "id": "run-0426",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 131543,
+          "p95_ns": 1123364,
+          "p99_ns": 2899950
+        },
+        {
+          "id": "run-0518",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 141773,
+          "p95_ns": 1101430,
+          "p99_ns": 3101386
+        },
+        {
+          "id": "run-0622",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 135291,
+          "p95_ns": 896946,
+          "p99_ns": 1919628
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 4
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7988.0,
+        "q1": 8036.0,
+        "median": 8152.0,
+        "q3": 8248.0,
+        "maximum": 8328.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 324734.09466148017,
+        "q1": 364176.8398675195,
+        "median": 382904.92991145357,
+        "q3": 398544.5638249636,
+        "maximum": 512405.6810609085
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 324734.09466148017,
+        "q1": 364176.8398675195,
+        "median": 382904.92991145357,
+        "q3": 398544.5638249636,
+        "maximum": 512405.6810609085
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.8687,
+        "q1": 0.89005,
+        "median": 0.8904,
+        "q3": 0.90478,
+        "maximum": 0.90856
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0129",
+          "population": 9522,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 364346,
+          "p95_ns": 1912767,
+          "p99_ns": 2329451
+        },
+        {
+          "id": "run-0338",
+          "population": 9144,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 553430,
+          "p95_ns": 1351975,
+          "p99_ns": 1688100
+        },
+        {
+          "id": "run-0377",
+          "population": 10960,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 316528,
+          "p95_ns": 2033512,
+          "p99_ns": 2857737
+        },
+        {
+          "id": "run-0609",
+          "population": 13130,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 258837,
+          "p95_ns": 1183329,
+          "p99_ns": 1497948
+        },
+        {
+          "id": "run-0729",
+          "population": 10995,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 296183,
+          "p95_ns": 1514709,
+          "p99_ns": 2379450
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 4
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7972.0,
+        "q1": 8032.0,
+        "median": 8068.0,
+        "q3": 8188.0,
+        "maximum": 8336.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 108330.69645792514,
+        "q1": 322437.5107079579,
+        "median": 393115.36977173976,
+        "q3": 394719.48672399315,
+        "maximum": 446328.5182080714
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 108330.69645792514,
+        "q1": 322437.5107079579,
+        "median": 393115.36977173976,
+        "q3": 394719.48672399315,
+        "maximum": 446328.5182080714
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.86316,
+        "q1": 0.87025,
+        "median": 0.87147,
+        "q3": 0.88493,
+        "maximum": 0.89562
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0130",
+          "population": 10438,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 348281,
+          "p95_ns": 1702000,
+          "p99_ns": 1895388
+        },
+        {
+          "id": "run-0352",
+          "population": 13684,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 388313,
+          "p95_ns": 1704493,
+          "p99_ns": 2353217
+        },
+        {
+          "id": "run-0432",
+          "population": 11507,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 311710,
+          "p95_ns": 1257945,
+          "p99_ns": 1837249
+        },
+        {
+          "id": "run-0557",
+          "population": 12975,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 253357,
+          "p95_ns": 1499340,
+          "p99_ns": 2105418
+        },
+        {
+          "id": "run-0742",
+          "population": 12853,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 290593,
+          "p95_ns": 1042840,
+          "p99_ns": 1649083
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8748.0,
+        "q1": 8808.0,
+        "median": 8816.0,
+        "q3": 8816.0,
+        "maximum": 8836.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 117.60161,
+        "q1": 119.61981,
+        "median": 121.26335,
+        "q3": 127.34419,
+        "maximum": 140.69057
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24568.0,
+        "q1": 24680.0,
+        "median": 24684.0,
+        "q3": 24684.0,
+        "maximum": 24684.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8688.45547,
+        "q1": 8916.08193,
+        "median": 8953.43659,
+        "q3": 8962.03897,
+        "maximum": 9109.0563
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24244.0,
+        "q1": 24300.0,
+        "median": 24300.0,
+        "q3": 24300.0,
+        "maximum": 24300.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7232.3178,
+        "q1": 7277.07081,
+        "median": 7552.28869,
+        "q3": 7926.26002,
+        "maximum": 8030.49351
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32936.0,
+        "q1": 33000.0,
+        "median": 33008.0,
+        "q3": 33036.0,
+        "maximum": 33072.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8660.26112,
+        "q1": 8771.49889,
+        "median": 8853.455,
+        "q3": 9022.78901,
+        "maximum": 9319.73306
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8752.0,
+        "q1": 8812.0,
+        "median": 8840.0,
+        "q3": 8844.0,
+        "maximum": 8880.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 103.67832,
+        "q1": 104.48068,
+        "median": 105.52831,
+        "q3": 106.44061,
+        "maximum": 106.64836
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 64,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7360.0,
+        "q1": 7444.0,
+        "median": 7460.0,
+        "q3": 7480.0,
+        "maximum": 7512.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 501267.77638396376,
+        "q1": 519616.01374247175,
+        "median": 521840.861268701,
+        "q3": 550968.7923948104,
+        "maximum": 567078.1487788273
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 501267.77638396376,
+        "q1": 519616.01374247175,
+        "median": 521840.861268701,
+        "q3": 550968.7923948104,
+        "maximum": 567078.1487788273
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0136",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 88714,
+          "p95_ns": 228275,
+          "p99_ns": 742895
+        },
+        {
+          "id": "run-0355",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 89147,
+          "p95_ns": 248287,
+          "p99_ns": 745766
+        },
+        {
+          "id": "run-0468",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 114784,
+          "p95_ns": 259349,
+          "p99_ns": 779561
+        },
+        {
+          "id": "run-0496",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 106582,
+          "p95_ns": 226864,
+          "p99_ns": 806703
+        },
+        {
+          "id": "run-0707",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 118290,
+          "p95_ns": 223927,
+          "p99_ns": 747696
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 33456.0,
+        "q1": 33456.0,
+        "median": 33480.0,
+        "q3": 33520.0,
+        "maximum": 33544.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8542.46794,
+        "q1": 8688.31803,
+        "median": 8764.3764,
+        "q3": 8798.54725,
+        "maximum": 8825.30896
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32940.0,
+        "q1": 32944.0,
+        "median": 33008.0,
+        "q3": 33064.0,
+        "maximum": 33072.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8317.506,
+        "q1": 8338.44848,
+        "median": 8609.69788,
+        "q3": 8639.44328,
+        "maximum": 8731.31473
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 26104.0,
+        "q1": 26116.0,
+        "median": 26164.0,
+        "q3": 26212.0,
+        "maximum": 26220.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 9304.72234,
+        "q1": 9357.79287,
+        "median": 9395.55757,
+        "q3": 9750.0987,
+        "maximum": 9965.70776
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7940.0,
+        "q1": 8044.0,
+        "median": 8044.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 100.15746,
+        "q1": 102.58426,
+        "median": 107.24041,
+        "q3": 115.17637,
+        "maximum": 127.70719
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9932.0,
+        "q1": 9976.0,
+        "median": 9988.0,
+        "q3": 9996.0,
+        "maximum": 10032.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 467.06014,
+        "q1": 470.57695,
+        "median": 476.52259,
+        "q3": 477.38961,
+        "maximum": 488.64853
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 10056.0,
+        "q1": 10088.0,
+        "median": 10088.0,
+        "q3": 10160.0,
+        "maximum": 10160.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 458.79159,
+        "q1": 460.47431,
+        "median": 483.58897,
+        "q3": 493.95644,
+        "maximum": 531.56429
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8704.0,
+        "q1": 8756.0,
+        "median": 8812.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 412.44141,
+        "q1": 420.10449,
+        "median": 423.46711,
+        "q3": 429.76431,
+        "maximum": 434.45292
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 33072.0,
+        "q1": 33100.0,
+        "median": 33136.0,
+        "q3": 33136.0,
+        "maximum": 33136.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 6877.91117,
+        "q1": 7109.00093,
+        "median": 7181.7542,
+        "q3": 7410.70508,
+        "maximum": 7575.8004
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8752.0,
+        "q1": 8780.0,
+        "median": 8780.0,
+        "q3": 8816.0,
+        "maximum": 8880.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 179.29818,
+        "q1": 182.2187,
+        "median": 185.51338,
+        "q3": 187.12502,
+        "maximum": 208.04639
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8712.0,
+        "q1": 8756.0,
+        "median": 8812.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 431.63835,
+        "q1": 434.77471,
+        "median": 450.68903,
+        "q3": 450.80299,
+        "maximum": 463.94709
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24192.0,
+        "q1": 24200.0,
+        "median": 24244.0,
+        "q3": 24292.0,
+        "maximum": 24300.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7504.17116,
+        "q1": 7522.70272,
+        "median": 7523.43183,
+        "q3": 7675.49809,
+        "maximum": 7821.98432
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8648.0,
+        "q1": 8696.0,
+        "median": 8816.0,
+        "q3": 8844.0,
+        "maximum": 8896.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 120.93191,
+        "q1": 122.25298,
+        "median": 123.55466,
+        "q3": 123.6627,
+        "maximum": 123.7505
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 8020.0,
+        "median": 8060.0,
+        "q3": 8096.0,
+        "maximum": 8180.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 886087.3406367488,
+        "q1": 887926.0534472348,
+        "median": 902597.8254703449,
+        "q3": 910432.1743234346,
+        "maximum": 920231.9989530705
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 886087.3406367488,
+        "q1": 887926.0534472348,
+        "median": 902597.8254703449,
+        "q3": 910432.1743234346,
+        "maximum": 920231.9989530705
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0149",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 177763,
+          "p95_ns": 792964,
+          "p99_ns": 1086780
+        },
+        {
+          "id": "run-0353",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 224522,
+          "p95_ns": 923057,
+          "p99_ns": 1302758
+        },
+        {
+          "id": "run-0429",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 226180,
+          "p95_ns": 851701,
+          "p99_ns": 1266548
+        },
+        {
+          "id": "run-0497",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 196550,
+          "p95_ns": 939227,
+          "p99_ns": 1326110
+        },
+        {
+          "id": "run-0716",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 212879,
+          "p95_ns": 913101,
+          "p99_ns": 1365369
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8760.0,
+        "q1": 8816.0,
+        "median": 8816.0,
+        "q3": 8816.0,
+        "maximum": 8844.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 167.3725,
+        "q1": 170.49954,
+        "median": 171.26531,
+        "q3": 177.11948,
+        "maximum": 195.8718
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9904.0,
+        "q1": 9932.0,
+        "median": 9968.0,
+        "q3": 9968.0,
+        "maximum": 9996.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 515.03364,
+        "q1": 515.54187,
+        "median": 522.42091,
+        "q3": 533.95433,
+        "maximum": 562.6233
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 1024,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9308.0,
+        "q1": 9332.0,
+        "median": 9348.0,
+        "q3": 9356.0,
+        "maximum": 9356.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 443448.99998370325,
+        "q1": 444035.14074566314,
+        "median": 463111.89631836046,
+        "q3": 473687.8793635962,
+        "maximum": 488594.59945835575
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 443448.99998370325,
+        "q1": 444035.14074566314,
+        "median": 463111.89631836046,
+        "q3": 473687.8793635962,
+        "maximum": 488594.59945835575
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0152",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2066763,
+          "p95_ns": 3035599,
+          "p99_ns": 4492635
+        },
+        {
+          "id": "run-0252",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2147808,
+          "p95_ns": 3511758,
+          "p99_ns": 5207472
+        },
+        {
+          "id": "run-0462",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2092417,
+          "p95_ns": 3748425,
+          "p99_ns": 5231445
+        },
+        {
+          "id": "run-0580",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2032136,
+          "p95_ns": 3072401,
+          "p99_ns": 3992016
+        },
+        {
+          "id": "run-0663",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1798086,
+          "p95_ns": 4412546,
+          "p99_ns": 6464471
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7812.0,
+        "q1": 7820.0,
+        "median": 7836.0,
+        "q3": 7836.0,
+        "maximum": 7868.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 518217.8105765795,
+        "q1": 802617.3994524699,
+        "median": 852740.8390757764,
+        "q3": 904811.2552565163,
+        "maximum": 912034.4787311341
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 518217.8105765795,
+        "q1": 802617.3994524699,
+        "median": 852740.8390757764,
+        "q3": 904811.2552565163,
+        "maximum": 912034.4787311341
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.75507,
+        "q1": 0.77053,
+        "median": 0.77163,
+        "q3": 0.77222,
+        "maximum": 0.78919
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0153",
+          "population": 22947,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 167909,
+          "p95_ns": 1125796,
+          "p99_ns": 1985347
+        },
+        {
+          "id": "run-0286",
+          "population": 24493,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 163826,
+          "p95_ns": 826101,
+          "p99_ns": 1931374
+        },
+        {
+          "id": "run-0483",
+          "population": 22837,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 166119,
+          "p95_ns": 931542,
+          "p99_ns": 1029860
+        },
+        {
+          "id": "run-0587",
+          "population": 21081,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 178320,
+          "p95_ns": 1064206,
+          "p99_ns": 1593750
+        },
+        {
+          "id": "run-0685",
+          "population": 22778,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 167682,
+          "p95_ns": 837025,
+          "p99_ns": 1585313
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 10052.0,
+        "q1": 10060.0,
+        "median": 10124.0,
+        "q3": 10124.0,
+        "maximum": 10156.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 433.81184,
+        "q1": 439.25894,
+        "median": 447.16335,
+        "q3": 452.8653,
+        "maximum": 464.67423
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8044.0,
+        "q1": 8044.0,
+        "median": 8044.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 127.10355,
+        "q1": 128.21549,
+        "median": 133.0536,
+        "q3": 136.37137,
+        "maximum": 143.78301
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8012.0,
+        "q1": 8036.0,
+        "median": 8040.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 87.62834,
+        "q1": 87.90369,
+        "median": 90.85973,
+        "q3": 91.59332,
+        "maximum": 92.69572
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7560.0,
+        "q1": 7564.0,
+        "median": 7608.0,
+        "q3": 7640.0,
+        "maximum": 7776.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 539309.2101582017,
+        "q1": 722317.6335597268,
+        "median": 726035.3465516635,
+        "q3": 758921.071662124,
+        "maximum": 813202.5317662118
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 539309.2101582017,
+        "q1": 722317.6335597268,
+        "median": 726035.3465516635,
+        "q3": 758921.071662124,
+        "maximum": 813202.5317662118
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0157",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 115487,
+          "p95_ns": 958402,
+          "p99_ns": 1655713
+        },
+        {
+          "id": "run-0249",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 127453,
+          "p95_ns": 1292723,
+          "p99_ns": 2626232
+        },
+        {
+          "id": "run-0411",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 129133,
+          "p95_ns": 1314619,
+          "p99_ns": 2703817
+        },
+        {
+          "id": "run-0538",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 128241,
+          "p95_ns": 2127965,
+          "p99_ns": 4409779
+        },
+        {
+          "id": "run-0661",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 124632,
+          "p95_ns": 1319282,
+          "p99_ns": 2493627
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24064.0,
+        "q1": 24072.0,
+        "median": 24072.0,
+        "q3": 24172.0,
+        "maximum": 24172.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8719.06382,
+        "q1": 8805.05672,
+        "median": 8930.04062,
+        "q3": 8999.87638,
+        "maximum": 9172.93626
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9848.0,
+        "q1": 9896.0,
+        "median": 9932.0,
+        "q3": 9968.0,
+        "maximum": 10032.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 490.86381,
+        "q1": 493.21961,
+        "median": 494.22886,
+        "q3": 498.46105,
+        "maximum": 498.48314
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8840.0,
+        "q1": 8840.0,
+        "median": 8872.0,
+        "q3": 8876.0,
+        "maximum": 8936.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 440.72783,
+        "q1": 447.16802,
+        "median": 448.01125,
+        "q3": 448.03189,
+        "maximum": 471.6772
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9804.0,
+        "q1": 9932.0,
+        "median": 9964.0,
+        "q3": 9968.0,
+        "maximum": 10028.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 419.99279,
+        "q1": 441.70296,
+        "median": 446.64825,
+        "q3": 468.7105,
+        "maximum": 476.01712
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8780.0,
+        "q1": 8808.0,
+        "median": 8816.0,
+        "q3": 8816.0,
+        "maximum": 8816.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 121.3432,
+        "q1": 136.0435,
+        "median": 144.03947,
+        "q3": 144.63809,
+        "maximum": 157.03669
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7932.0,
+        "q1": 7988.0,
+        "median": 8044.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 110.02201,
+        "q1": 110.62404,
+        "median": 111.47669,
+        "q3": 112.7712,
+        "maximum": 127.68855
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 1
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7428.0,
+        "q1": 7560.0,
+        "median": 7584.0,
+        "q3": 7660.0,
+        "maximum": 7680.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 356390.7568189731,
+        "q1": 363646.83798764984,
+        "median": 363902.617286969,
+        "q3": 364109.92235330417,
+        "maximum": 384906.2671639327
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 356390.7568189731,
+        "q1": 363646.83798764984,
+        "median": 363902.617286969,
+        "q3": 364109.92235330417,
+        "maximum": 384906.2671639327
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0164",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 708175,
+          "p95_ns": 948502,
+          "p99_ns": 1276375
+        },
+        {
+          "id": "run-0313",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 667979,
+          "p95_ns": 985297,
+          "p99_ns": 1230634
+        },
+        {
+          "id": "run-0458",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 711652,
+          "p95_ns": 940160,
+          "p99_ns": 1231823
+        },
+        {
+          "id": "run-0586",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 696993,
+          "p95_ns": 1027737,
+          "p99_ns": 1282955
+        },
+        {
+          "id": "run-0647",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 710146,
+          "p95_ns": 1074660,
+          "p99_ns": 1484512
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 64,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7072.0,
+        "q1": 7100.0,
+        "median": 7116.0,
+        "q3": 7220.0,
+        "maximum": 7288.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 223286.78887023331,
+        "q1": 340324.4519905943,
+        "median": 480254.62778887065,
+        "q3": 545644.3255604913,
+        "maximum": 628162.6711982067
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 223286.78887023331,
+        "q1": 340324.4519905943,
+        "median": 480254.62778887065,
+        "q3": 545644.3255604913,
+        "maximum": 628162.6711982067
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.87373,
+        "q1": 0.87375,
+        "median": 0.90947,
+        "q3": 0.94174,
+        "maximum": 0.9574
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0165",
+          "population": 5826,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 85045,
+          "p95_ns": 784615,
+          "p99_ns": 1495091
+        },
+        {
+          "id": "run-0359",
+          "population": 12627,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 72576,
+          "p95_ns": 190627,
+          "p99_ns": 722252
+        },
+        {
+          "id": "run-0402",
+          "population": 4260,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 91717,
+          "p95_ns": 993187,
+          "p99_ns": 1068907
+        },
+        {
+          "id": "run-0537",
+          "population": 9053,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 76723,
+          "p95_ns": 468172,
+          "p99_ns": 1127852
+        },
+        {
+          "id": "run-0703",
+          "population": 12625,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 68114,
+          "p95_ns": 324619,
+          "p99_ns": 1034450
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 8036.0,
+        "median": 8036.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 89.4361,
+        "q1": 90.20467,
+        "median": 93.92959,
+        "q3": 97.65802,
+        "maximum": 102.55826
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 1024,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9092.0,
+        "q1": 9104.0,
+        "median": 9120.0,
+        "q3": 9224.0,
+        "maximum": 9228.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 304756.568956657,
+        "q1": 320643.8733593886,
+        "median": 417554.34305474855,
+        "q3": 428607.89744809334,
+        "maximum": 429725.594444618
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 304756.568956657,
+        "q1": 320643.8733593886,
+        "median": 417554.34305474855,
+        "q3": 428607.89744809334,
+        "maximum": 429725.594444618
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.87114,
+        "q1": 0.89792,
+        "median": 0.89936,
+        "q3": 0.90496,
+        "maximum": 0.91726
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0167",
+          "population": 10064,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1833170,
+          "p95_ns": 3138661,
+          "p99_ns": 4236541
+        },
+        {
+          "id": "run-0339",
+          "population": 8274,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2027031,
+          "p95_ns": 8099453,
+          "p99_ns": 8366315
+        },
+        {
+          "id": "run-0408",
+          "population": 12886,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1625902,
+          "p95_ns": 3135407,
+          "p99_ns": 4607458
+        },
+        {
+          "id": "run-0517",
+          "population": 9504,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2627289,
+          "p95_ns": 5264412,
+          "p99_ns": 5965539
+        },
+        {
+          "id": "run-0739",
+          "population": 10208,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1880352,
+          "p95_ns": 3547780,
+          "p99_ns": 4135744
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24568.0,
+        "q1": 24572.0,
+        "median": 24676.0,
+        "q3": 24684.0,
+        "maximum": 24684.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7313.43981,
+        "q1": 7709.66587,
+        "median": 7788.00296,
+        "q3": 7954.39033,
+        "maximum": 8010.70785
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24568.0,
+        "q1": 24572.0,
+        "median": 24580.0,
+        "q3": 24676.0,
+        "maximum": 24684.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8840.36013,
+        "q1": 9169.30054,
+        "median": 9333.91797,
+        "q3": 9362.32411,
+        "maximum": 10150.88746
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8712.0,
+        "q1": 8712.0,
+        "median": 8812.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 485.60569,
+        "q1": 489.73945,
+        "median": 489.95052,
+        "q3": 500.969,
+        "maximum": 510.00218
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 1
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7324.0,
+        "q1": 7432.0,
+        "median": 7492.0,
+        "q3": 7572.0,
+        "maximum": 7580.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 361432.3674597871,
+        "q1": 366754.3046860458,
+        "median": 368417.71418537624,
+        "q3": 369827.6428255958,
+        "maximum": 379258.96007731697
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 361432.3674597871,
+        "q1": 366754.3046860458,
+        "median": 368417.71418537624,
+        "q3": 369827.6428255958,
+        "maximum": 379258.96007731697
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0171",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 689457,
+          "p95_ns": 972714,
+          "p99_ns": 1223464
+        },
+        {
+          "id": "run-0257",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 696445,
+          "p95_ns": 986255,
+          "p99_ns": 1310502
+        },
+        {
+          "id": "run-0472",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 701689,
+          "p95_ns": 1024715,
+          "p99_ns": 1287761
+        },
+        {
+          "id": "run-0619",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 712830,
+          "p95_ns": 986022,
+          "p99_ns": 1232276
+        },
+        {
+          "id": "run-0629",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 710637,
+          "p95_ns": 994613,
+          "p99_ns": 1309144
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 1024,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9228.0,
+        "q1": 9352.0,
+        "median": 9356.0,
+        "q3": 9356.0,
+        "maximum": 9384.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 445834.4432939092,
+        "q1": 447176.752035496,
+        "median": 451308.60155878466,
+        "q3": 462004.4683870971,
+        "maximum": 484018.58482287993
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 445834.4432939092,
+        "q1": 447176.752035496,
+        "median": 451308.60155878466,
+        "q3": 462004.4683870971,
+        "maximum": 484018.58482287993
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0172",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2147989,
+          "p95_ns": 2981422,
+          "p99_ns": 3853911
+        },
+        {
+          "id": "run-0365",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2094743,
+          "p95_ns": 3480982,
+          "p99_ns": 4924134
+        },
+        {
+          "id": "run-0445",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2141383,
+          "p95_ns": 2946943,
+          "p99_ns": 5332319
+        },
+        {
+          "id": "run-0519",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2004038,
+          "p95_ns": 2722363,
+          "p99_ns": 4038941
+        },
+        {
+          "id": "run-0714",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2173873,
+          "p95_ns": 3002907,
+          "p99_ns": 4351472
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24068.0,
+        "q1": 24168.0,
+        "median": 24172.0,
+        "q3": 24172.0,
+        "maximum": 24172.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7324.21302,
+        "q1": 7347.79136,
+        "median": 7731.99184,
+        "q3": 7986.61287,
+        "maximum": 8016.721
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 64,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7380.0,
+        "q1": 7428.0,
+        "median": 7436.0,
+        "q3": 7484.0,
+        "maximum": 7512.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 518559.7997197599,
+        "q1": 518785.40363442065,
+        "median": 542316.1775117556,
+        "q3": 569445.9753050414,
+        "maximum": 600498.512246921
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 518559.7997197599,
+        "q1": 518785.40363442065,
+        "median": 542316.1775117556,
+        "q3": 569445.9753050414,
+        "maximum": 600498.512246921
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0174",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 95365,
+          "p95_ns": 251426,
+          "p99_ns": 788545
+        },
+        {
+          "id": "run-0250",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 101662,
+          "p95_ns": 227916,
+          "p99_ns": 780812
+        },
+        {
+          "id": "run-0461",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 26645,
+          "p95_ns": 271292,
+          "p99_ns": 739289
+        },
+        {
+          "id": "run-0502",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 88963,
+          "p95_ns": 227753,
+          "p99_ns": 783306
+        },
+        {
+          "id": "run-0654",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 94763,
+          "p95_ns": 214580,
+          "p99_ns": 771439
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24576.0,
+        "q1": 24680.0,
+        "median": 24684.0,
+        "q3": 24684.0,
+        "maximum": 24684.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7070.2868,
+        "q1": 7400.5501,
+        "median": 7457.48268,
+        "q3": 7656.28151,
+        "maximum": 7937.69474
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 7944.0,
+        "median": 8044.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 110.4168,
+        "q1": 114.40648,
+        "median": 115.02282,
+        "q3": 142.78622,
+        "maximum": 153.15881
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8828.0,
+        "q1": 8836.0,
+        "median": 8840.0,
+        "q3": 8868.0,
+        "maximum": 8940.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 487.38862,
+        "q1": 487.93473,
+        "median": 509.49202,
+        "q3": 523.30342,
+        "maximum": 706.32824
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8712.0,
+        "q1": 8712.0,
+        "median": 8804.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 450.85817,
+        "q1": 468.09254,
+        "median": 472.11877,
+        "q3": 494.59124,
+        "maximum": 510.65971
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8700.0,
+        "q1": 8812.0,
+        "median": 8812.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 427.24609,
+        "q1": 431.0711,
+        "median": 437.62113,
+        "q3": 439.70835,
+        "maximum": 454.4689
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9932.0,
+        "q1": 9968.0,
+        "median": 10028.0,
+        "q3": 10032.0,
+        "maximum": 10032.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 394.06717,
+        "q1": 409.85691,
+        "median": 414.08112,
+        "q3": 448.19346,
+        "maximum": 471.63108
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 1
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7284.0,
+        "q1": 7324.0,
+        "median": 7340.0,
+        "q3": 7348.0,
+        "maximum": 7380.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 492857.870926717,
+        "q1": 511154.4828419647,
+        "median": 511246.02562759403,
+        "q3": 528629.7225662267,
+        "maximum": 547545.7806974902
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 492857.870926717,
+        "q1": 511154.4828419647,
+        "median": 511246.02562759403,
+        "q3": 528629.7225662267,
+        "maximum": 547545.7806974902
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.87184,
+        "q1": 0.87184,
+        "median": 0.87936,
+        "q3": 0.89136,
+        "maximum": 0.90416
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0181",
+          "population": 12816,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 352229,
+          "p95_ns": 1154332,
+          "p99_ns": 1974959
+        },
+        {
+          "id": "run-0251",
+          "population": 12816,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 362966,
+          "p95_ns": 1012526,
+          "p99_ns": 1453764
+        },
+        {
+          "id": "run-0493",
+          "population": 12064,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 365768,
+          "p95_ns": 870101,
+          "p99_ns": 2687823
+        },
+        {
+          "id": "run-0506",
+          "population": 10864,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 349436,
+          "p95_ns": 896857,
+          "p99_ns": 1048211
+        },
+        {
+          "id": "run-0734",
+          "population": 9584,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 377403,
+          "p95_ns": 943910,
+          "p99_ns": 1237514
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8744.0,
+        "q1": 8776.0,
+        "median": 8780.0,
+        "q3": 8816.0,
+        "maximum": 8844.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 137.83831,
+        "q1": 139.83486,
+        "median": 143.56727,
+        "q3": 144.68588,
+        "maximum": 158.35986
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8744.0,
+        "q1": 8760.0,
+        "median": 8812.0,
+        "q3": 8844.0,
+        "maximum": 8872.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 132.64752,
+        "q1": 134.2899,
+        "median": 134.59474,
+        "q3": 137.08642,
+        "maximum": 143.53119
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 64,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7152.0,
+        "q1": 7180.0,
+        "median": 7204.0,
+        "q3": 7228.0,
+        "maximum": 7296.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 375087.71150120546,
+        "q1": 417737.0641106398,
+        "median": 422908.1001064985,
+        "q3": 572108.4911112972,
+        "maximum": 628048.9693801233
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 375087.71150120546,
+        "q1": 417737.0641106398,
+        "median": 422908.1001064985,
+        "q3": 572108.4911112972,
+        "maximum": 628048.9693801233
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.86376,
+        "q1": 0.87127,
+        "median": 0.91147,
+        "q3": 0.91262,
+        "maximum": 0.91459
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0184",
+          "population": 12873,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 41575,
+          "p95_ns": 174956,
+          "p99_ns": 1190874
+        },
+        {
+          "id": "run-0275",
+          "population": 13624,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 59380,
+          "p95_ns": 224617,
+          "p99_ns": 880825
+        },
+        {
+          "id": "run-0447",
+          "population": 8738,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 83804,
+          "p95_ns": 628835,
+          "p99_ns": 988026
+        },
+        {
+          "id": "run-0501",
+          "population": 8541,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 81833,
+          "p95_ns": 715206,
+          "p99_ns": 1427580
+        },
+        {
+          "id": "run-0672",
+          "population": 8853,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 72360,
+          "p95_ns": 518760,
+          "p99_ns": 1230906
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9972.0,
+        "q1": 10048.0,
+        "median": 10088.0,
+        "q3": 10092.0,
+        "maximum": 10108.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 400.87617,
+        "q1": 402.33673,
+        "median": 410.31226,
+        "q3": 420.27185,
+        "maximum": 431.76117
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9788.0,
+        "q1": 9904.0,
+        "median": 9968.0,
+        "q3": 10024.0,
+        "maximum": 10024.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 456.27389,
+        "q1": 477.86666,
+        "median": 480.30627,
+        "q3": 489.58755,
+        "maximum": 516.7968
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7928.0,
+        "q1": 7944.0,
+        "median": 7944.0,
+        "q3": 7944.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 100.726,
+        "q1": 102.65455,
+        "median": 104.20914,
+        "q3": 105.18235,
+        "maximum": 107.57868
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24072.0,
+        "q1": 24164.0,
+        "median": 24172.0,
+        "q3": 24172.0,
+        "maximum": 24172.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7530.1192,
+        "q1": 7595.75603,
+        "median": 7628.1661,
+        "q3": 7715.4721,
+        "maximum": 7996.54303
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32880.0,
+        "q1": 32944.0,
+        "median": 33008.0,
+        "q3": 33020.0,
+        "maximum": 33020.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7153.03163,
+        "q1": 7304.09986,
+        "median": 7354.03921,
+        "q3": 7606.78759,
+        "maximum": 7681.53145
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8752.0,
+        "q1": 8776.0,
+        "median": 8816.0,
+        "q3": 8840.0,
+        "maximum": 8880.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 128.65707,
+        "q1": 131.3227,
+        "median": 132.67955,
+        "q3": 133.85124,
+        "maximum": 156.89746
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32936.0,
+        "q1": 32936.0,
+        "median": 33036.0,
+        "q3": 33036.0,
+        "maximum": 33072.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7045.98856,
+        "q1": 7170.43059,
+        "median": 7375.43741,
+        "q3": 7391.78451,
+        "maximum": 7784.92789
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24164.0,
+        "q1": 24172.0,
+        "median": 24172.0,
+        "q3": 24172.0,
+        "maximum": 24172.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8595.98327,
+        "q1": 8650.40329,
+        "median": 8713.79485,
+        "q3": 9007.63155,
+        "maximum": 9084.60682
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 26164.0,
+        "q1": 26212.0,
+        "median": 26220.0,
+        "q3": 26220.0,
+        "maximum": 26220.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 9332.30961,
+        "q1": 9381.99288,
+        "median": 9583.4125,
+        "q3": 9792.63303,
+        "maximum": 9967.74276
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 4
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8332.0,
+        "q1": 8336.0,
+        "median": 8364.0,
+        "q3": 8468.0,
+        "maximum": 8492.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 456042.8047613897,
+        "q1": 494561.66883069545,
+        "median": 513125.9674990118,
+        "q3": 519482.27897374495,
+        "maximum": 532349.2481288203
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 456042.8047613897,
+        "q1": 494561.66883069545,
+        "median": 513125.9674990118,
+        "q3": 519482.27897374495,
+        "maximum": 532349.2481288203
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0194",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 398060,
+          "p95_ns": 1336825,
+          "p99_ns": 1989388
+        },
+        {
+          "id": "run-0310",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 389590,
+          "p95_ns": 1084281,
+          "p99_ns": 1443282
+        },
+        {
+          "id": "run-0470",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 394416,
+          "p95_ns": 1071468,
+          "p99_ns": 1496277
+        },
+        {
+          "id": "run-0576",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 380344,
+          "p95_ns": 1095461,
+          "p99_ns": 1563919
+        },
+        {
+          "id": "run-0694",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 404570,
+          "p95_ns": 961453,
+          "p99_ns": 1287524
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 4
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8180.0,
+        "q1": 8284.0,
+        "median": 8328.0,
+        "q3": 8392.0,
+        "maximum": 8464.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 457856.45809029456,
+        "q1": 508901.97802870674,
+        "median": 509060.29068788333,
+        "q3": 513667.5690812765,
+        "maximum": 529449.0690644074
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 457856.45809029456,
+        "q1": 508901.97802870674,
+        "median": 509060.29068788333,
+        "q3": 513667.5690812765,
+        "maximum": 529449.0690644074
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0195",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 381200,
+          "p95_ns": 1037195,
+          "p99_ns": 1547212
+        },
+        {
+          "id": "run-0343",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 345235,
+          "p95_ns": 1105909,
+          "p99_ns": 1547313
+        },
+        {
+          "id": "run-0495",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 389366,
+          "p95_ns": 1071023,
+          "p99_ns": 1470292
+        },
+        {
+          "id": "run-0564",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 419282,
+          "p95_ns": 1335187,
+          "p99_ns": 2193577
+        },
+        {
+          "id": "run-0727",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 396357,
+          "p95_ns": 1049553,
+          "p99_ns": 1419782
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 33008.0,
+        "q1": 33068.0,
+        "median": 33072.0,
+        "q3": 33096.0,
+        "maximum": 33136.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8618.2752,
+        "q1": 8827.14503,
+        "median": 8872.37882,
+        "q3": 8883.32098,
+        "maximum": 11110.70959
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8008.0,
+        "q1": 8092.0,
+        "median": 8140.0,
+        "q3": 8192.0,
+        "maximum": 8196.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 932706.6862627098,
+        "q1": 941878.2297063364,
+        "median": 953581.8661379704,
+        "q3": 954339.1563513976,
+        "maximum": 976462.6223680988
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 932706.6862627098,
+        "q1": 941878.2297063364,
+        "median": 953581.8661379704,
+        "q3": 954339.1563513976,
+        "maximum": 976462.6223680988
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0197",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 217869,
+          "p95_ns": 847449,
+          "p99_ns": 1057152
+        },
+        {
+          "id": "run-0258",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 226828,
+          "p95_ns": 825018,
+          "p99_ns": 938783
+        },
+        {
+          "id": "run-0401",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 217368,
+          "p95_ns": 739752,
+          "p99_ns": 902438
+        },
+        {
+          "id": "run-0535",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 217502,
+          "p95_ns": 788442,
+          "p99_ns": 981164
+        },
+        {
+          "id": "run-0706",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 225333,
+          "p95_ns": 778625,
+          "p99_ns": 982067
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8752.0,
+        "q1": 8808.0,
+        "median": 8812.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 460.15422,
+        "q1": 465.2871,
+        "median": 467.38724,
+        "q3": 486.9505,
+        "maximum": 505.67487
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 33000.0,
+        "q1": 33008.0,
+        "median": 33008.0,
+        "q3": 33036.0,
+        "maximum": 33072.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7041.17873,
+        "q1": 7194.52439,
+        "median": 7212.03232,
+        "q3": 7289.18478,
+        "maximum": 7571.07738
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8836.0,
+        "q1": 8836.0,
+        "median": 8936.0,
+        "q3": 8936.0,
+        "maximum": 8940.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 451.41349,
+        "q1": 451.5559,
+        "median": 453.17694,
+        "q3": 462.71458,
+        "maximum": 487.82386
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7244.0,
+        "q1": 7360.0,
+        "median": 7372.0,
+        "q3": 7372.0,
+        "maximum": 7520.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 704469.5716418428,
+        "q1": 718183.468478982,
+        "median": 864205.6948295848,
+        "q3": 895250.1810225865,
+        "maximum": 909415.542661919
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 704469.5716418428,
+        "q1": 718183.468478982,
+        "median": 864205.6948295848,
+        "q3": 895250.1810225865,
+        "maximum": 909415.542661919
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.69354,
+        "q1": 0.73858,
+        "median": 0.7491,
+        "q3": 0.75962,
+        "maximum": 0.76574
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0201",
+          "population": 23426,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 155031,
+          "p95_ns": 1248425,
+          "p99_ns": 3299776
+        },
+        {
+          "id": "run-0308",
+          "population": 24038,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 139626,
+          "p95_ns": 913732,
+          "p99_ns": 2371522
+        },
+        {
+          "id": "run-0488",
+          "population": 25090,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 140890,
+          "p95_ns": 886474,
+          "p99_ns": 1370897
+        },
+        {
+          "id": "run-0601",
+          "population": 26142,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 141803,
+          "p95_ns": 993316,
+          "p99_ns": 1398936
+        },
+        {
+          "id": "run-0692",
+          "population": 30646,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 147226,
+          "p95_ns": 874275,
+          "p99_ns": 1399339
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8712.0,
+        "q1": 8804.0,
+        "median": 8804.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 484.61841,
+        "q1": 489.97776,
+        "median": 493.46969,
+        "q3": 493.53687,
+        "maximum": 501.83399
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 33072.0,
+        "q1": 33072.0,
+        "median": 33164.0,
+        "q3": 33200.0,
+        "maximum": 33200.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7011.79679,
+        "q1": 7332.30919,
+        "median": 7706.0035,
+        "q3": 7808.88252,
+        "maximum": 8081.22837
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8744.0,
+        "q1": 8752.0,
+        "median": 8816.0,
+        "q3": 8816.0,
+        "maximum": 8876.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 98.83595,
+        "q1": 100.52826,
+        "median": 101.07403,
+        "q3": 101.52984,
+        "maximum": 105.5079
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8764.0,
+        "q1": 8808.0,
+        "median": 8816.0,
+        "q3": 8840.0,
+        "maximum": 8880.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 110.09026,
+        "q1": 113.03518,
+        "median": 113.65184,
+        "q3": 113.8957,
+        "maximum": 114.40807
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 34892.0,
+        "q1": 35020.0,
+        "median": 35048.0,
+        "q3": 35056.0,
+        "maximum": 35120.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 9144.61591,
+        "q1": 9371.42068,
+        "median": 9439.21056,
+        "q3": 9468.43657,
+        "maximum": 10086.05436
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7568.0,
+        "q1": 7580.0,
+        "median": 7584.0,
+        "q3": 7588.0,
+        "maximum": 7676.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 322351.4329036763,
+        "q1": 370130.2284393477,
+        "median": 402177.3665795689,
+        "q3": 531112.5569097965,
+        "maximum": 567489.71396811
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 322351.4329036763,
+        "q1": 370130.2284393477,
+        "median": 402177.3665795689,
+        "q3": 531112.5569097965,
+        "maximum": 567489.71396811
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.8737,
+        "q1": 0.88533,
+        "median": 0.89246,
+        "q3": 0.89947,
+        "maximum": 0.91669
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0207",
+          "population": 10754,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 395114,
+          "p95_ns": 1928794,
+          "p99_ns": 2739328
+        },
+        {
+          "id": "run-0368",
+          "population": 10053,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 374694,
+          "p95_ns": 1361928,
+          "p99_ns": 2255010
+        },
+        {
+          "id": "run-0455",
+          "population": 8331,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 452268,
+          "p95_ns": 1214921,
+          "p99_ns": 3632963
+        },
+        {
+          "id": "run-0593",
+          "population": 12630,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 325601,
+          "p95_ns": 1099275,
+          "p99_ns": 1994727
+        },
+        {
+          "id": "run-0665",
+          "population": 11467,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 343402,
+          "p95_ns": 1112440,
+          "p99_ns": 1448611
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7936.0,
+        "q1": 7968.0,
+        "median": 7984.0,
+        "q3": 8036.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 115.21341,
+        "q1": 116.98643,
+        "median": 117.2837,
+        "q3": 117.57817,
+        "maximum": 127.33628
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 26164.0,
+        "q1": 26220.0,
+        "median": 26220.0,
+        "q3": 26220.0,
+        "maximum": 26220.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7333.7133,
+        "q1": 7387.6761,
+        "median": 7476.16174,
+        "q3": 7648.54832,
+        "maximum": 7693.80226
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9880.0,
+        "q1": 9904.0,
+        "median": 9932.0,
+        "q3": 9968.0,
+        "maximum": 9996.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 453.36677,
+        "q1": 467.42421,
+        "median": 472.81849,
+        "q3": 475.47457,
+        "maximum": 553.57951
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9920.0,
+        "q1": 9928.0,
+        "median": 9968.0,
+        "q3": 10024.0,
+        "maximum": 10028.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 395.62168,
+        "q1": 404.49238,
+        "median": 415.52375,
+        "q3": 419.29757,
+        "maximum": 439.38371
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 7944.0,
+        "median": 7980.0,
+        "q3": 8036.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 109.37166,
+        "q1": 110.57453,
+        "median": 110.89917,
+        "q3": 112.91122,
+        "maximum": 117.6749
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 8036.0,
+        "median": 8040.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 95.15706,
+        "q1": 95.21249,
+        "median": 97.63572,
+        "q3": 98.46049,
+        "maximum": 100.01191
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9844.0,
+        "q1": 9904.0,
+        "median": 9904.0,
+        "q3": 9904.0,
+        "maximum": 9928.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 595.53982,
+        "q1": 599.09734,
+        "median": 599.91571,
+        "q3": 610.3759,
+        "maximum": 618.23864
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7984.0,
+        "q1": 8044.0,
+        "median": 8044.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 98.8475,
+        "q1": 100.30669,
+        "median": 102.38304,
+        "q3": 103.06651,
+        "maximum": 106.36079
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8700.0,
+        "q1": 8704.0,
+        "median": 8740.0,
+        "q3": 8752.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 476.20247,
+        "q1": 480.61272,
+        "median": 495.25359,
+        "q3": 501.02629,
+        "maximum": 580.14535
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9800.0,
+        "q1": 9848.0,
+        "median": 9916.0,
+        "q3": 9968.0,
+        "maximum": 10028.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 421.3126,
+        "q1": 421.5518,
+        "median": 423.36265,
+        "q3": 435.4573,
+        "maximum": 441.94295
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7612.0,
+        "q1": 7712.0,
+        "median": 7836.0,
+        "q3": 7848.0,
+        "maximum": 7896.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 462807.5646100071,
+        "q1": 483304.56752877857,
+        "median": 499233.42707272986,
+        "q3": 506875.1814644829,
+        "maximum": 528823.3724912058
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 462807.5646100071,
+        "q1": 483304.56752877857,
+        "median": 499233.42707272986,
+        "q3": 506875.1814644829,
+        "maximum": 528823.3724912058
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0218",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 489884,
+          "p95_ns": 1007960,
+          "p99_ns": 1311106
+        },
+        {
+          "id": "run-0289",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 463351,
+          "p95_ns": 1016622,
+          "p99_ns": 1400862
+        },
+        {
+          "id": "run-0460",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 439158,
+          "p95_ns": 1022079,
+          "p99_ns": 1468703
+        },
+        {
+          "id": "run-0524",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 499005,
+          "p95_ns": 1040709,
+          "p99_ns": 1770462
+        },
+        {
+          "id": "run-0636",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 430526,
+          "p95_ns": 1145075,
+          "p99_ns": 1748560
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 34992.0,
+        "q1": 35012.0,
+        "median": 35020.0,
+        "q3": 35048.0,
+        "maximum": 35056.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 9000.30596,
+        "q1": 9104.55456,
+        "median": 9379.33899,
+        "q3": 9382.2752,
+        "maximum": 9746.9608
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7984.0,
+        "q1": 8036.0,
+        "median": 8040.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 115.07946,
+        "q1": 115.17735,
+        "median": 117.79667,
+        "q3": 117.95225,
+        "maximum": 138.75706
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8704.0,
+        "q1": 8708.0,
+        "median": 8804.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 386.33666,
+        "q1": 401.01475,
+        "median": 405.43793,
+        "q3": 415.61704,
+        "maximum": 451.75767
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "block",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7812.0,
+        "q1": 7832.0,
+        "median": 7852.0,
+        "q3": 7900.0,
+        "maximum": 7912.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 494486.5638209776,
+        "q1": 496920.0028612654,
+        "median": 507084.91178935964,
+        "q3": 512669.08877519437,
+        "maximum": 525237.7528080917
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 494486.5638209776,
+        "q1": 496920.0028612654,
+        "median": 507084.91178935964,
+        "q3": 512669.08877519437,
+        "maximum": 525237.7528080917
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.0,
+        "q1": 0.0,
+        "median": 0.0,
+        "q3": 0.0,
+        "maximum": 0.0
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0222",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 446028,
+          "p95_ns": 956261,
+          "p99_ns": 1378552
+        },
+        {
+          "id": "run-0346",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 405087,
+          "p95_ns": 1068029,
+          "p99_ns": 1946419
+        },
+        {
+          "id": "run-0416",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 462636,
+          "p95_ns": 995845,
+          "p99_ns": 1567387
+        },
+        {
+          "id": "run-0575",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 466943,
+          "p95_ns": 1031699,
+          "p99_ns": 1568871
+        },
+        {
+          "id": "run-0631",
+          "population": 100000,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 450141,
+          "p95_ns": 953674,
+          "p99_ns": 1375151
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9904.0,
+        "q1": 9904.0,
+        "median": 9996.0,
+        "q3": 9996.0,
+        "maximum": 10032.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 400.90275,
+        "q1": 412.109,
+        "median": 418.13099,
+        "q3": 421.6639,
+        "maximum": 423.21351
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32944.0,
+        "q1": 32956.0,
+        "median": 32964.0,
+        "q3": 33000.0,
+        "maximum": 33036.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 6957.52262,
+        "q1": 7058.36884,
+        "median": 7156.14134,
+        "q3": 7232.16998,
+        "maximum": 7573.1091
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 1
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7328.0,
+        "q1": 7344.0,
+        "median": 7348.0,
+        "q3": 7352.0,
+        "maximum": 7412.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 487761.9625865628,
+        "q1": 537478.3994168895,
+        "median": 544423.3678074011,
+        "q3": 571093.8546139246,
+        "maximum": 590380.6683333766
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 487761.9625865628,
+        "q1": 537478.3994168895,
+        "median": 544423.3678074011,
+        "q3": 571093.8546139246,
+        "maximum": 590380.6683333766
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.84544,
+        "q1": 0.8696,
+        "median": 0.87184,
+        "q3": 0.8776,
+        "maximum": 0.88768
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0225",
+          "population": 11232,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 362098,
+          "p95_ns": 870248,
+          "p99_ns": 1041619
+        },
+        {
+          "id": "run-0321",
+          "population": 12240,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 359295,
+          "p95_ns": 816419,
+          "p99_ns": 1498677
+        },
+        {
+          "id": "run-0435",
+          "population": 12816,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 349193,
+          "p95_ns": 917660,
+          "p99_ns": 1856556
+        },
+        {
+          "id": "run-0577",
+          "population": 13040,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 371793,
+          "p95_ns": 1198450,
+          "p99_ns": 3100972
+        },
+        {
+          "id": "run-0708",
+          "population": 15456,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 360794,
+          "p95_ns": 928746,
+          "p99_ns": 1415964
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32960.0,
+        "q1": 33072.0,
+        "median": 33136.0,
+        "q3": 33164.0,
+        "maximum": 33200.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8299.05741,
+        "q1": 8469.34793,
+        "median": 8538.61888,
+        "q3": 8647.706,
+        "maximum": 8858.80659
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7200.0,
+        "q1": 7208.0,
+        "median": 7324.0,
+        "q3": 7332.0,
+        "maximum": 7468.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 683948.3128770893,
+        "q1": 737639.7657183318,
+        "median": 739567.7146741134,
+        "q3": 760001.9139459517,
+        "maximum": 956743.6300246587
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 683948.3128770893,
+        "q1": 737639.7657183318,
+        "median": 739567.7146741134,
+        "q3": 760001.9139459517,
+        "maximum": 956743.6300246587
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.67286,
+        "q1": 0.76286,
+        "median": 0.7811,
+        "q3": 0.79006,
+        "maximum": 0.80099
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0227",
+          "population": 19901,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 183003,
+          "p95_ns": 1226633,
+          "p99_ns": 1513115
+        },
+        {
+          "id": "run-0293",
+          "population": 32714,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 161602,
+          "p95_ns": 751721,
+          "p99_ns": 1272305
+        },
+        {
+          "id": "run-0476",
+          "population": 20994,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 162763,
+          "p95_ns": 1054269,
+          "p99_ns": 1975377
+        },
+        {
+          "id": "run-0509",
+          "population": 23714,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 154473,
+          "p95_ns": 932979,
+          "p99_ns": 3243229
+        },
+        {
+          "id": "run-0635",
+          "population": 21890,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 154683,
+          "p95_ns": 909013,
+          "p99_ns": 2566701
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 7944.0,
+        "median": 7988.0,
+        "q3": 7988.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 99.50803,
+        "q1": 104.45295,
+        "median": 105.35662,
+        "q3": 105.37289,
+        "maximum": 107.30148
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8692.0,
+        "q1": 8748.0,
+        "median": 8752.0,
+        "q3": 8844.0,
+        "maximum": 8872.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 114.34997,
+        "q1": 114.50288,
+        "median": 114.5212,
+        "q3": 115.36472,
+        "maximum": 135.75101
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "ffi": "event",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 1024,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 9032.0,
+        "q1": 9084.0,
+        "median": 9108.0,
+        "q3": 9152.0,
+        "maximum": 9192.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 332537.1904744326,
+        "q1": 368814.6367522386,
+        "median": 370945.5660760706,
+        "q3": 403048.11896126106,
+        "maximum": 437018.9872293784
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 332537.1904744326,
+        "q1": 368814.6367522386,
+        "median": 370945.5660760706,
+        "q3": 403048.11896126106,
+        "maximum": 437018.9872293784
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.87966,
+        "q1": 0.884,
+        "median": 0.88889,
+        "q3": 0.8992,
+        "maximum": 0.90004
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0230",
+          "population": 11600,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1966157,
+          "p95_ns": 3185545,
+          "p99_ns": 6658742
+        },
+        {
+          "id": "run-0291",
+          "population": 11111,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1860474,
+          "p95_ns": 3953836,
+          "p99_ns": 4442344
+        },
+        {
+          "id": "run-0477",
+          "population": 9996,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1762503,
+          "p95_ns": 6519997,
+          "p99_ns": 7088808
+        },
+        {
+          "id": "run-0596",
+          "population": 10080,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 2280585,
+          "p95_ns": 4164399,
+          "p99_ns": 4909362
+        },
+        {
+          "id": "run-0688",
+          "population": 12034,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 1759623,
+          "p95_ns": 2590515,
+          "p99_ns": 3329306
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8712.0,
+        "q1": 8804.0,
+        "median": 8804.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 401.41363,
+        "q1": 408.50439,
+        "median": 409.12971,
+        "q3": 412.54263,
+        "maximum": 434.70016
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24192.0,
+        "q1": 24192.0,
+        "median": 24300.0,
+        "q3": 24300.0,
+        "maximum": 24300.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8476.7583,
+        "q1": 8529.63044,
+        "median": 8653.36844,
+        "q3": 8698.33058,
+        "maximum": 8718.82764
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 24192.0,
+        "q1": 24196.0,
+        "median": 24292.0,
+        "q3": 24296.0,
+        "maximum": 24300.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8472.50462,
+        "q1": 8497.89962,
+        "median": 8924.42962,
+        "q3": 9131.15455,
+        "maximum": 9637.30165
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7944.0,
+        "q1": 7944.0,
+        "median": 7972.0,
+        "q3": 8044.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 103.27355,
+        "q1": 107.81724,
+        "median": 109.32889,
+        "q3": 128.6676,
+        "maximum": 133.16261
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 10000.0,
+        "q1": 10032.0,
+        "median": 10032.0,
+        "q3": 10060.0,
+        "maximum": 10160.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 382.27987,
+        "q1": 384.98273,
+        "median": 395.82741,
+        "q3": 411.79117,
+        "maximum": 437.68662
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7932.0,
+        "q1": 7944.0,
+        "median": 8036.0,
+        "q3": 8040.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 87.18892,
+        "q1": 90.68091,
+        "median": 92.26048,
+        "q3": 94.61483,
+        "maximum": 94.63719
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7936.0,
+        "q1": 7940.0,
+        "median": 7944.0,
+        "q3": 8036.0,
+        "maximum": 8044.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 101.81132,
+        "q1": 103.50966,
+        "median": 103.67006,
+        "q3": 105.12937,
+        "maximum": 109.78917
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8836.0,
+        "q1": 8836.0,
+        "median": 8840.0,
+        "q3": 8936.0,
+        "maximum": 8940.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 401.23617,
+        "q1": 413.87668,
+        "median": 422.70468,
+        "q3": 423.90795,
+        "maximum": 437.31946
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 26220.0,
+        "q1": 26220.0,
+        "median": 26220.0,
+        "q3": 26220.0,
+        "maximum": 26220.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7318.30775,
+        "q1": 7363.95927,
+        "median": 7525.57675,
+        "q3": 7727.1872,
+        "maximum": 7772.8341
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "ffi": "batch",
+        "kind": "pipeline",
+        "policy": "drop-new",
+        "queue_capacity": 256,
+        "samples": 256,
+        "workers": 2
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 7696.0,
+        "q1": 7812.0,
+        "median": 7888.0,
+        "q3": 7912.0,
+        "maximum": 7928.0
+      },
+      "throughput_processed_per_second": {
+        "n": 5,
+        "minimum": 602730.0679859119,
+        "q1": 760816.6248304644,
+        "median": 918903.2654986908,
+        "q3": 1031630.6539073312,
+        "maximum": 1077616.2392459733
+      },
+      "throughput_written_per_second": {
+        "n": 5,
+        "minimum": 602730.0679859119,
+        "q1": 760816.6248304644,
+        "median": 918903.2654986908,
+        "q3": 1031630.6539073312,
+        "maximum": 1077616.2392459733
+      },
+      "drop_fraction": {
+        "n": 5,
+        "minimum": 0.69624,
+        "q1": 0.7073,
+        "median": 0.71909,
+        "q3": 0.72636,
+        "maximum": 0.78667
+      },
+      "latency_by_run": [
+        {
+          "id": "run-0240",
+          "population": 28091,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 156044,
+          "p95_ns": 958432,
+          "p99_ns": 1480139
+        },
+        {
+          "id": "run-0362",
+          "population": 30376,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 253998,
+          "p95_ns": 1160072,
+          "p99_ns": 1964166
+        },
+        {
+          "id": "run-0381",
+          "population": 27364,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 180580,
+          "p95_ns": 829878,
+          "p99_ns": 1289205
+        },
+        {
+          "id": "run-0611",
+          "population": 29270,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 176772,
+          "p95_ns": 791863,
+          "p99_ns": 943253
+        },
+        {
+          "id": "run-0671",
+          "population": 21333,
+          "small_population": false,
+          "histogram_overflow": 0,
+          "p50_ns": 176534,
+          "p95_ns": 847480,
+          "p99_ns": 1664936
+        }
+      ]
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8712.0,
+        "q1": 8812.0,
+        "median": 8812.0,
+        "q3": 8812.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 425.65978,
+        "q1": 431.67138,
+        "median": 432.6802,
+        "q3": 453.36154,
+        "maximum": 561.68135
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8696.0,
+        "q1": 8744.0,
+        "median": 8756.0,
+        "q3": 8816.0,
+        "maximum": 8880.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 98.33402,
+        "q1": 98.48958,
+        "median": 103.41165,
+        "q3": 110.60622,
+        "maximum": 129.51037
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8752.0,
+        "q1": 8756.0,
+        "median": 8760.0,
+        "q3": 8780.0,
+        "maximum": 8816.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 123.435,
+        "q1": 124.11382,
+        "median": 124.52395,
+        "q3": 131.22554,
+        "maximum": 133.30686
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "engine": "native",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 256
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8740.0,
+        "q1": 8756.0,
+        "median": 8804.0,
+        "q3": 8804.0,
+        "maximum": 8812.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 445.24828,
+        "q1": 450.04706,
+        "median": 460.56435,
+        "q3": 462.7188,
+        "maximum": 492.87371
+      }
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "engine": "rust_ffi",
+        "ffi": "event",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 33468.0,
+        "q1": 33516.0,
+        "median": 33520.0,
+        "q3": 33536.0,
+        "maximum": 33536.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 8592.45632,
+        "q1": 8772.02931,
+        "median": 8942.91199,
+        "q3": 9057.36799,
+        "maximum": 9083.50831
+      }
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "prepared",
+        "samples": 4096
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 32944.0,
+        "q1": 33008.0,
+        "median": 33032.0,
+        "q3": 33036.0,
+        "maximum": 33068.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 7053.05753,
+        "q1": 7059.70276,
+        "median": 7163.81746,
+        "q3": 7174.16286,
+        "maximum": 7304.0806
+      }
+    },
+    {
+      "config": {
+        "batch_size": 1,
+        "engine": "rust_ffi",
+        "ffi": "batch",
+        "kind": "micro",
+        "preparation": "pack",
+        "samples": 64
+      },
+      "peak_rss_kib": {
+        "n": 5,
+        "minimum": 8780.0,
+        "q1": 8808.0,
+        "median": 8816.0,
+        "q3": 8828.0,
+        "maximum": 8844.0
+      },
+      "ns_per_event": {
+        "n": 5,
+        "minimum": 226.55945,
+        "q1": 229.94599,
+        "median": 230.09726,
+        "q3": 230.25298,
+        "maximum": 264.3976
+      }
+    }
+  ]
+}

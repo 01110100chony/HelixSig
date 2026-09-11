@@ -1,0 +1,203 @@
+Fri Sep 11 06:21:50 UTC 2026
+a2414a33e88a56a11dee718d22d9dd33b6c4f3d9
+Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Hit:2 http://archive.ubuntu.com/ubuntu noble InRelease
+Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1006 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1262 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [213 kB]
+Get:8 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1206 kB]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1445 kB]
+Get:10 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1690 kB]
+Get:11 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [336 kB]
+Fetched 7410 kB in 3s (2266 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+build-essential is already the newest version (12.10ubuntu1).
+cmake is already the newest version (3.28.3-1build7).
+clang-18 is already the newest version (1:18.1.3-1ubuntu1).
+clang-18 set to manually installed.
+clang-format-18 is already the newest version (1:18.1.3-1ubuntu1).
+clang-format-18 set to manually installed.
+libclang-rt-18-dev is already the newest version (1:18.1.3-1ubuntu1).
+python3-venv is already the newest version (3.12.3-0ubuntu2.1).
+python3-pip is already the newest version (24.0+dfsg-1ubuntu1.3).
+git is already the newest version (1:2.43.0-1ubuntu7.3).
+git set to manually installed.
+time is already the newest version (1.9-0.2build1).
+util-linux is already the newest version (2.39.3-9ubuntu6.6).
+curl is already the newest version (8.5.0-2ubuntu10.13).
+curl set to manually installed.
+ca-certificates is already the newest version (20260601~24.04.1).
+ca-certificates set to manually installed.
+The following packages were automatically installed and are no longer required:
+  libgit2-1.7 libhttp-parser2.9 libllvm17t64 libssh2-1t64 libstd-rust-1.75
+  libstd-rust-dev
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  libproc2-0
+The following packages will be upgraded:
+  libproc2-0 procps
+2 upgraded, 0 newly installed, 0 to remove and 125 not upgraded.
+Need to get 766 kB of archives.
+After this operation, 4096 B of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libproc2-0 amd64 2:4.0.4-4ubuntu3.3 [58.9 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 procps amd64 2:4.0.4-4ubuntu3.3 [707 kB]
+Fetched 766 kB in 2s (411 kB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 55140 files and directories currently installed.)
+Preparing to unpack .../libproc2-0_2%3a4.0.4-4ubuntu3.3_amd64.deb ...
+Unpacking libproc2-0:amd64 (2:4.0.4-4ubuntu3.3) over (2:4.0.4-4ubuntu3) ...
+Preparing to unpack .../procps_2%3a4.0.4-4ubuntu3.3_amd64.deb ...
+Unpacking procps (2:4.0.4-4ubuntu3.3) over (2:4.0.4-4ubuntu3) ...
+Setting up libproc2-0:amd64 (2:4.0.4-4ubuntu3.3) ...
+Setting up procps (2:4.0.4-4ubuntu3.3) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.8) ...
+info: syncing channel updates for '1.98.1-x86_64-unknown-linux-gnu'
+info: latest update on 2026-09-03, rust version 1.98.1 (48a229cea 2026-09-01)
+info: component 'clippy' for target 'x86_64-unknown-linux-gnu' is up to date
+info: component 'rustfmt' for target 'x86_64-unknown-linux-gnu' is up to date
+
+  1.98.1-x86_64-unknown-linux-gnu unchanged - rustc 1.98.1 (48a229cea 2026-09-01)
+
+info: checking for self-update
+info: downloading self-update
+1.98.1-x86_64-unknown-linux-gnu (overridden by '/root/helix-h6-baseline-20260911/rust-toolchain.toml')
+Requirement already satisfied: numpy==2.5.3 in ./.venv/lib/python3.12/site-packages (from -r requirements.txt (line 1)) (2.5.3)
+Requirement already satisfied: pyarrow==25.0.1 in ./.venv/lib/python3.12/site-packages (from -r requirements.txt (line 2)) (25.0.1)
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-baseline-20260911/build/native
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-baseline-20260911/build/sanitized
+Release tooling PASS: two successful groups and seven individual reviewer failures; no external CLI called
+-- Configuring done (2.2s)
+You have changed variables that require your cache to be deleted.
+Configure will be re-run and you may have to reset some variables.
+The following variables have changed:
+CMAKE_CXX_COMPILER= g++
+
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (5.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-baseline-20260911/build/native
+[ 16%] Building CXX object CMakeFiles/helix_kernel.dir/src/kernel.cpp.o
+[ 33%] Linking CXX static library libhelix_kernel.a
+[ 33%] Built target helix_kernel
+[ 66%] Building CXX object CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+[ 66%] Building CXX object CMakeFiles/kernel_driver.dir/tools/kernel_driver.cpp.o
+[ 83%] Linking CXX executable kernel_driver
+[100%] Linking CXX executable kernel_tests
+[100%] Built target kernel_driver
+[100%] Built target kernel_tests
+Internal ctest changing into directory: /root/helix-h6-baseline-20260911/build/native
+Test project /root/helix-h6-baseline-20260911/build/native
+    Start 1: kernel_contract
+1/1 Test #1: kernel_contract ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+{"schema_version": 1, "file": "signals.f64le", "rows": 256, "samples": 256, "baseline_samples": 32, "dtype": "float64-le", "seed": 20260909, "sha256": "2b410ac8c6763b8b3bee2b1d67bacfc587c732e03d6a67412cbb5709534a8858", "generator": "PCG64", "python_version": "3.12.3", "numpy_version": "2.5.3", "signal": {"baseline_range": [-10, 10], "amplitude_range": [10, 100], "noise_sigma": 0.2, "pulse_width": 8.0, "pulse_zero_before": 32, "analytical_rows": 2}}
+{"status": "PASS", "independent_cases": 533, "atol": 1e-10, "rtol": 1e-10}
+-- Configuring done (2.2s)
+You have changed variables that require your cache to be deleted.
+Configure will be re-run and you may have to reset some variables.
+The following variables have changed:
+CMAKE_CXX_COMPILER= clang++-18
+
+-- The CXX compiler identification is Clang 18.1.3
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/clang++-18 - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (21.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/helix-h6-baseline-20260911/build/sanitized
+[ 16%] Building CXX object CMakeFiles/helix_kernel.dir/src/kernel.cpp.o
+[ 33%] Linking CXX static library libhelix_kernel.a
+[ 33%] Built target helix_kernel
+[ 66%] Building CXX object CMakeFiles/kernel_tests.dir/tests/kernel_tests.cpp.o
+[ 66%] Building CXX object CMakeFiles/kernel_driver.dir/tools/kernel_driver.cpp.o
+[ 83%] Linking CXX executable kernel_driver
+[100%] Linking CXX executable kernel_tests
+[100%] Built target kernel_driver
+[100%] Built target kernel_tests
+Internal ctest changing into directory: /root/helix-h6-baseline-20260911/build/sanitized
+Test project /root/helix-h6-baseline-20260911/build/sanitized
+    Start 1: kernel_contract
+1/1 Test #1: kernel_contract ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+{"status": "PASS", "independent_cases": 533, "atol": 1e-10, "rtol": 1e-10}
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.26s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running unittests src/lib.rs (target/debug/deps/helix-dbf3e36307a75e7f)
+
+running 17 tests
+test config::tests::memory_preflight_includes_worker_histograms_and_checked_arithmetic ... ok
+test control::tests::dropping_registration_removes_its_callback ... ok
+test output::tests::output_open_failure_preserves_existing_file ... ok
+test metrics::tests::merging_preserves_counts_overflow_and_actual_batches ... ok
+test metrics::tests::empty_and_overflow_have_explicit_coverage ... ok
+test output::tests::real_parquet_writer_propagates_group_and_footer_errors ... ok
+test runtime::tests::footer_failure_never_counts_buffered_rows_as_written ... ok
+test output::tests::rename_failure_preserves_incomplete_state ... ok
+test processing::tests::latency_uses_admission_clock_and_batch_results_share_completion ... ok
+test runtime::tests::write_failure_drains_admitted_batch_without_fabricating_attempts ... ok
+test concurrent::tests::drop_new_full_queue_attempts_once_and_partitions_ids ... ok
+test runtime::tests::interrupt_during_footer_finalization_keeps_valid_partial_output ... ok
+test runtime::tests::summary_failure_keeps_valid_rows_and_marks_output_partial ... ok
+test concurrent::tests::slow_collector_pending_admission_interrupt_and_writer_error_drain ... ok
+test concurrent::tests::fatal_stop_reaches_other_workers_without_losing_ids ... ok
+test concurrent::tests::worker_panic_preserves_delivered_results_and_aborts_owned_and_queued_ids ... ok
+test runtime::tests::writer_delay_is_in_duration_but_not_successful_event_latency ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running unittests src/main.rs (target/debug/deps/helix-c814b32029a1d3dc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/numerical.rs (target/debug/deps/numerical-c480fd555639e2dd)
+
+running 7 tests
+test batch_nonfinite_result_is_isolated_and_matches_event ... ok
+test fixture_matches_independent_numpy_reference_and_batch ... ok
+test invalid_events_are_isolated ... ok
+test empty_partial_single_and_maximum_batches ... ok
+test structural_errors_preserve_every_output_field ... ok
+test concurrent_process_event_calls_are_deterministic_and_isolated ... ok
+test concurrent_calls_have_disjoint_lifetimes_and_no_shared_state ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests helix
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+{"status": "PASS", "pipeline_cases": 42, "readback_events_per_ffi_mode": 4101, "artifact_directory": "/root/helix-h6-baseline-20260911/artifacts/h2-yonivwbj", "atol": 1e-10, "rtol": 1e-10}
+{"status": "PASS", "concurrent_cases": 12, "case_count": 24, "artifact_directory": "/root/helix-h6-baseline-20260911/artifacts/h3-5kl8pgx4", "worker_counts": [1, 2, 4], "atol": 1e-10, "rtol": 1e-10}
+{"status": "PASS", "failure_cases": 7, "artifact_directory": "/root/helix-h6-baseline-20260911/artifacts/h4-2fri72u_", "atol": 1e-10, "rtol": 1e-10}
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.162s
+
+OK

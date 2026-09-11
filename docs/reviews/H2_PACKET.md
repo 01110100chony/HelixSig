@@ -1,6 +1,8 @@
 # H2 implementation packet
 
-Prerequisite: H1 TECH_PASS. Leader implements; no worker delegation.
+Prerequisite: H1 TECH_PASS. Leader implements; read-only workers may analyze tests
+and review the frozen candidate in parallel, as authorized by the user. One code
+writer at a time; architecture, integration and verdict stay with the leader.
 
 ## Interfaces and scope
 - Add config/source/event/processing/metrics/output/runtime modules and main CLI.
@@ -34,3 +36,6 @@ Prerequisite: H1 TECH_PASS. Leader implements; no worker delegation.
 - Output startup failure reports failed; buffered/unfinalized rows never count written.
 - Throughput/latency definitions follow frozen architecture, not writer timestamps.
 - fmt, clippy, Rust tests, native/oracle regressions and independent gate review.
+
+Exact automated gate: `HELIX_PYTHON=.venv/bin/python scripts/verify.sh H2` on WSL2
+Ubuntu 24.04 after installing `requirements.txt`. CI uses its configured Python.

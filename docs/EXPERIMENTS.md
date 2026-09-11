@@ -1,6 +1,9 @@
 # Preregistered experiment protocol
 
-Status: protocol only. No measured results yet.
+Status: full H5 campaign measured and validated on 2026-09-10 at clean candidate
+`1d8724c9521e7d88a43e6f751c4681e1fbbf75c6`.
+H5 technical closeout is `6ba29f9`; this documentation/evidence commit is distinct
+from the measured candidate. H6 preserves these measurements without a rerun.
 
 ## Questions
 
@@ -36,5 +39,111 @@ does not include output. Do not infer interactions not covered by this design.
 
 ## Results
 
-NOT_RUN. Raw files, numerical conclusions and performance claims must only be
-added after H4 passes and a clean candidate has been measured.
+The complete campaign ran on a Ryzen 5 3400G under Ubuntu 24.04 / WSL2,
+Linux 6.18.33.2, with 8 logical CPUs, approximately 7.7 GiB RAM and 2 GiB swap.
+Those effective limits remained stable; no swap-out activity was observed.
+These are the actual resources, not the earlier planned four-CPU allocation.
+All 744 runs validated: 124 warmups and 620 measurements. There were 660 exit-0
+runs and 84 exit-2 runs, with losses retained. No runs were selectively discarded.
+Campaign artifacts occupied 830648366 bytes (about 0.77 GiB), below 4 GiB.
+
+For the central N=256, Q=256, B=16, batch-FFI, block-policy case, median written
+throughput with W=1,2,4 was respectively 368418, 507085 and 509060 events/s.
+The W=2 and W=4 medians were close relative to their between-run spread; this
+single-axis observation does not establish a general scaling law. At the W=2
+center, drop-new batch-FFI had median loss fraction 0.89246 and median written
+throughput 402177 events/s. That outcome must not be presented as lossless
+throughput.
+
+At N=256/B=16 with prepared buffers, Rust event/batch medians were 423.4/414.1
+ns per event, with overlapping interquartile intervals [421.6,435.5] and
+[409.9,448.2]. Native event/batch medians were 437.6/405.4 ns. The instrumentation
+and different executables prevent interpreting these differences as exact FFI
+overhead or a universal batching speedup. No optimization was made from these data.
+
+The [full analysis](evidence/H5/analysis.md) and [machine-readable results](evidence/H5/analysis.json)
+preserve every configuration and its dispersion. [Provenance](evidence/H5/campaign.json),
+[verification](evidence/H5/verification.log), [aggregate counts](evidence/H5/summary.json)
+and the [raw-file/archive SHA-256 index](evidence/H5/raw-index.json) are retained.
+Peak child-process RSS was 35120 KiB; no successful-event histogram overflow or
+latency population below 1000 occurred in this campaign. These observations do
+not bound future latency or RSS.
+
+Full original artifacts: `/root/helix-h5-a346652/artifacts/h5-campaign` in WSL.
+Portable raw data, logs and measured executables: `artifacts/h5-1d8724c-raw.tar.gz`
+in the Windows editing checkout (106993609 bytes). Every archived file was read
+back and verified against the index. Rebuild-only intermediate objects remain in
+the original Linux directory; source and locked dependencies are identified by
+the candidate commit. Publication and the H6 clean-checkout release gate remain
+separate. Optional extra N=4096 pipeline runs and plot polish were not performed.
+
+The raw archive is intentionally ignored and is not included in a clean Git
+clone. The committed index/metadata support traceability; they do not substitute
+for raw data. Obtain the retained archive from the project owner for a full raw
+audit and compare SHA-256 with raw-index.json. No public download or publication
+is claimed. A future approved release should attach that archive and its index;
+do not remove preserved evidence or rewrite H5 history to reduce repository size.
+
+## Executable protocol
+
+`scripts/experiment.py` builds matched GCC Release C++ kernels and the Rust
+driver with optimization level 3, LTO disabled and no fast-math. It saves verbose
+Cargo logs, CMake compile commands, tool versions, exact command lines and binary
+hashes. Corpus loading, allocation and printing are outside microbenchmark
+timing; result checksum consumption, batch counters and a copy of every result
+into a preallocated verification buffer are inside both drivers. This common
+instrumentation is part of the reported per-event cost. After timing, the drivers
+check all repeated-row results for exact consistency and emit every distinct
+row's full result tuple. Python checks each tuple against the independent oracle
+with the frozen tolerance; the checksum alone is not numerical acceptance.
+`prepared` borrows a contiguous preloaded corpus segment; `pack` copies owned
+rows into a reusable flat buffer before the same event/batch calls. All 256
+corpus rows are replayed cyclically, including a final partial batch. The native
+reference includes both call granularities and preparation modes.
+
+The full schedule contains 96 microbenchmark configurations and 28 pipeline
+configurations, one warmup round followed by five measurement rounds. Each round
+shuffles all configurations with a recorded seed (default 20260910). Both families
+process 100000 events per run. The separate smoke mode uses 257 events, all 96
+microbenchmark configurations and four central pipeline configurations, one warmup
+and one measured round. Its results are labelled `smoke_only` and cannot support
+performance claims. Python validates output after each timed child terminates.
+
+The runner authenticates payload and manifest SHA-256 before and after every child,
+including the native reference, and retains both hashes in its run record.
+It owns the generated corpus directory for the campaign. Concurrent hostile
+replacement of local files is outside this experiment's trusted-input scope;
+pre/post hashing does not claim filesystem snapshot isolation.
+It checks the clean commit, Linux filesystem placement, available CPUs,
+stable CPU affinity/memory/swap limits, binary hashes and artifact budget. It
+records Linux load, CPU counters and swap activity before/after each run, plus
+process lists at campaign boundaries. Actual resources supersede the planned
+configuration in the report; the runner does not alter WSL settings. Windows
+host activity is not fully observable from this Linux metadata. Resource-limit
+stability does not mean constant runtime load. No post hoc load threshold filters
+or selectively replaces measured repetitions; observed load/swap remain visible.
+
+GNU time records each child's peak Linux process RSS; wall duration separately
+includes process startup. Pipeline throughput uses the runtime's documented
+duration including finalization. Microbenchmark cost uses internal elapsed
+nanoseconds divided by actual processed events. Raw per-run summaries retain
+actual batch sizes and histogram coverage. Parquet retains every successful
+event's latency. Empirical per-run percentiles are stored separately from the
+bounded HDR estimates, with null empty populations and a flag below 1000 samples.
+The analysis reports medians, quartiles and ranges of run-level costs/throughputs;
+it keeps latency percentiles per run instead of averaging them. Failures stop a
+campaign with the failed record preserved; analysis rejects incomplete schedules.
+
+Commands (new output directory, clean Linux checkout for a full campaign):
+
+```bash
+HELIX_PYTHON=.venv/bin/python scripts/verify.sh H5
+.venv/bin/python scripts/experiment.py --out artifacts/h5-campaign
+.venv/bin/python scripts/experiment_analysis.py artifacts/h5-campaign
+```
+
+Raw evidence lives under the chosen output directory. `campaign.json` records
+provenance and schedule, `runs.jsonl` records every warmup/measurement and exit
+code, and `analysis.json`/`analysis.md` contain derived results. Retain the entire
+directory for reproducibility. No networking, publication or global environment
+reconfiguration is part of this command.

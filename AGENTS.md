@@ -1,8 +1,8 @@
 # Helix development contract
 
 This is an academic systems-engineering experiment, not a commercial product.
-User instructions take precedence. Read docs/ARCHITECTURE.md, DEVELOPMENT.md,
-ROADMAP.md and the active milestone review before changing code.
+User instructions take precedence. Read docs/ARCHITECTURE.md, docs/DEVELOPMENT.md,
+docs/ROADMAP.md and the active milestone review before changing code.
 
 - Work sequentially through G0 and H0-H6. Do not claim a gate passed without evidence.
 - Only one agent writes production code at a time. Freeze the candidate during review.
